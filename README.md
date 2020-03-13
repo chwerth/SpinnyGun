@@ -1,6 +1,6 @@
 # SpinnyGun
 
-This will be an arcade game that features a spinny gun at the bottom of the screenthat rotates left and right without input from the player.
+This will be an arcade game that features a spinny gun at the bottom of the screen that rotates left and right without input from the player.
 
 The player must hit the space bar to fire the weapon when a shot is lined up with an enemy approaching from the top of the screen
 
