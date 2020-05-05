@@ -1,4 +1,4 @@
-# SpinnyGun
+# Spinny Gun
 
 This will be an arcade game that features a spinny gun at the bottom of the screen that rotates left and right without input from the player.
 
