@@ -6,4 +6,4 @@ The player must hit the space bar to fire the weapon when a shot is lined up wit
 
 If an enemy gets to the bottom of the screen, the player loses health.
 
-Other theming, branding, and story elements are TBD. This project is to learn how to make games.
+Other theming, branding, and story elements are TBD. This project's purpose is to learn how to make games.
