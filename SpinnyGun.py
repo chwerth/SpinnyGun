@@ -13,7 +13,7 @@ def rot_center(image, rect, angle):
 class SpinnyGun:
     def __init__(self, screen, position):
         self.screen = screen
-        self.image = pygame.image.load('assets/ship.png')
+        self.image = pygame.image.load('assets/gun.png')
         self.rotated_image = self.image
         self.rect = self.image.get_rect(center=position)
         self.angle = 0
