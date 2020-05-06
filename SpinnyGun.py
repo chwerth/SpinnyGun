@@ -12,16 +12,28 @@ def rot_center(image, rect, angle):
 
 class SpinnyGun:
     def __init__(self, screen, position):
+        self.screen = screen
         self.image = pygame.image.load('ship.png')
         self.rotated_image = self.image
         self.rect = self.image.get_rect(center=position)
-        self.screen = screen
+        self.angle = 0
+        self.turningLeft = True
 
     def blit(self):
         self.screen.blit(self.rotated_image, self.rect)
 
-    def rotate(self, angle):
-        self.rotated_image, self.rect = rot_center(self.image, self.rect, angle)
+    def rotate(self):
+        if self.angle >= 60:
+            self.turningLeft = False
+        elif self.angle <= -60:
+            self.turningLeft = True
+
+        if self.turningLeft:
+            self.angle += 1
+        else:
+            self.angle -= 1
+
+        self.rotated_image, self.rect = rot_center(self.image, self.rect, self.angle)
 
 pygame.init()
 
@@ -32,8 +44,6 @@ pygame.display.set_caption('Spinny Gun')
 clock = pygame.time.Clock()
 
 def game_loop():
-    angle = 0
-    turningLeft = True
 
     gameExit = False
     gun = SpinnyGun(screen, (display_width * 0.5, display_height * 0.875))
@@ -44,18 +54,7 @@ def game_loop():
                 gameExit = True
 
         screen.fill(white)
-
-        if angle >= 60:
-            turningLeft = False
-        elif angle <= -60:
-            turningLeft = True
-
-        if turningLeft:
-            angle += 1
-        else:
-            angle -= 1
-
-        gun.rotate(angle)
+        gun.rotate()
         gun.blit()
         pygame.display.update()
         clock.tick(60)
