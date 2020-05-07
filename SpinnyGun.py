@@ -1,5 +1,5 @@
 import pygame
-import time
+import random
 
 display_width = 800
 display_height = 800
@@ -13,7 +13,7 @@ def rot_center(image, rect, angle):
 class SpinnyGun:
     def __init__(self, screen, position):
         self.screen = screen
-        self.image = pygame.image.load('ship.png')
+        self.image = pygame.image.load('assets/gun.png')
         self.rotated_image = self.image
         self.rect = self.image.get_rect(center=position)
         self.angle = 0
@@ -35,6 +35,21 @@ class SpinnyGun:
 
         self.rotated_image, self.rect = rot_center(self.image, self.rect, self.angle)
 
+class Missile:
+    def __init__(self, screen):
+        self.screen = screen
+        self.image = pygame.image.load('assets/missiles/missile-1_fly-0.png')
+        self.rotated_image = pygame.transform.rotate(self.image, 180)
+        self.speed = 5
+        self.x = random.randrange(0, display_width)
+        self.y = -600
+
+    def blit(self):
+        self.screen.blit(self.rotated_image, (self.x, self.y))
+
+    def move(self):
+        self.y += self.speed
+
 pygame.init()
 
 white = (255, 255, 255)
@@ -47,6 +62,7 @@ def game_loop():
 
     gameExit = False
     gun = SpinnyGun(screen, (display_width * 0.5, display_height * 0.875))
+    missile = Missile(screen)
 
     while not gameExit:
         for event in pygame.event.get():
@@ -54,8 +70,15 @@ def game_loop():
                 gameExit = True
 
         screen.fill(white)
+
         gun.rotate()
         gun.blit()
+
+        if missile.y > display_height:
+            missile = Missile(screen)
+        missile.move()
+        missile.blit()
+
         pygame.display.update()
         clock.tick(60)
 
