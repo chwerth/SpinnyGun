@@ -38,7 +38,7 @@ class SpinnyGun:
 class Missile:
     def __init__(self, screen):
         self.screen = screen
-        self.image = pygame.image.load('assets/missiles/Missile_1_Flying_000.png')
+        self.image = pygame.image.load('assets/missiles/missile-1_fly-0.png')
         self.rotated_image = pygame.transform.rotate(self.image, 180)
         self.speed = 5
         self.x = random.randrange(0, display_width)
