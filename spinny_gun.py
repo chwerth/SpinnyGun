@@ -130,10 +130,10 @@ def game_loop():
         # If a projectile moves off-screen, remove it from the list
         for projectile in projectiles:
             if (
-                projectile.x > DISPLAY_WIDTH
-                or projectile.x < 0
-                or projectile.y > DISPLAY_HEIGHT
-                or projectile.y < 0
+                projectile.x_pos > DISPLAY_WIDTH
+                or projectile.x_pos < 0
+                or projectile.y_pos > DISPLAY_HEIGHT
+                or projectile.y_pos < 0
             ):
                 projectiles.pop(projectiles.index(projectile))
             projectile.move()
