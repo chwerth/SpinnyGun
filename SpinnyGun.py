@@ -59,24 +59,17 @@ class Projectile:
         self.screen = screen
         self.x = position[0]
         self.y = position[1]
-        self.angle = angle
         self.speed = 5
+        self.x_vel = -round(self.speed * sin(radians(angle)))
+        self.y_vel = -round(self.speed * cos(radians(angle)))
         self.radius = 8
 
     def draw(self):
         pygame.draw.circle(screen, gold, (self.x, self.y), self.radius)
 
     def move(self):
-        if self.angle == 0:
-            self.y -= self.speed
-        else:
-            angle = abs(self.angle)
-            self.y -= round(self.speed * sin(radians(angle)))
-            x = round(self.speed * cos(radians(angle)))
-            if self.angle < 0:
-                self.x += x
-            elif self.angle > 0:
-                self.x -= x
+        self.x += self.x_vel
+        self.y += self.y_vel
 
 
 pygame.init()
@@ -104,6 +97,8 @@ def game_loop():
         screen.fill(white)
 
         for projectile in projectiles:
+            if projectile.x > display_width or projectile.x < 0 or projectile.y > display_height or projectile.y < 0:
+                projectiles.pop(projectiles.index(projectile))
             projectile.move()
             projectile.draw()
 
