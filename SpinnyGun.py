@@ -3,16 +3,16 @@ import random
 from math import cos, sin, radians
 
 # Screen width and height
-display_width = 800
-display_height = 800
+DISPLAY_WIDTH = 800
+DISPLAY_HEIGHT = 800
 
 # Colors
-white = (255, 255, 255)
-gold = (218, 165, 32)
+WHITE = (255, 255, 255)
+GOLD = (218, 165, 32)
 
 pygame.init()
 
-screen = pygame.display.set_mode((display_width, display_height))
+SCREEN = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 pygame.display.set_caption("Spinny Gun")
 clock = pygame.time.Clock()
 
@@ -65,7 +65,7 @@ class Projectile:
         self.radius = 8
 
     def draw(self):
-        pygame.draw.circle(screen, gold, (self.x, self.y), self.radius)
+        pygame.draw.circle(self.screen, GOLD, (self.x, self.y), self.radius)
 
     def move(self):
         self.x += self.x_vel
@@ -80,7 +80,7 @@ class Missile:
         self.image = pygame.image.load("assets/missiles/missile-1_fly-0.png")
         self.rotated_image = pygame.transform.rotate(self.image, 180)
         self.speed = 5
-        self.x = random.randrange(0, display_width)
+        self.x = random.randrange(0, DISPLAY_WIDTH)
         self.y = -600
 
     def blit(self):
@@ -94,8 +94,8 @@ def game_loop():
     """The main game loop"""
 
     gameExit = False
-    gun = SpinnyGun(screen, (display_width * 0.5, display_height * 0.875))
-    missile = Missile(screen)
+    gun = SpinnyGun(SCREEN, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
+    missile = Missile(SCREEN)
     projectiles = []
 
     while not gameExit:
@@ -106,17 +106,17 @@ def game_loop():
             # Fire a projectile if the player presses and releases space
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
-                    projectiles.append(Projectile(screen, gun.rect.center, gun.angle))
+                    projectiles.append(Projectile(SCREEN, gun.rect.center, gun.angle))
 
-        # Paint the background white
-        screen.fill(white)
+        # Paint the background WHITE
+        SCREEN.fill(WHITE)
 
         # If a projectile moves off-screen, remove it from the list
         for projectile in projectiles:
             if (
-                projectile.x > display_width
+                projectile.x > DISPLAY_WIDTH
                 or projectile.x < 0
-                or projectile.y > display_height
+                or projectile.y > DISPLAY_HEIGHT
                 or projectile.y < 0
             ):
                 projectiles.pop(projectiles.index(projectile))
@@ -128,8 +128,8 @@ def game_loop():
         gun.blit()
 
         # If the missile gets to the bottom, replace it with a new missile
-        if missile.y > display_height:
-            missile = Missile(screen)
+        if missile.y > DISPLAY_HEIGHT:
+            missile = Missile(SCREEN)
 
         # Move and draw missile
         missile.move()
