@@ -1,7 +1,7 @@
 """This file currently contains all the Spinny Gun code"""
 import random
 from math import cos, sin, radians
-import pygame # pylint: disable=import-error
+import pygame  # pylint: disable=import-error
 
 # Screen width and height
 DISPLAY_WIDTH = 800
@@ -124,10 +124,10 @@ def game_loop():
         # If a projectile moves off-screen, remove it from the list
         for projectile in projectiles:
             if (
-                    projectile.x > DISPLAY_WIDTH
-                    or projectile.x < 0
-                    or projectile.y > DISPLAY_HEIGHT
-                    or projectile.y < 0
+                projectile.x > DISPLAY_WIDTH
+                or projectile.x < 0
+                or projectile.y > DISPLAY_HEIGHT
+                or projectile.y < 0
             ):
                 projectiles.pop(projectiles.index(projectile))
             projectile.move()
