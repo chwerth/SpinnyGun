@@ -55,7 +55,9 @@ class SpinnyGun(object):
         else:
             self.angle -= 1
 
-        self.rotated_image, self.rect = rot_center(self.image, self.rect, self.angle)
+        self.rotated_image, self.rect = rot_center(
+            self.image, self.rect, self.angle
+        )
 
 
 class Projectile(object):
@@ -72,7 +74,9 @@ class Projectile(object):
 
     def draw(self):
         """Draws circle on display at x and y position"""
-        pygame.draw.circle(self.display, GOLD, (self.x_pos, self.y_pos), self.radius)
+        pygame.draw.circle(
+            self.display, GOLD, (self.x_pos, self.y_pos), self.radius
+        )
 
     def move(self):
         """Moves according to x and y velocity"""
@@ -116,7 +120,9 @@ def game_loop():
             # Fire a projectile if the player presses and releases space
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
-                    projectiles.append(Projectile(SCREEN, gun.rect.center, gun.angle))
+                    projectiles.append(
+                        Projectile(SCREEN, gun.rect.center, gun.angle)
+                    )
 
         # Paint the background WHITE
         SCREEN.fill(WHITE)
