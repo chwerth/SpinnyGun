@@ -8,16 +8,18 @@ display_height = 800
 white = (255, 255, 255)
 gold = (218, 165, 32)
 
+
 def rot_center(image, rect, angle):
     """rotate an image while keeping its center"""
     rot_image = pygame.transform.rotate(image, angle)
     rot_rect = rot_image.get_rect(center=rect.center)
     return rot_image, rot_rect
 
+
 class SpinnyGun:
     def __init__(self, screen, position):
         self.screen = screen
-        self.image = pygame.image.load('assets/gun.png')
+        self.image = pygame.image.load("assets/gun.png")
         self.rotated_image = self.image
         self.rect = self.image.get_rect(center=position)
         self.angle = 0
@@ -39,10 +41,11 @@ class SpinnyGun:
 
         self.rotated_image, self.rect = rot_center(self.image, self.rect, self.angle)
 
+
 class Missile:
     def __init__(self, screen):
         self.screen = screen
-        self.image = pygame.image.load('assets/missiles/missile-1_fly-0.png')
+        self.image = pygame.image.load("assets/missiles/missile-1_fly-0.png")
         self.rotated_image = pygame.transform.rotate(self.image, 180)
         self.speed = 5
         self.x = random.randrange(0, display_width)
@@ -53,6 +56,7 @@ class Missile:
 
     def move(self):
         self.y += self.speed
+
 
 class Projectile:
     def __init__(self, screen, position, angle):
@@ -75,8 +79,9 @@ class Projectile:
 pygame.init()
 
 screen = pygame.display.set_mode((display_width, display_height))
-pygame.display.set_caption('Spinny Gun')
+pygame.display.set_caption("Spinny Gun")
 clock = pygame.time.Clock()
+
 
 def game_loop():
 
@@ -97,7 +102,12 @@ def game_loop():
         screen.fill(white)
 
         for projectile in projectiles:
-            if projectile.x > display_width or projectile.x < 0 or projectile.y > display_height or projectile.y < 0:
+            if (
+                projectile.x > display_width
+                or projectile.x < 0
+                or projectile.y > display_height
+                or projectile.y < 0
+            ):
                 projectiles.pop(projectiles.index(projectile))
             projectile.move()
             projectile.draw()
@@ -112,6 +122,7 @@ def game_loop():
 
         pygame.display.update()
         clock.tick(60)
+
 
 game_loop()
 pygame.quit()
