@@ -1,8 +1,12 @@
 import pygame
 import random
+from math import cos, sin, radians
 
 display_width = 800
 display_height = 800
+
+white = (255, 255, 255)
+gold = (218, 165, 32)
 
 def rot_center(image, rect, angle):
     """rotate an image while keeping its center"""
@@ -50,9 +54,25 @@ class Missile:
     def move(self):
         self.y += self.speed
 
-pygame.init()
+class Projectile:
+    def __init__(self, screen, position, angle):
+        self.screen = screen
+        self.x = position[0]
+        self.y = position[1]
+        self.speed = 5
+        self.x_vel = -round(self.speed * sin(radians(angle)))
+        self.y_vel = -round(self.speed * cos(radians(angle)))
+        self.radius = 8
 
-white = (255, 255, 255)
+    def draw(self):
+        pygame.draw.circle(screen, gold, (self.x, self.y), self.radius)
+
+    def move(self):
+        self.x += self.x_vel
+        self.y += self.y_vel
+
+
+pygame.init()
 
 screen = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('Spinny Gun')
@@ -63,13 +83,24 @@ def game_loop():
     gameExit = False
     gun = SpinnyGun(screen, (display_width * 0.5, display_height * 0.875))
     missile = Missile(screen)
+    projectiles = []
 
     while not gameExit:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 gameExit = True
 
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_SPACE:
+                    projectiles.append(Projectile(screen, gun.rect.center, gun.angle))
+
         screen.fill(white)
+
+        for projectile in projectiles:
+            if projectile.x > display_width or projectile.x < 0 or projectile.y > display_height or projectile.y < 0:
+                projectiles.pop(projectiles.index(projectile))
+            projectile.move()
+            projectile.draw()
 
         gun.rotate()
         gun.blit()
