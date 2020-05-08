@@ -26,6 +26,7 @@ GIANT_TEXT = pygame.font.Font("freesansbold.ttf", 115)
 MEDIUM_TEXT = pygame.font.Font("freesansbold.ttf", 30)
 SMALL_TEXT = pygame.font.Font("freesansbold.ttf", 20)
 
+
 def exit_game():
     """Exits the the game"""
     pygame.quit()
@@ -45,18 +46,22 @@ def text_objects(text, font, color, pos):
     text_rect = text_surface.get_rect(center=pos)
     return text_surface, text_rect
 
+
 def intersects(rect, radius, center):
     """Test if rect intersects with circle"""
-    circle_distance_x = abs(center[0]-rect.centerx)
-    circle_distance_y = abs(center[1]-rect.centery)
-    if circle_distance_x > rect.w/2.0+radius or circle_distance_y > rect.h/2.0+radius:
+    circle_distance_x = abs(center[0] - rect.centerx)
+    circle_distance_y = abs(center[1] - rect.centery)
+    if (
+        circle_distance_x > rect.w / 2.0 + radius
+        or circle_distance_y > rect.h / 2.0 + radius
+    ):
         return False
-    if circle_distance_x <= rect.w/2.0 or circle_distance_y <= rect.h/2.0:
+    if circle_distance_x <= rect.w / 2.0 or circle_distance_y <= rect.h / 2.0:
         return True
-    corner_x = circle_distance_x-rect.w/2.0
-    corner_y = circle_distance_y-rect.h/2.0
-    corner_distance_sq = corner_x**2.0 +corner_y**2.0
-    return corner_distance_sq <= radius**2.0
+    corner_x = circle_distance_x - rect.w / 2.0
+    corner_y = circle_distance_y - rect.h / 2.0
+    corner_distance_sq = corner_x ** 2.0 + corner_y ** 2.0
+    return corner_distance_sq <= radius ** 2.0
 
 
 class SpinnyGun(object):
@@ -89,7 +94,9 @@ class SpinnyGun(object):
         else:
             self.angle -= 1
 
-        self.rotated_image, self.rect = rot_center(self.image, self.rect, self.angle)
+        self.rotated_image, self.rect = rot_center(
+            self.image, self.rect, self.angle
+        )
 
 
 class Projectile(object):
@@ -106,7 +113,9 @@ class Projectile(object):
 
     def draw(self):
         """Draws circle on display at x and y pos"""
-        pygame.draw.circle(self.display, GOLD, (self.x_pos, self.y_pos), self.radius)
+        pygame.draw.circle(
+            self.display, GOLD, (self.x_pos, self.y_pos), self.radius
+        )
 
     def move(self):
         """Moves according to x and y velocity"""
@@ -144,6 +153,7 @@ class Missile(object):
         """Updates y pos to move down"""
         self.y_pos += self.speed
 
+
 class Button(object):
     """Generic button with text"""
 
@@ -153,7 +163,6 @@ class Button(object):
         self.text_rect = self.text.get_rect(center=self.rect.center)
         self.color = color
         self.function = function
-
 
     def draw(self):
         """Draw button with text"""
@@ -167,10 +176,30 @@ class Button(object):
 def about_page():
     """The about page of Spinny Gun"""
 
-    credit_surf_1, credit_rect_1 = text_objects("Spinny Gun was created by Caleb Werth,", MEDIUM_TEXT, BLACK, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.375))
-    credit_surf_2, credit_rect_2 = text_objects("Russell Spry, and Aaron Werth", MEDIUM_TEXT, BLACK, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.4375))
-    instructions_surf_1, instructions_rect_1 = text_objects("Press space to shoot", MEDIUM_TEXT, BLACK, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.65))
-    instructions_surf_2, instructions_rect_2 = text_objects("(and to return to menu)", SMALL_TEXT, BLACK, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.70))
+    credit_surf_1, credit_rect_1 = text_objects(
+        "Spinny Gun was created by Caleb Werth,",
+        MEDIUM_TEXT,
+        BLACK,
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.375),
+    )
+    credit_surf_2, credit_rect_2 = text_objects(
+        "Russell Spry, and Aaron Werth",
+        MEDIUM_TEXT,
+        BLACK,
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.4375),
+    )
+    instructions_surf_1, instructions_rect_1 = text_objects(
+        "Press space to shoot",
+        MEDIUM_TEXT,
+        BLACK,
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.65),
+    )
+    instructions_surf_2, instructions_rect_2 = text_objects(
+        "(and to return to menu)",
+        SMALL_TEXT,
+        BLACK,
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.70),
+    )
 
     while True:
         for event in pygame.event.get():
@@ -196,9 +225,24 @@ def game_menu():
 
     gun = SpinnyGun(SCREEN, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
     projectiles = []
-    start_button = Button(SMALL_TEXT.render("Start", True, BLACK), ((DISPLAY_WIDTH * 0.16), (DISPLAY_HEIGHT * 0.65), 100, 50), GREEN, game_loop)
-    about_button = Button(SMALL_TEXT.render("About", True, BLACK), ((DISPLAY_WIDTH * 0.43), (DISPLAY_HEIGHT * 0.5), 100, 50), LIGHT_YELLOW, about_page)
-    quit_button = Button(SMALL_TEXT.render("Quit", True, BLACK), ((DISPLAY_WIDTH * 0.70), (DISPLAY_HEIGHT * 0.65), 100, 50), RED, exit_game)
+    start_button = Button(
+        SMALL_TEXT.render("Start", True, BLACK),
+        ((DISPLAY_WIDTH * 0.16), (DISPLAY_HEIGHT * 0.65), 100, 50),
+        GREEN,
+        game_loop,
+    )
+    about_button = Button(
+        SMALL_TEXT.render("About", True, BLACK),
+        ((DISPLAY_WIDTH * 0.43), (DISPLAY_HEIGHT * 0.5), 100, 50),
+        LIGHT_YELLOW,
+        about_page,
+    )
+    quit_button = Button(
+        SMALL_TEXT.render("Quit", True, BLACK),
+        ((DISPLAY_WIDTH * 0.70), (DISPLAY_HEIGHT * 0.65), 100, 50),
+        RED,
+        exit_game,
+    )
     buttons = [start_button, about_button, quit_button]
 
     while True:
@@ -208,11 +252,16 @@ def game_menu():
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
-                    projectiles.append(Projectile(SCREEN, gun.rect.center, gun.angle))
+                    projectiles.append(
+                        Projectile(SCREEN, gun.rect.center, gun.angle)
+                    )
 
         SCREEN.fill(WHITE)
         text_surf, text_rect = text_objects(
-            "Spinny Gun", GIANT_TEXT, BLACK, ((DISPLAY_WIDTH * 0.5), (DISPLAY_HEIGHT * 0.2))
+            "Spinny Gun",
+            GIANT_TEXT,
+            BLACK,
+            ((DISPLAY_WIDTH * 0.5), (DISPLAY_HEIGHT * 0.2)),
         )
         SCREEN.blit(text_surf, text_rect)
 
@@ -225,12 +274,16 @@ def game_menu():
         for projectile in projectiles:
             projectile.update(projectiles)
             for button in buttons:
-                if intersects(button.rect, projectile.radius, (projectile.x_pos, projectile.y_pos)):
+                if intersects(
+                    button.rect,
+                    projectile.radius,
+                    (projectile.x_pos, projectile.y_pos),
+                ):
                     button.hit()
-
 
         pygame.display.update()
         CLOCK.tick(60)
+
 
 def game_loop():
     """The main game loop"""
@@ -247,7 +300,9 @@ def game_loop():
             # Fire a projectile if the player presses and releases space
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
-                    projectiles.append(Projectile(SCREEN, gun.rect.center, gun.angle))
+                    projectiles.append(
+                        Projectile(SCREEN, gun.rect.center, gun.angle)
+                    )
 
         # Paint the background WHITE
         SCREEN.fill(WHITE)
@@ -272,5 +327,6 @@ def game_loop():
         pygame.display.update()
         CLOCK.tick(60)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     game_menu()
