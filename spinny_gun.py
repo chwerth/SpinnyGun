@@ -174,6 +174,7 @@ class Button(object):
         SCREEN.blit(self.text, self.text_rect)
 
     def hit(self):
+        """What the button does when hit"""
         self.function()
 
 
