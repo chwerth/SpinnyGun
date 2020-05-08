@@ -123,6 +123,10 @@ class Projectile(object):
         self.y_pos += self.y_vel
 
     def update(self, projectiles):
+        """
+        Update position of projectile
+        and check it it's off-screen
+        """
         if (
             self.x_pos > DISPLAY_WIDTH
             or self.x_pos < 0
@@ -188,17 +192,11 @@ def about_page():
         BLACK,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.4375),
     )
-    instructions_surf_1, instructions_rect_1 = text_objects(
-        "Press space to shoot",
+    instructions_surf, instructions_rect = text_objects(
+        "Press space to return to menu",
         MEDIUM_TEXT,
         BLACK,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.65),
-    )
-    instructions_surf_2, instructions_rect_2 = text_objects(
-        "(and to return to menu)",
-        SMALL_TEXT,
-        BLACK,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.70),
     )
 
     while True:
@@ -213,8 +211,7 @@ def about_page():
         SCREEN.fill(WHITE)
         SCREEN.blit(credit_surf_1, credit_rect_1)
         SCREEN.blit(credit_surf_2, credit_rect_2)
-        SCREEN.blit(instructions_surf_1, instructions_rect_1)
-        SCREEN.blit(instructions_surf_2, instructions_rect_2)
+        SCREEN.blit(instructions_surf, instructions_rect)
 
         pygame.display.update()
         CLOCK.tick(60)
@@ -257,13 +254,21 @@ def game_menu():
                     )
 
         SCREEN.fill(WHITE)
-        text_surf, text_rect = text_objects(
+        text_surf_title, text_rect_title = text_objects(
             "Spinny Gun",
             GIANT_TEXT,
             BLACK,
             ((DISPLAY_WIDTH * 0.5), (DISPLAY_HEIGHT * 0.2)),
         )
-        SCREEN.blit(text_surf, text_rect)
+        SCREEN.blit(text_surf_title, text_rect_title)
+
+        text_surf_space, text_rect_space = text_objects(
+            "Press Space To Shoot!",
+            MEDIUM_TEXT,
+            BLACK,
+            ((DISPLAY_WIDTH * 0.5), (DISPLAY_HEIGHT * 0.32)),
+        )
+        SCREEN.blit(text_surf_space, text_rect_space)
 
         gun.rotate()
         gun.blit()
