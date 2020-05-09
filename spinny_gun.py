@@ -88,6 +88,10 @@ class SpinnyGun(object):
         self.image = pygame.image.load("assets/gun.png")
         self.rotated_image = self.image
         self.rect = self.image.get_rect(center=pos)
+        self.top = (self.image.get_height()/2)
+        print(self.top)
+        self.middle = (self.image.get_width()/2)
+        print(self.middle)
         self.angle = 0
         self.turning_left = True
 
@@ -120,8 +124,9 @@ class Projectile(object):
 
     def __init__(self, display, pos, angle):
         self.display = display
-        self.x_pos = pos[0]
-        self.y_pos = pos[1]
+        """The change in pos draws the projectile at the nose of the gun"""
+        self.x_pos = pos[0]  - (angle-5)     
+        self.y_pos = pos[1] - 50
         self.speed = 5
         self.x_vel = -round(self.speed * sin(radians(angle)))
         self.y_vel = -round(self.speed * cos(radians(angle)))
