@@ -64,7 +64,9 @@ def intersects(rect, radius, center):
     return corner_distance_sq <= radius ** 2.0
 
 
-class Background(pygame.sprite.Sprite):  # pylint: disable=too-few-public-methods
+class Background(
+    pygame.sprite.Sprite
+):  # pylint: disable=too-few-public-methods
     """Class for the background for convenience"""
 
     def __init__(self, image_file, location):
@@ -73,8 +75,10 @@ class Background(pygame.sprite.Sprite):  # pylint: disable=too-few-public-method
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
 
-BACKGROUND_1 = Background('assets/space/space-1.png', [0, 0])
-BACKGROUND_2 = Background('assets/space/space-2.png', [0, 0])
+
+BACKGROUND_1 = Background("assets/space/space-1.png", [0, 0])
+BACKGROUND_2 = Background("assets/space/space-2.png", [0, 0])
+
 
 class SpinnyGun(object):
     """The rotating gun that the player can fire"""
@@ -229,6 +233,7 @@ def about_page():
 
         pygame.display.update()
         CLOCK.tick(60)
+
 
 def game_menu():
     """The menu for the game"""
