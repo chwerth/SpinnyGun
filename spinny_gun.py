@@ -64,6 +64,22 @@ def intersects(rect, radius, center):
     return corner_distance_sq <= radius ** 2.0
 
 
+class Background(
+    pygame.sprite.Sprite
+):  # pylint: disable=too-few-public-methods
+    """Class for the background for convenience"""
+
+    def __init__(self, image_file, location):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(image_file)
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location
+
+
+BACKGROUND_1 = Background("assets/space/space-1.png", [0, 0])
+BACKGROUND_2 = Background("assets/space/space-2.png", [0, 0])
+
+
 class SpinnyGun(object):
     """The rotating gun that the player can fire"""
 
@@ -184,19 +200,19 @@ def about_page():
     credit_surf_1, credit_rect_1 = text_objects(
         "Spinny Gun was created by Caleb Werth,",
         MEDIUM_TEXT,
-        BLACK,
+        WHITE,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.375),
     )
     credit_surf_2, credit_rect_2 = text_objects(
         "Russell Spry, and Aaron Werth",
         MEDIUM_TEXT,
-        BLACK,
+        WHITE,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.4375),
     )
     instructions_surf, instructions_rect = text_objects(
         "Press space to return to menu",
         MEDIUM_TEXT,
-        BLACK,
+        WHITE,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.65),
     )
 
@@ -210,6 +226,7 @@ def about_page():
                     game_menu()
 
         SCREEN.fill(WHITE)
+        SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
         SCREEN.blit(credit_surf_1, credit_rect_1)
         SCREEN.blit(credit_surf_2, credit_rect_2)
         SCREEN.blit(instructions_surf, instructions_rect)
@@ -255,10 +272,11 @@ def game_menu():
                     )
 
         SCREEN.fill(WHITE)
+        SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
         text_surf_title, text_rect_title = text_objects(
             "Spinny Gun",
             GIANT_TEXT,
-            BLACK,
+            WHITE,
             ((DISPLAY_WIDTH * 0.5), (DISPLAY_HEIGHT * 0.2)),
         )
         SCREEN.blit(text_surf_title, text_rect_title)
@@ -266,7 +284,7 @@ def game_menu():
         text_surf_space, text_rect_space = text_objects(
             "Press Space To Shoot!",
             MEDIUM_TEXT,
-            BLACK,
+            WHITE,
             ((DISPLAY_WIDTH * 0.5), (DISPLAY_HEIGHT * 0.32)),
         )
         SCREEN.blit(text_surf_space, text_rect_space)
@@ -312,6 +330,7 @@ def game_loop():
 
         # Paint the background WHITE
         SCREEN.fill(WHITE)
+        SCREEN.blit(BACKGROUND_1.image, BACKGROUND_1.rect)
 
         # If a projectile moves off-screen, remove it from the list
         for projectile in projectiles:
