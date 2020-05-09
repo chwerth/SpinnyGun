@@ -88,10 +88,6 @@ class SpinnyGun(object):
         self.image = pygame.image.load("assets/gun.png")
         self.rotated_image = self.image
         self.rect = self.image.get_rect(center=pos)
-        self.top = (self.image.get_height()/2)
-        print(self.top)
-        self.middle = (self.image.get_width()/2)
-        print(self.middle)
         self.angle = 0
         self.turning_left = True
 
