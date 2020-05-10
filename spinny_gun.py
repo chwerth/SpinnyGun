@@ -319,7 +319,9 @@ def game_loop():
     """The main game loop"""
 
     gun = SpinnyGun(SCREEN, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
-    missile = Missile(SCREEN)
+    missiles = []
+    missiles.append(Missile(SCREEN))
+
     projectiles = []
 
     while True:
@@ -352,8 +354,10 @@ def game_loop():
         gun.blit()
 
         # If the missile gets to the bottom, replace it with a new missile
-        if missile.y_pos > DISPLAY_HEIGHT:
-            missile = Missile(SCREEN)
+        for missile in missiles:
+            if missile.y_pos > DISPLAY_HEIGHT - missile.image.get_height():
+                missiles.pop(missiles.index(missile))
+                missiles.append(Missile(SCREEN))
 
         # Move and draw missile
         missile.move()
