@@ -118,7 +118,7 @@ class SpinnyGun(object):
 class Projectile(object):
     """This is what the Spinny Gun fires"""
 
-    def __init__(self, display, pos, angle, initial_offset = 0):
+    def __init__(self, display, pos, angle, initial_offset=0):
         self.display = display
         """The change in pos draws the projectile at the nose of the gun"""
         self.x_pos = pos[0] - round(initial_offset * sin(radians(angle)))
@@ -269,7 +269,12 @@ def game_menu():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     projectiles.append(
-                        Projectile(SCREEN, gun.rect.center, gun.angle, gun.image.get_height() * 0.5)
+                        Projectile(
+                            SCREEN,
+                            gun.rect.center,
+                            gun.angle,
+                            gun.image.get_height() * 0.5,
+                        )
                     )
 
         SCREEN.fill(WHITE)
@@ -326,7 +331,12 @@ def game_loop():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     projectiles.append(
-                        Projectile(SCREEN, gun.rect.center, gun.angle, gun.image.get_height() * 0.5)
+                        Projectile(
+                            SCREEN,
+                            gun.rect.center,
+                            gun.angle,
+                            gun.image.get_height() * 0.5,
+                        )
                     )
 
         # Paint the background WHITE
