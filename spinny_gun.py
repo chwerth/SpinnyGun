@@ -15,8 +15,12 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 LIGHT_YELLOW = (100, 100, 93)
 
+# Difficulty setting
+DIFFICULTY = 1
+
 # Initializing
 pygame.init()
+random.seed()
 SCREEN = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 pygame.display.set_caption("Spinny Gun")
 CLOCK = pygame.time.Clock()
@@ -100,19 +104,24 @@ class SpinnyGun(object):
         Rotates self a set number of degrees,
         changing direction when needed
         """
-        if self.angle >= 60:
+        if self.angle >= 70:
             self.turning_left = False
-        elif self.angle <= -60:
+        elif self.angle <= -70:
             self.turning_left = True
 
         if self.turning_left:
-            self.angle += 1
+            self.angle += 2
         else:
-            self.angle -= 1
+            self.angle -= 2
 
         self.rotated_image, self.rect = rot_center(
             self.image, self.rect, self.angle
         )
+
+    def update(self):
+        """Rotate and draw gun"""
+        self.rotate()
+        self.blit()
 
 
 class Projectile(object):
@@ -158,21 +167,30 @@ class Projectile(object):
 class Missile(object):
     """These missiles rain from the sky to attack the player"""
 
-    def __init__(self, display):
+    def __init__(self, display, pos):
         self.display = display
         self.image = pygame.image.load("assets/missiles/missile-1_fly-0.png")
         self.rotated_image = pygame.transform.rotate(self.image, 180)
-        self.speed = 5
-        self.x_pos = random.randrange(0, DISPLAY_WIDTH)
-        self.y_pos = -600
+        self.rect = self.rotated_image.get_rect(center=pos)
+        self.speed = 4
 
     def blit(self):
         """Draws self at current pos"""
-        self.display.blit(self.rotated_image, (self.x_pos, self.y_pos))
+        self.display.blit(self.rotated_image, self.rect)
 
     def move(self):
         """Updates y pos to move down"""
-        self.y_pos += self.speed
+        self.rect[1] += self.speed
+
+    def update(self, missiles):
+        """
+        Move and draw missile, destructing
+        if it hits bottom of screen
+        """
+        self.move()
+        self.blit()
+        if self.rect[1] > DISPLAY_HEIGHT - self.image.get_height():
+            missiles.pop(missiles.index(self))
 
 
 class Button(object):
@@ -295,8 +313,7 @@ def game_menu():
         )
         SCREEN.blit(text_surf_space, text_rect_space)
 
-        gun.rotate()
-        gun.blit()
+        gun.update()
 
         for button in buttons:
             button.draw()
@@ -320,8 +337,6 @@ def game_loop():
 
     gun = SpinnyGun(SCREEN, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
     missiles = []
-    missiles.append(Missile(SCREEN))
-
     projectiles = []
 
     while True:
@@ -345,23 +360,30 @@ def game_loop():
         SCREEN.fill(WHITE)
         SCREEN.blit(BACKGROUND_1.image, BACKGROUND_1.rect)
 
+        # Randomly spawn missiles at rate based on difficulty level
+        if random.randrange(150 // DIFFICULTY) == 0:
+            missiles.append(
+                Missile(SCREEN, (random.randrange(DISPLAY_WIDTH), -600))
+            )
+
+        # Rotate and draw gun
+        gun.update()
+
         # If a projectile moves off-screen, remove it from the list
         for projectile in projectiles:
             projectile.update(projectiles)
 
-        # Rotate and draw gun
-        gun.rotate()
-        gun.blit()
-
-        # If the missile gets to the bottom, replace it with a new missile
+        # Update missiles, check for projectile collision
         for missile in missiles:
-            if missile.y_pos > DISPLAY_HEIGHT - missile.image.get_height():
-                missiles.pop(missiles.index(missile))
-                missiles.append(Missile(SCREEN))
-
-        # Move and draw missile
-        missile.move()
-        missile.blit()
+            missile.update(missiles)
+            for projectile in projectiles:
+                if intersects(
+                    missile.rect,
+                    projectile.radius,
+                    (projectile.x_pos, projectile.y_pos),
+                ):
+                    missiles.pop(missiles.index(missile))
+                    projectiles.pop(projectiles.index(projectile))
 
         # Move all background changes to the foreground
         pygame.display.update()
