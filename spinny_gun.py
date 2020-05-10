@@ -1,6 +1,7 @@
 """This file currently contains all the Spinny Gun code"""
 import random
 from math import cos, sin, radians
+import sys
 import pygame  # pylint: disable=import-error
 
 # Screen width and height
@@ -34,7 +35,7 @@ SMALL_TEXT = pygame.font.Font("freesansbold.ttf", 20)
 def exit_game():
     """Exits the the game"""
     pygame.quit()
-    quit()
+    sys.exit()
 
 
 def rot_center(image, rect, angle):
