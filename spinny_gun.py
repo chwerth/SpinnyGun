@@ -33,7 +33,7 @@ SMALL_TEXT = pygame.font.Font("freesansbold.ttf", 20)
 
 
 def exit_game():
-    """Exits the the game"""
+    """Exits the game"""
     pygame.quit()
     sys.exit()
 
