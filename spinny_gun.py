@@ -20,7 +20,7 @@ LIGHT_YELLOW = (100, 100, 93)
 DIFFICULTY = 1
 
 # Initializing
-pygame.mixer.pre_init(22100,-16,2,64)
+pygame.mixer.pre_init(22100, -16, 2, 64)
 pygame.init()
 random.seed()
 SCREEN = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
@@ -35,12 +35,8 @@ MEDIUM_TEXT = pygame.font.Font("freesansbold.ttf", 30)
 SMALL_TEXT = pygame.font.Font("freesansbold.ttf", 20)
 
 # Sound Effects
-SHOOT_FX = pygame.mixer.Sound(
-    "assets/audio/laser.wav"
-)
-EXPLOSION_FX = pygame.mixer.Sound(
-    "assets/audio/explosion.wav"
-)
+SHOOT_FX = pygame.mixer.Sound("assets/audio/laser.wav")
+EXPLOSION_FX = pygame.mixer.Sound("assets/audio/explosion.wav")
 
 
 def exit_game():
