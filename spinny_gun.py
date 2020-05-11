@@ -23,6 +23,8 @@ pygame.init()
 random.seed()
 SCREEN = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 pygame.display.set_caption("Spinny Gun")
+ICON = pygame.image.load('assets/gun_icon.png')
+pygame.display.set_icon(ICON)
 CLOCK = pygame.time.Clock()
 
 # Text
