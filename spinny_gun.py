@@ -75,13 +75,15 @@ def intersects(rect, radius, center):
     corner_distance_sq = corner_x ** 2.0 + corner_y ** 2.0
     return corner_distance_sq <= radius ** 2.0
 
+
 def unpause():
     global pause
     pygame.mixer.music.unpause()
     pause = False
 
+
 def paused():
-    
+
     pygame.mixer.music.pause()
 
     pause_surf_1, pause_rect_1 = text_objects(
@@ -126,6 +128,7 @@ def paused():
 
         pygame.display.update()
         CLOCK.tick(15)
+
 
 class Background(
     pygame.sprite.Sprite
