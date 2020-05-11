@@ -34,7 +34,9 @@ MEDIUM_TEXT = pygame.font.Font("freesansbold.ttf", 30)
 SMALL_TEXT = pygame.font.Font("freesansbold.ttf", 20)
 
 # Sound Effects
-shootFx = pygame.mixer.Sound("assets/audio/135885__andre-onate__gama-laser.wav")
+shootFx = pygame.mixer.Sound(
+    "assets/audio/135885__andre-onate__gama-laser.wav"
+)
 explosionFx = pygame.mixer.Sound(
     "assets/audio/448226__inspectorj__explosion-8-bit-01.wav"
 )
@@ -77,7 +79,9 @@ def intersects(rect, radius, center):
     return corner_distance_sq <= radius ** 2.0
 
 
-class Background(pygame.sprite.Sprite):  # pylint: disable=too-few-public-methods
+class Background(
+    pygame.sprite.Sprite
+):  # pylint: disable=too-few-public-methods
     """Class for the background for convenience"""
 
     def __init__(self, image_file, location):
@@ -121,7 +125,9 @@ class SpinnyGun(object):
         else:
             self.angle -= 2
 
-        self.rotated_image, self.rect = rot_center(self.image, self.rect, self.angle)
+        self.rotated_image, self.rect = rot_center(
+            self.image, self.rect, self.angle
+        )
 
     def update(self):
         """Rotate and draw gun"""
@@ -144,7 +150,9 @@ class Projectile(object):
 
     def draw(self):
         """Draws circle on display at x and y pos"""
-        pygame.draw.circle(self.display, GOLD, (self.x_pos, self.y_pos), self.radius)
+        pygame.draw.circle(
+            self.display, GOLD, (self.x_pos, self.y_pos), self.radius
+        )
 
     def move(self):
         """Moves according to x and y velocity"""
@@ -371,7 +379,9 @@ def game_loop():
 
         # Randomly spawn missiles at rate based on difficulty level
         if random.randrange(150 // DIFFICULTY) == 0:
-            missiles.append(Missile(SCREEN, (random.randrange(DISPLAY_WIDTH), -600)))
+            missiles.append(
+                Missile(SCREEN, (random.randrange(DISPLAY_WIDTH), -600))
+            )
 
         # Rotate and draw gun
         gun.update()
