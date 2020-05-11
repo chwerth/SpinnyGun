@@ -20,6 +20,7 @@ LIGHT_YELLOW = (100, 100, 93)
 DIFFICULTY = 1
 
 # Initializing
+pygame.mixer.pre_init(22100,-16,2,64)
 pygame.init()
 random.seed()
 SCREEN = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
