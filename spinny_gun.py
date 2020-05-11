@@ -34,8 +34,12 @@ MEDIUM_TEXT = pygame.font.Font("freesansbold.ttf", 30)
 SMALL_TEXT = pygame.font.Font("freesansbold.ttf", 20)
 
 # Sound Effects
-shootFx = pygame.mixer.Sound("assets/audio/laser.wav")
-explosionFx = pygame.mixer.Sound("assets/audio/explosion.wav")
+SHOOT_FX = pygame.mixer.Sound(
+    "assets/audio/laser.wav"
+)
+EXPLOSION_FX = pygame.mixer.Sound(
+    "assets/audio/explosion.wav"
+)
 
 
 def exit_game():
@@ -293,7 +297,7 @@ def game_menu():
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
-                    pygame.mixer.Sound.play(shootFx)
+                    pygame.mixer.Sound.play(SHOOT_FX)
                     projectiles.append(
                         Projectile(
                             SCREEN,
@@ -359,7 +363,7 @@ def game_loop():
             # Fire a projectile if the player presses and releases space
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
-                    pygame.mixer.Sound.play(shootFx)
+                    pygame.mixer.Sound.play(SHOOT_FX)
                     projectiles.append(
                         Projectile(
                             SCREEN,
@@ -395,7 +399,7 @@ def game_loop():
                     projectile.radius,
                     (projectile.x_pos, projectile.y_pos),
                 ):
-                    pygame.mixer.Sound.play(explosionFx)
+                    pygame.mixer.Sound.play(EXPLOSION_FX)
                     missiles.pop(missiles.index(missile))
                     projectiles.pop(projectiles.index(projectile))
 
