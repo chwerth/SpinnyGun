@@ -34,12 +34,8 @@ MEDIUM_TEXT = pygame.font.Font("freesansbold.ttf", 30)
 SMALL_TEXT = pygame.font.Font("freesansbold.ttf", 20)
 
 # Sound Effects
-shootFx = pygame.mixer.Sound(
-    "assets/audio/135885__andre-onate__gama-laser.wav"
-)
-explosionFx = pygame.mixer.Sound(
-    "assets/audio/448226__inspectorj__explosion-8-bit-01.wav"
-)
+shootFx = pygame.mixer.Sound("assets/audio/laser.wav")
+explosionFx = pygame.mixer.Sound("assets/audio/explosion.wav")
 
 
 def exit_game():
