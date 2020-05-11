@@ -401,6 +401,7 @@ def game_loop():
 
     """This is for the in-game background music"""
     pygame.mixer.music.load("assets/audio/bensound-endlessmotion.wav")
+    pygame.mixer.music.set_volume(0.25)
     pygame.mixer.music.play(-1)
 
     gun = SpinnyGun(SCREEN, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
