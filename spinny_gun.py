@@ -33,6 +33,10 @@ GIANT_TEXT = pygame.font.Font("freesansbold.ttf", 115)
 MEDIUM_TEXT = pygame.font.Font("freesansbold.ttf", 30)
 SMALL_TEXT = pygame.font.Font("freesansbold.ttf", 20)
 
+# Sound Effects
+shootFx = pygame.mixer.Sound('assets/audio/135885__andre-onate__gama-laser.wav')
+explosionFx = pygame.mixer.Sound('assets/audio/448226__inspectorj__explosion-8-bit-01.wav')
+
 
 def exit_game():
     """Exits the game"""
@@ -289,6 +293,7 @@ def game_menu():
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
+                    pygame.mixer.Sound.play(shootFx)
                     projectiles.append(
                         Projectile(
                             SCREEN,
@@ -338,6 +343,10 @@ def game_menu():
 def game_loop():
     """The main game loop"""
 
+    """This is for the in-game background music"""
+    pygame.mixer.music.load('assets/audio/bensound-endlessmotion.mp3')
+    pygame.mixer.music.play(-1)
+
     gun = SpinnyGun(SCREEN, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
     missiles = []
     projectiles = []
@@ -350,6 +359,7 @@ def game_loop():
             # Fire a projectile if the player presses and releases space
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
+                    pygame.mixer.Sound.play(shootFx)
                     projectiles.append(
                         Projectile(
                             SCREEN,
@@ -385,6 +395,7 @@ def game_loop():
                     projectile.radius,
                     (projectile.x_pos, projectile.y_pos),
                 ):
+                    pygame.mixer.Sound.play(explosionFx)
                     missiles.pop(missiles.index(missile))
                     projectiles.pop(projectiles.index(projectile))
 
