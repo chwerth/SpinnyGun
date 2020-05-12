@@ -306,13 +306,12 @@ class Missile(object):
         self.image = pygame.image.load(
             "assets/missiles/missile-1_fly-0.png"
         ).convert_alpha()
-        self.rotated_image = pygame.transform.rotate(self.image, 180)
-        self.rect = self.rotated_image.get_rect(center=pos)
+        self.rect = self.image.get_rect(center=pos)
         self.speed = 4
 
     def blit(self):
         """Draws self at current pos"""
-        self.display.blit(self.rotated_image, self.rect)
+        self.display.blit(self.image, self.rect)
 
     def move(self):
         """Updates y pos to move down"""
