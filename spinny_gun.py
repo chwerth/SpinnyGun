@@ -117,8 +117,7 @@ def paused():
                     unpause()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_q:
-                    pygame.quit()
-                    quit()
+                    exit_game()
 
         SCREEN.fill(WHITE)
         SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
