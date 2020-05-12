@@ -79,6 +79,7 @@ def intersects(rect, radius, center):
     corner_distance_sq = corner_x ** 2.0 + corner_y ** 2.0
     return corner_distance_sq <= radius ** 2.0
 
+
 def gameOver():
     """Game over screen function"""
 
@@ -124,6 +125,7 @@ def gameOver():
 
         pygame.display.update()
         CLOCK.tick(15)
+
 
 def unpause():
     """
