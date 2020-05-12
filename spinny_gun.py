@@ -89,7 +89,7 @@ def game_over():
         "GAME OVER",
         GIANT_TEXT,
         RED,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.375),
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.35),
     )
     game_over_surf_2, game_over_rect_2 = text_objects(
         "Press 'p' to play again",
