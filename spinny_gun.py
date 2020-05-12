@@ -127,6 +127,22 @@ def paused():
         pygame.display.update()
         CLOCK.tick(15)
 
+class Player(object):
+    """Class for holding player information"""
+
+    def __init__(self):
+        #Currently we only keep track of the player's health
+        #Will add more attributes as needed
+        self.health = 3
+        self.score = 0
+
+    def returnScore(self,):
+        return self.score
+
+    def update(self, health, score):
+        self.health += health
+        self.score += score
+
 
 class Background(
     pygame.sprite.Sprite
@@ -251,6 +267,7 @@ class Missile(object):
         self.blit()
         if self.rect[1] > DISPLAY_HEIGHT - self.image.get_height():
             missiles.pop(missiles.index(self))
+
 
 
 class Button(object):
@@ -403,6 +420,8 @@ def game_loop():
     pygame.mixer.music.play(-1)
 
     gun = SpinnyGun(SCREEN, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
+    player = Player()
+    score = 0
     missiles = []
     projectiles = []
 
@@ -454,8 +473,10 @@ def game_loop():
                     (projectile.x_pos, projectile.y_pos),
                 ):
                     pygame.mixer.Sound.play(EXPLOSION_FX)
+                    score = 1
                     missiles.pop(missiles.index(missile))
                     projectiles.pop(projectiles.index(projectile))
+                    player.update(player, health, score)
 
         # Move all background changes to the foreground
         pygame.display.update()
