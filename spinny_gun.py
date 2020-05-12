@@ -10,11 +10,12 @@ DISPLAY_HEIGHT = 800
 
 # Colors
 BLACK = (0, 0, 0)
+BLUE = (23, 212, 252)
 WHITE = (255, 255, 255)
 GOLD = (218, 165, 32)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
-LIGHT_YELLOW = (100, 100, 93)
+LIGHT_YELLOW = (247, 241, 49)
 
 # Difficulty setting
 DIFFICULTY = 1
@@ -208,7 +209,7 @@ class Projectile(object):
     def draw(self):
         """Draws circle on display at x and y pos"""
         pygame.draw.circle(
-            self.display, GOLD, (self.x_pos, self.y_pos), self.radius
+            self.display, BLUE, (self.x_pos, self.y_pos), self.radius
         )
 
     def move(self):
