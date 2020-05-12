@@ -10,14 +10,18 @@ DISPLAY_HEIGHT = 800
 
 # Colors
 BLACK = (0, 0, 0)
+BLUE = (23, 212, 252)
 WHITE = (255, 255, 255)
 GOLD = (218, 165, 32)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
-LIGHT_YELLOW = (100, 100, 93)
+LIGHT_YELLOW = (247, 241, 49)
 
 # Difficulty setting
 DIFFICULTY = 1
+
+# Pause
+PAUSE = False
 
 # Initializing
 pygame.mixer.pre_init(22100, -16, 2, 64)
@@ -77,12 +81,17 @@ def intersects(rect, radius, center):
 
 
 def unpause():
-    global PAUSE
+    """
+    Uses global variable
+    to unpause
+    """
+    global PAUSE  # pylint: disable=global-statement
     pygame.mixer.music.unpause()
     PAUSE = False
 
 
 def paused():
+    """Pause screen function"""
 
     pygame.mixer.music.pause()
 
@@ -200,7 +209,7 @@ class Projectile(object):
     def draw(self):
         """Draws circle on display at x and y pos"""
         pygame.draw.circle(
-            self.display, GOLD, (self.x_pos, self.y_pos), self.radius
+            self.display, BLUE, (self.x_pos, self.y_pos), self.radius
         )
 
     def move(self):
@@ -394,10 +403,10 @@ def game_menu():
 
 
 def game_loop():
-    global PAUSE
     """The main game loop"""
+    global PAUSE  # pylint: disable=global-statement
 
-    """This is for the in-game background music"""
+    # This is for the in-game background music
     pygame.mixer.music.load("assets/audio/bensound-endlessmotion.wav")
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1)
