@@ -435,6 +435,15 @@ def game_loop():
     projectiles = []
 
     while True:
+
+        # Creates scoarboard
+        scoreBoard_surf, scoreBoardRect = text_objects(
+            "Score: " + str(player.score),
+            SMALL_TEXT,
+            WHITE,
+            ((DISPLAY_WIDTH * 0.058), (DISPLAY_HEIGHT * 0.025)),
+        )
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit_game()
@@ -458,6 +467,7 @@ def game_loop():
         # Paint the background WHITE
         SCREEN.fill(WHITE)
         SCREEN.blit(BACKGROUND_1.image, BACKGROUND_1.rect)
+        SCREEN.blit(scoreBoard_surf, scoreBoardRect)
 
         # Randomly spawn missiles at rate based on difficulty level
         if random.randrange(150 // DIFFICULTY) == 0:
