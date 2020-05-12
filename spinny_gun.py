@@ -525,7 +525,7 @@ def game_loop():
             if missile.rect[1] > DISPLAY_HEIGHT - missile.image.get_height():
                 missiles.pop(missiles.index(missile))
                 player.update_health(-1)
-                if player.health < 1:
+                if player.health <= 0:
                     gameOver()
             for projectile in projectiles:
                 if intersects(
