@@ -102,14 +102,14 @@ def paused():
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.375),
     )
 
-    pause_instructions_surf_1, pause_instructions_rect_1 = text_objects(
+    (pause_instructions_surf_1, pause_instructions_rect_1,) = text_objects(
         "Press 'ESC' to resume",
         MEDIUM_TEXT,
         WHITE,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.55),
     )
 
-    pause_instructions_surf_2, pause_instructions_rect_2 = text_objects(
+    (pause_instructions_surf_2, pause_instructions_rect_2,) = text_objects(
         "Press 'q' to quit",
         MEDIUM_TEXT,
         WHITE,
@@ -136,12 +136,13 @@ def paused():
         pygame.display.update()
         CLOCK.tick(15)
 
+
 class Player(object):
     """Class for holding player information"""
 
     def __init__(self):
-        #Currently we only keep track of the player's health
-        #Will add more attributes as needed
+        # Currently we only keep track of the player's health
+        # Will add more attributes as needed
         self.health = 3
         self.score = 0
 
@@ -150,7 +151,6 @@ class Player(object):
 
     def updateScore(self, scoreChange):
         self.score += scoreChange
-
 
 
 class Background(
@@ -274,7 +274,6 @@ class Missile(object):
         """
         self.move()
         self.blit()
-
 
 
 class Button(object):
