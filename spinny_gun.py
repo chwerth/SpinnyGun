@@ -29,7 +29,7 @@ pygame.init()
 random.seed()
 SCREEN = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 pygame.display.set_caption("Spinny Gun")
-ICON = pygame.image.load("assets/gun_icon.png")
+ICON = pygame.image.load("assets/gun_icon.png").convert()
 pygame.display.set_icon(ICON)
 CLOCK = pygame.time.Clock()
 
@@ -162,7 +162,7 @@ class Background(
 
     def __init__(self, image_file, location):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(image_file)
+        self.image = pygame.image.load(image_file).convert()
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
 
@@ -256,7 +256,7 @@ class Missile(object):
 
     def __init__(self, display, pos):
         self.display = display
-        self.image = pygame.image.load("assets/missiles/missile-1_fly-0.png")
+        self.image = pygame.image.load("assets/missiles/missile-1_fly-0.png").convert()
         self.rotated_image = pygame.transform.rotate(self.image, 180)
         self.rect = self.rotated_image.get_rect(center=pos)
         self.speed = 4
