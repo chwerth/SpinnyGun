@@ -390,6 +390,11 @@ def about_page():
 def game_menu():
     """The menu for the game"""
 
+    pygame.mixer.music.stop()
+    pygame.mixer.music.load("assets/audio/bensound-endlessmotion.wav")
+    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.play(-1)
+
     gun = SpinnyGun(SCREEN, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
     projectiles = []
     start_button = Button(
@@ -471,7 +476,8 @@ def game_loop():
     global PAUSE  # pylint: disable=global-statement
 
     # This is for the in-game background music
-    pygame.mixer.music.load("assets/audio/bensound-endlessmotion.wav")
+    pygame.mixer.music.stop()
+    pygame.mixer.music.load("assets/audio/electric_jazz.wav")
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1)
 
