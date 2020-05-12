@@ -472,7 +472,7 @@ def game_loop():
 
         # Update missiles, check for projectile collision
         for missile in missiles:
-            missile.update(missiles)
+            missile.update()
             if missile.rect[1] > DISPLAY_HEIGHT - missile.image.get_height():
                 missiles.pop(missiles.index(missile))
                 player.update_health(-1)
