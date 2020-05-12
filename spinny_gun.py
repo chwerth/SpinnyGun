@@ -110,8 +110,7 @@ def paused():
     while pause:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+                exit_game()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_p:
                     unpause()
