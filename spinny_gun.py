@@ -436,7 +436,7 @@ def game_loop():
 
     while True:
 
-        # Creates scoarboard
+        # Creates scoreboard
         scoreBoard_surf, scoreBoardRect = text_objects(
             "Score: " + str(player.score),
             SMALL_TEXT,
