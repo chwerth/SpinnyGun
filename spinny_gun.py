@@ -77,9 +77,9 @@ def intersects(rect, radius, center):
 
 
 def unpause():
-    global pause
+    global PAUSE
     pygame.mixer.music.unpause()
-    pause = False
+    PAUSE = False
 
 
 def paused():
@@ -94,7 +94,7 @@ def paused():
     )
 
     pause_instructions_surf_1, pause_instructions_rect_1 = text_objects(
-        "Press 'p' to resume",
+        "Press 'ESC' to resume",
         MEDIUM_TEXT,
         WHITE,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.55),
@@ -107,12 +107,12 @@ def paused():
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.65),
     )
 
-    while pause:
+    while PAUSE:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit_game()
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_p:
+                if event.key == pygame.K_ESCAPE:
                     unpause()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_q:
@@ -394,7 +394,7 @@ def game_menu():
 
 
 def game_loop():
-    global pause
+    global PAUSE
     """The main game loop"""
 
     """This is for the in-game background music"""
@@ -423,8 +423,8 @@ def game_loop():
                             gun.image.get_height() * 0.5,
                         )
                     )
-                if event.key == pygame.K_p:
-                    pause = True
+                if event.key == pygame.K_ESCAPE:
+                    PAUSE = True
                     paused()
 
         # Paint the background WHITE
