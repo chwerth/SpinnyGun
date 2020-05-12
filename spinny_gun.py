@@ -19,6 +19,9 @@ LIGHT_YELLOW = (100, 100, 93)
 # Difficulty setting
 DIFFICULTY = 1
 
+# Pause
+PAUSE = False
+
 # Initializing
 pygame.mixer.pre_init(22100, -16, 2, 64)
 pygame.init()
@@ -77,12 +80,17 @@ def intersects(rect, radius, center):
 
 
 def unpause():
-    global PAUSE
+    """
+    Uses global variable
+    to unpause
+    """
+    global PAUSE # pylint: disable=global-statement
     pygame.mixer.music.unpause()
     PAUSE = False
 
 
 def paused():
+    """Pause screen function"""
 
     pygame.mixer.music.pause()
 
@@ -394,10 +402,10 @@ def game_menu():
 
 
 def game_loop():
-    global PAUSE
     """The main game loop"""
+    global PAUSE # pylint: disable=global-statement
 
-    """This is for the in-game background music"""
+    # This is for the in-game background music
     pygame.mixer.music.load("assets/audio/bensound-endlessmotion.wav")
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1)
