@@ -288,7 +288,7 @@ class Button(object):
 
     def draw(self):
         """Draw button with text"""
-        pygame.draw.rect(SCREEN, self.color, self.rect)
+        pygame.draw.rect(SCREEN, self.color, self.rect, border_radius=12)
         SCREEN.blit(self.text, self.text_rect)
 
     def hit(self):
