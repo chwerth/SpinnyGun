@@ -85,7 +85,7 @@ def unpause():
     Uses global variable
     to unpause
     """
-    global PAUSE # pylint: disable=global-statement
+    global PAUSE  # pylint: disable=global-statement
     pygame.mixer.music.unpause()
     PAUSE = False
 
@@ -404,7 +404,7 @@ def game_menu():
 
 def game_loop():
     """The main game loop"""
-    global PAUSE # pylint: disable=global-statement
+    global PAUSE  # pylint: disable=global-statement
 
     # This is for the in-game background music
     pygame.mixer.music.load("assets/audio/bensound-endlessmotion.wav")
