@@ -136,12 +136,12 @@ class Player(object):
         self.health = 3
         self.score = 0
 
-    def returnScore(self,):
-        return self.score
+    def updateHealth(self, healthChange):
+        self.health += healthChange
 
-    def update(self, health, score):
-        self.health += health
-        self.score += score
+    def updateScore(self, scoreChange):
+        self.score += scoreChange
+
 
 
 class Background(
@@ -265,8 +265,6 @@ class Missile(object):
         """
         self.move()
         self.blit()
-        if self.rect[1] > DISPLAY_HEIGHT - self.image.get_height():
-            missiles.pop(missiles.index(self))
 
 
 
@@ -421,7 +419,6 @@ def game_loop():
 
     gun = SpinnyGun(SCREEN, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
     player = Player()
-    score = 0
     missiles = []
     projectiles = []
 
@@ -466,6 +463,9 @@ def game_loop():
         # Update missiles, check for projectile collision
         for missile in missiles:
             missile.update(missiles)
+            if missile.rect[1] > DISPLAY_HEIGHT - missile.image.get_height():
+                missiles.pop(missiles.index(missile))
+                player.updateHealth(player, 1)
             for projectile in projectiles:
                 if intersects(
                     missile.rect,
@@ -473,10 +473,9 @@ def game_loop():
                     (projectile.x_pos, projectile.y_pos),
                 ):
                     pygame.mixer.Sound.play(EXPLOSION_FX)
-                    score = 1
                     missiles.pop(missiles.index(missile))
                     projectiles.pop(projectiles.index(projectile))
-                    player.update(player, health, score)
+                    player.updateScore(player, 1)
 
         # Move all background changes to the foreground
         pygame.display.update()
