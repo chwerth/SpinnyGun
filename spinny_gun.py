@@ -146,11 +146,13 @@ class Player(object):
         self.health = 3
         self.score = 0
 
-    def updateHealth(self, healthChange):
-        self.health += healthChange
+    def update_health(self, health_change):
+        """Adds health_change to health attribute"""
+        self.health += health_change
 
-    def updateScore(self, scoreChange):
-        self.score += scoreChange
+    def update_score(self, score_change):
+        """Adds score_change to score attribute"""
+        self.score += score_change
 
 
 class Background(
@@ -267,7 +269,7 @@ class Missile(object):
         """Updates y pos to move down"""
         self.rect[1] += self.speed
 
-    def update(self, missiles):
+    def update(self):
         """
         Move and draw missile, destructing
         if it hits bottom of screen
@@ -473,7 +475,7 @@ def game_loop():
             missile.update(missiles)
             if missile.rect[1] > DISPLAY_HEIGHT - missile.image.get_height():
                 missiles.pop(missiles.index(missile))
-                player.updateHealth(-1)
+                player.update_health(-1)
             for projectile in projectiles:
                 if intersects(
                     missile.rect,
@@ -483,7 +485,7 @@ def game_loop():
                     pygame.mixer.Sound.play(EXPLOSION_FX)
                     missiles.pop(missiles.index(missile))
                     projectiles.pop(projectiles.index(projectile))
-                    player.updateScore(1)
+                    player.update_score(1)
 
         # Move all background changes to the foreground
         pygame.display.update()
