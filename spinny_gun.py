@@ -80,6 +80,53 @@ def intersects(rect, radius, center):
     return corner_distance_sq <= radius ** 2.0
 
 
+def gameOver():
+    """Game over screen function"""
+
+    pygame.mixer.music.pause()
+
+    gameOver_surf_1, gameOver_rect_1 = text_objects(
+        "GAME OVER",
+        MEDIUM_TEXT,
+        WHITE,
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.375),
+    )
+
+    gameOver_surf_2, gameOver_rect_2 = text_objects(
+        "Press 'p' to return to menu",
+        MEDIUM_TEXT,
+        WHITE,
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.55),
+    )
+
+    gameOver_surf_3, gameOver_rect_3 = text_objects(
+        "Press 'q' to Quit",
+        MEDIUM_TEXT,
+        WHITE,
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.65),
+    )
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit_game()
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_p:
+                    game_menu()
+                if event.key == pygame.K_q:
+                    exit_game()
+
+        SCREEN.fill(WHITE)
+        SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
+        SCREEN.blit(gameOver_surf_1, gameOver_rect_1)
+        SCREEN.blit(gameOver_surf_2, gameOver_rect_2)
+        SCREEN.blit(gameOver_surf_3, gameOver_rect_3)
+
+        pygame.display.update()
+        CLOCK.tick(15)
+
+
 def unpause():
     """
     Uses global variable
@@ -478,6 +525,8 @@ def game_loop():
             if missile.rect[1] > DISPLAY_HEIGHT - missile.image.get_height():
                 missiles.pop(missiles.index(missile))
                 player.update_health(-1)
+                if player.health <= 0:
+                    gameOver()
             for projectile in projectiles:
                 if intersects(
                     missile.rect,
