@@ -76,6 +76,58 @@ def intersects(rect, radius, center):
     return corner_distance_sq <= radius ** 2.0
 
 
+def unpause():
+    global PAUSE
+    pygame.mixer.music.unpause()
+    PAUSE = False
+
+
+def paused():
+
+    pygame.mixer.music.pause()
+
+    pause_surf_1, pause_rect_1 = text_objects(
+        "PAUSED",
+        MEDIUM_TEXT,
+        WHITE,
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.375),
+    )
+
+    pause_instructions_surf_1, pause_instructions_rect_1 = text_objects(
+        "Press 'ESC' to resume",
+        MEDIUM_TEXT,
+        WHITE,
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.55),
+    )
+
+    pause_instructions_surf_2, pause_instructions_rect_2 = text_objects(
+        "Press 'q' to quit",
+        MEDIUM_TEXT,
+        WHITE,
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.65),
+    )
+
+    while PAUSE:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit_game()
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_ESCAPE:
+                    unpause()
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_q:
+                    exit_game()
+
+        SCREEN.fill(WHITE)
+        SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
+        SCREEN.blit(pause_surf_1, pause_rect_1)
+        SCREEN.blit(pause_instructions_surf_1, pause_instructions_rect_1)
+        SCREEN.blit(pause_instructions_surf_2, pause_instructions_rect_2)
+
+        pygame.display.update()
+        CLOCK.tick(15)
+
+
 class Background(
     pygame.sprite.Sprite
 ):  # pylint: disable=too-few-public-methods
@@ -342,10 +394,12 @@ def game_menu():
 
 
 def game_loop():
+    global PAUSE
     """The main game loop"""
 
     """This is for the in-game background music"""
-    pygame.mixer.music.load("assets/audio/bensound-endlessmotion.mp3")
+    pygame.mixer.music.load("assets/audio/bensound-endlessmotion.wav")
+    pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1)
 
     gun = SpinnyGun(SCREEN, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
@@ -369,6 +423,9 @@ def game_loop():
                             gun.image.get_height() * 0.5,
                         )
                     )
+                if event.key == pygame.K_ESCAPE:
+                    PAUSE = True
+                    paused()
 
         # Paint the background WHITE
         SCREEN.fill(WHITE)
