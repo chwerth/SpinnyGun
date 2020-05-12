@@ -80,30 +80,36 @@ def intersects(rect, radius, center):
     return corner_distance_sq <= radius ** 2.0
 
 
-def gameOver():
+def game_over():
     """Game over screen function"""
 
     pygame.mixer.music.pause()
 
-    gameOver_surf_1, gameOver_rect_1 = text_objects(
+    game_over_surf_1, game_over_rect_1 = text_objects(
         "GAME OVER",
-        MEDIUM_TEXT,
-        WHITE,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.375),
+        GIANT_TEXT,
+        RED,
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.35),
     )
-
-    gameOver_surf_2, gameOver_rect_2 = text_objects(
-        "Press 'p' to return to menu",
+    game_over_surf_2, game_over_rect_2 = text_objects(
+        "Press 'p' to play again",
         MEDIUM_TEXT,
         WHITE,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.55),
     )
 
-    gameOver_surf_3, gameOver_rect_3 = text_objects(
-        "Press 'q' to Quit",
+    game_over_surf_3, game_over_rect_3 = text_objects(
+        "Press 'm' to return to menu",
         MEDIUM_TEXT,
         WHITE,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.65),
+    )
+
+    game_over_surf_4, game_over_rect_4 = text_objects(
+        "Press 'q' to Quit",
+        MEDIUM_TEXT,
+        WHITE,
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.75),
     )
 
     while True:
@@ -113,15 +119,18 @@ def gameOver():
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_p:
+                    game_loop()
+                if event.key == pygame.K_m:
                     game_menu()
                 if event.key == pygame.K_q:
                     exit_game()
 
         SCREEN.fill(WHITE)
         SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
-        SCREEN.blit(gameOver_surf_1, gameOver_rect_1)
-        SCREEN.blit(gameOver_surf_2, gameOver_rect_2)
-        SCREEN.blit(gameOver_surf_3, gameOver_rect_3)
+        SCREEN.blit(game_over_surf_1, game_over_rect_1)
+        SCREEN.blit(game_over_surf_2, game_over_rect_2)
+        SCREEN.blit(game_over_surf_3, game_over_rect_3)
+        SCREEN.blit(game_over_surf_4, game_over_rect_4)
 
         pygame.display.update()
         CLOCK.tick(15)
@@ -144,9 +153,9 @@ def paused():
 
     pause_surf_1, pause_rect_1 = text_objects(
         "PAUSED",
-        MEDIUM_TEXT,
-        WHITE,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.375),
+        GIANT_TEXT,
+        LIGHT_YELLOW,
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.35),
     )
 
     pause_instructions_surf_1, pause_instructions_rect_1 = text_objects(
@@ -157,10 +166,17 @@ def paused():
     )
 
     pause_instructions_surf_2, pause_instructions_rect_2 = text_objects(
-        "Press 'q' to quit",
+        "Press 'm' to return to menu",
         MEDIUM_TEXT,
         WHITE,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.65),
+    )
+
+    pause_instructions_surf_3, pause_instructions_rect_3 = text_objects(
+        "Press 'q' to quit",
+        MEDIUM_TEXT,
+        WHITE,
+        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.75),
     )
 
     while PAUSE:
@@ -170,7 +186,8 @@ def paused():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
                     unpause()
-            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_m:
+                    game_menu()
                 if event.key == pygame.K_q:
                     exit_game()
 
@@ -179,6 +196,7 @@ def paused():
         SCREEN.blit(pause_surf_1, pause_rect_1)
         SCREEN.blit(pause_instructions_surf_1, pause_instructions_rect_1)
         SCREEN.blit(pause_instructions_surf_2, pause_instructions_rect_2)
+        SCREEN.blit(pause_instructions_surf_3, pause_instructions_rect_3)
 
         pygame.display.update()
         CLOCK.tick(15)
@@ -541,7 +559,7 @@ def game_loop():
                 missiles.pop(missiles.index(missile))
                 player.update_health(-1)
                 if player.health <= 0:
-                    gameOver()
+                    game_over()
             for projectile in projectiles:
                 if intersects(
                     missile.rect,
