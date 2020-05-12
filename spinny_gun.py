@@ -256,7 +256,9 @@ class Missile(object):
 
     def __init__(self, display, pos):
         self.display = display
-        self.image = pygame.image.load("assets/missiles/missile-1_fly-0.png").convert_alpha()
+        self.image = pygame.image.load(
+            "assets/missiles/missile-1_fly-0.png"
+        ).convert_alpha()
         self.rotated_image = pygame.transform.rotate(self.image, 180)
         self.rect = self.rotated_image.get_rect(center=pos)
         self.speed = 4
