@@ -473,7 +473,7 @@ def game_loop():
             missile.update(missiles)
             if missile.rect[1] > DISPLAY_HEIGHT - missile.image.get_height():
                 missiles.pop(missiles.index(missile))
-                player.updateHealth(1)
+                player.updateHealth(-1)
             for projectile in projectiles:
                 if intersects(
                     missile.rect,
@@ -484,7 +484,6 @@ def game_loop():
                     missiles.pop(missiles.index(missile))
                     projectiles.pop(projectiles.index(projectile))
                     player.updateScore(1)
-
 
         # Move all background changes to the foreground
         pygame.display.update()
