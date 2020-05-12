@@ -263,7 +263,7 @@ class Projectile(object):
 
     def __init__(self, display, pos, angle, initial_offset=0):
         self.display = display
-        """The change in pos draws the projectile at the nose of the gun"""
+        # The change in pos draws the projectile at the nose of the gun
         self.x_pos = pos[0] - round(initial_offset * sin(radians(angle)))
         self.y_pos = pos[1] - round(initial_offset * cos(radians(angle)))
         self.speed = 5
@@ -298,10 +298,11 @@ class Projectile(object):
         self.draw()
 
 
-class Missile(object):
+class Missile(pygame.sprite.Sprite):
     """These missiles rain from the sky to attack the player"""
 
     def __init__(self, display, pos):
+        super().__init__()
         self.display = display
         self.image = pygame.image.load(
             "assets/missiles/missile-1_fly-0.png"
@@ -309,9 +310,9 @@ class Missile(object):
         self.rect = self.image.get_rect(center=pos)
         self.speed = 4
 
-    def blit(self):
-        """Draws self at current pos"""
-        self.display.blit(self.image, self.rect)
+    # def blit(self):
+    #     """Draws self at current pos"""
+    #     self.display.blit(self.image, self.rect)
 
     def move(self):
         """Updates y pos to move down"""
@@ -323,7 +324,7 @@ class Missile(object):
         if it hits bottom of screen
         """
         self.move()
-        self.blit()
+        # self.blit()
 
 
 class Button(object):
@@ -477,8 +478,9 @@ def game_loop():
 
     gun = SpinnyGun(SCREEN, (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
     player = Player()
-    missiles = []
+    # missiles = []
     projectiles = []
+    all_sprites_list = pygame.sprite.Group()
 
     while True:
 
@@ -517,7 +519,7 @@ def game_loop():
 
         # Randomly spawn missiles at rate based on difficulty level
         if random.randrange(150 // DIFFICULTY) == 0:
-            missiles.append(
+            all_sprites_list.add(
                 Missile(SCREEN, (random.randrange(DISPLAY_WIDTH), -600))
             )
 
@@ -529,10 +531,10 @@ def game_loop():
             projectile.update(projectiles)
 
         # Update missiles, check for projectile collision
-        for missile in missiles:
+        for missile in all_sprites_list:
             missile.update()
             if missile.rect[1] > DISPLAY_HEIGHT - missile.image.get_height():
-                missiles.pop(missiles.index(missile))
+                all_sprites_list.remove(missile)
                 player.update_health(-1)
                 if player.health <= 0:
                     gameOver()
@@ -543,9 +545,11 @@ def game_loop():
                     (projectile.x_pos, projectile.y_pos),
                 ):
                     pygame.mixer.Sound.play(EXPLOSION_FX)
-                    missiles.pop(missiles.index(missile))
+                    all_sprites_list.remove(missile)
                     projectiles.pop(projectiles.index(projectile))
                     player.update_score(1)
+
+        all_sprites_list.draw(SCREEN)
 
         # Move all background changes to the foreground
         pygame.display.update()
