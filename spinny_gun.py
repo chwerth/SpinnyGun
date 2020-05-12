@@ -93,7 +93,7 @@ def gameOver():
     )
 
     gameOver_surf_2, gameOver_rect_2 = text_objects(
-        "Press 'P' to return to menu",
+        "Press 'p' to return to menu",
         MEDIUM_TEXT,
         WHITE,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.55),
