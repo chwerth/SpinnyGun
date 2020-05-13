@@ -12,7 +12,6 @@ DISPLAY_HEIGHT = 800
 BLACK = (0, 0, 0)
 BLUE = (23, 212, 252)
 WHITE = (255, 255, 255)
-GOLD = (218, 165, 32)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 LIGHT_YELLOW = (247, 241, 49)
@@ -210,6 +209,9 @@ class Player(object):
         # Will add more attributes as needed
         self.health = 3
         self.score = 0
+        self.ammo = 10
+        self.time_to_reload = 3
+        self.last_reload_time = 0
 
     def update_health(self, health_change):
         """Adds health_change to health attribute"""
@@ -218,6 +220,10 @@ class Player(object):
     def update_score(self, score_change):
         """Adds score_change to score attribute"""
         self.score += score_change
+
+    def update_ammo(self, ammo_change):
+        """Adds ammo change to ammo attribute"""
+        self.ammo += ammo_change
 
 
 class Background(
@@ -503,11 +509,16 @@ def game_loop():
     player = Player()
     missiles = []
     projectiles = []
+    delta_t = 0
+    timer = 0
 
     while True:
 
+        # Add last iteration's time to running timer
+        timer += delta_t
+
         # Creates scoreboard
-        scoreBoard_surf, scoreBoardRect = text_objects(
+        scoreboard_surf, scoreboard_rect = text_objects(
             "Score: " + str(player.score),
             SMALL_TEXT,
             WHITE,
@@ -518,9 +529,13 @@ def game_loop():
             if event.type == pygame.QUIT:
                 exit_game()
 
+
             # Fire a projectile if the player presses and releases space
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE and player.ammo > 0:
+                    player.update_ammo(-1)
+                    if player.ammo == 0:
+                        player.last_reload_time = timer
                     pygame.mixer.Sound.play(SHOOT_FX)
                     projectiles.append(
                         Projectile(
@@ -537,7 +552,7 @@ def game_loop():
         # Paint the background WHITE
         SCREEN.fill(WHITE)
         SCREEN.blit(BACKGROUND_1.image, BACKGROUND_1.rect)
-        SCREEN.blit(scoreBoard_surf, scoreBoardRect)
+        SCREEN.blit(scoreboard_surf, scoreboard_rect)
 
         # Randomly spawn missiles at rate based on difficulty level
         if random.randrange(150 // DIFFICULTY) == 0:
@@ -545,8 +560,13 @@ def game_loop():
                 Missile(SCREEN, (random.randrange(DISPLAY_WIDTH), -600))
             )
 
+        # Reload
+        if player.ammo == 0 and timer - player.last_reload_time > player.time_to_reload:
+            player.update_ammo(10)
+
         # Rotate and draw gun
         gun.update()
+
 
         # If a projectile moves off-screen, remove it from the list
         for projectile in projectiles:
@@ -573,7 +593,9 @@ def game_loop():
 
         # Move all background changes to the foreground
         pygame.display.update()
-        CLOCK.tick(60)
+
+        # Store time since last tick in seconds
+        delta_t = CLOCK.tick(60) / 1000
 
 
 if __name__ == "__main__":
