@@ -529,7 +529,6 @@ def game_loop():
             if event.type == pygame.QUIT:
                 exit_game()
 
-
             # Fire a projectile if the player presses and releases space
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE and player.ammo > 0:
@@ -561,12 +560,14 @@ def game_loop():
             )
 
         # Reload
-        if player.ammo == 0 and timer - player.last_reload_time > player.time_to_reload:
+        if (
+            player.ammo == 0
+            and timer - player.last_reload_time > player.time_to_reload
+        ):
             player.update_ammo(10)
 
         # Rotate and draw gun
         gun.update()
-
 
         # If a projectile moves off-screen, remove it from the list
         for projectile in projectiles:
