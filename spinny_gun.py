@@ -209,9 +209,10 @@ class Player(object):
         # Will add more attributes as needed
         self.health = 3
         self.score = 0
-        self.ammo = 10
+        self.max_ammo = 10
+        self.ammo = self.max_ammo
         self.time_to_reload = 3
-        self.last_reload_time = 0
+        self.reload_start_time = 0
 
     def update_health(self, health_change):
         """Adds health_change to health attribute"""
@@ -221,9 +222,13 @@ class Player(object):
         """Adds score_change to score attribute"""
         self.score += score_change
 
-    def update_ammo(self, ammo_change):
-        """Adds ammo change to ammo attribute"""
-        self.ammo += ammo_change
+    def reload(self):
+        """Fills up the players ammo again"""
+        self.ammo = self.max_ammo
+
+    def pew(self):
+        """Fire the gun"""
+        self.ammo -= 1
 
 
 class Background(
@@ -510,12 +515,12 @@ def game_loop():
     missiles = []
     projectiles = []
     delta_t = 0
-    timer = 0
+    game_time = 0
 
     while True:
 
-        # Add last iteration's time to running timer
-        timer += delta_t
+        # Add last iteration's time to running game_time
+        game_time += delta_t
 
         # Creates scoreboard
         scoreboard_surf, scoreboard_rect = text_objects(
@@ -532,9 +537,9 @@ def game_loop():
             # Fire a projectile if the player presses and releases space
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE and player.ammo > 0:
-                    player.update_ammo(-1)
+                    player.pew()
                     if player.ammo == 0:
-                        player.last_reload_time = timer
+                        player.reload_start_time = game_time
                     pygame.mixer.Sound.play(SHOOT_FX)
                     projectiles.append(
                         Projectile(
@@ -562,9 +567,9 @@ def game_loop():
         # Reload
         if (
             player.ammo == 0
-            and timer - player.last_reload_time > player.time_to_reload
+            and game_time - player.reload_start_time > player.time_to_reload
         ):
-            player.update_ammo(10)
+            player.reload()
 
         # Rotate and draw gun
         gun.update()
