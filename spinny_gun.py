@@ -62,26 +62,15 @@ def text_objects(text, font, color, pos):
     return text_surface, text_rect
 
 
-def intersects(rect, radius, center):
-    """Test if rect intersects with circle"""
-    circle_distance_x = abs(center[0] - rect.centerx)
-    circle_distance_y = abs(center[1] - rect.centery)
-    if (
-        circle_distance_x > rect.w / 2.0 + radius
-        or circle_distance_y > rect.h / 2.0 + radius
-    ):
-        return False
-    if circle_distance_x <= rect.w / 2.0 or circle_distance_y <= rect.h / 2.0:
-        return True
-    corner_x = circle_distance_x - rect.w / 2.0
-    corner_y = circle_distance_y - rect.h / 2.0
-    corner_distance_sq = corner_x ** 2.0 + corner_y ** 2.0
-    return corner_distance_sq <= radius ** 2.0
-
 def projectile_is_off_screen(projectile):
     """Check to see if projectile is off screen"""
 
-    return (projectile.rect.x > DISPLAY_WIDTH or projectile.rect.x < 0 or projectile.rect.y > DISPLAY_HEIGHT or projectile.rect.y < 0)
+    return (
+        projectile.rect.x > DISPLAY_WIDTH
+        or projectile.rect.x < 0
+        or projectile.rect.y > DISPLAY_HEIGHT
+        or projectile.rect.y < 0
+    )
 
 
 def game_over():
@@ -116,6 +105,14 @@ def game_over():
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.75),
     )
 
+    SCREEN.fill(WHITE)
+    SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
+    SCREEN.blit(game_over_surf_1, game_over_rect_1)
+    SCREEN.blit(game_over_surf_2, game_over_rect_2)
+    SCREEN.blit(game_over_surf_3, game_over_rect_3)
+    SCREEN.blit(game_over_surf_4, game_over_rect_4)
+    pygame.display.update()
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -129,14 +126,6 @@ def game_over():
                 if event.key == pygame.K_q:
                     exit_game()
 
-        SCREEN.fill(WHITE)
-        SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
-        SCREEN.blit(game_over_surf_1, game_over_rect_1)
-        SCREEN.blit(game_over_surf_2, game_over_rect_2)
-        SCREEN.blit(game_over_surf_3, game_over_rect_3)
-        SCREEN.blit(game_over_surf_4, game_over_rect_4)
-
-        pygame.display.update()
         CLOCK.tick(15)
 
 
@@ -183,6 +172,14 @@ def paused():
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.75),
     )
 
+    SCREEN.fill(WHITE)
+    SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
+    SCREEN.blit(pause_surf_1, pause_rect_1)
+    SCREEN.blit(pause_instructions_surf_1, pause_instructions_rect_1)
+    SCREEN.blit(pause_instructions_surf_2, pause_instructions_rect_2)
+    SCREEN.blit(pause_instructions_surf_3, pause_instructions_rect_3)
+    pygame.display.update()
+
     while PAUSE:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -195,14 +192,6 @@ def paused():
                 if event.key == pygame.K_q:
                     exit_game()
 
-        SCREEN.fill(WHITE)
-        SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
-        SCREEN.blit(pause_surf_1, pause_rect_1)
-        SCREEN.blit(pause_instructions_surf_1, pause_instructions_rect_1)
-        SCREEN.blit(pause_instructions_surf_2, pause_instructions_rect_2)
-        SCREEN.blit(pause_instructions_surf_3, pause_instructions_rect_3)
-
-        pygame.display.update()
         CLOCK.tick(15)
 
 
@@ -275,7 +264,8 @@ class Gun(pygame.sprite.Sprite):
             self.angle += 2
         else:
             self.angle -= 2
-        self.rect = self.image.get_rect(center = self.rect.center)
+        self.rect = self.image.get_rect(center=self.rect.center)
+
 
 class Projectile(pygame.sprite.Sprite):
     """This is what the rotating gun fires"""
@@ -283,7 +273,12 @@ class Projectile(pygame.sprite.Sprite):
     def __init__(self, pos, angle, initial_offset=0):
         super(Projectile, self).__init__()
         self.image = pygame.image.load("assets/projectile.png").convert_alpha()
-        self.rect = self.image.get_rect(center=(pos[0] -round(initial_offset * sin(radians(angle))), pos[1] - round(initial_offset * cos(radians(angle)))))
+        self.rect = self.image.get_rect(
+            center=(
+                pos[0] - round(initial_offset * sin(radians(angle))),
+                pos[1] - round(initial_offset * cos(radians(angle))),
+            )
+        )
         self.speed = 5
         self.x_vel = -round(self.speed * sin(radians(angle)))
         self.y_vel = -round(self.speed * cos(radians(angle)))
@@ -318,9 +313,13 @@ class Button(pygame.sprite.Sprite):
         self.image = pygame.Surface(self.rect.size)
 
         button_rect = button_text.get_rect()
-        button_rect.center = pygame.Vector2(self.rect.center) - self.rect.topleft
+        button_rect.center = (
+            pygame.Vector2(self.rect.center) - self.rect.topleft
+        )
 
-        pygame.draw.rect(self.image, color, self.image.get_rect(), border_radius=12)
+        pygame.draw.rect(
+            self.image, color, self.image.get_rect(), border_radius=12
+        )
         self.image.blit(button_text, button_rect)
         self.function = function
 
@@ -331,6 +330,8 @@ class Button(pygame.sprite.Sprite):
 
 def about_page():
     """The about page of Spinny Gun"""
+
+    pygame.mixer.music.stop()
 
     credit_surf_1, credit_rect_1 = text_objects(
         "Spinny Gun was created by Caleb Werth,",
@@ -351,6 +352,12 @@ def about_page():
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.65),
     )
 
+    SCREEN.fill(WHITE)
+    SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
+    SCREEN.blit(credit_surf_1, credit_rect_1)
+    SCREEN.blit(credit_surf_2, credit_rect_2)
+    SCREEN.blit(instructions_surf, instructions_rect)
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -360,14 +367,8 @@ def about_page():
                 if event.key == pygame.K_SPACE:
                     game_menu()
 
-        SCREEN.fill(WHITE)
-        SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
-        SCREEN.blit(credit_surf_1, credit_rect_1)
-        SCREEN.blit(credit_surf_2, credit_rect_2)
-        SCREEN.blit(instructions_surf, instructions_rect)
-
         pygame.display.update()
-        CLOCK.tick(60)
+        CLOCK.tick(15)
 
 
 def game_menu():
@@ -377,14 +378,6 @@ def game_menu():
     pygame.mixer.music.load("assets/audio/bensound-endlessmotion.wav")
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1)
-
-    all_sprites_list = pygame.sprite.Group()
-    projectile_list = pygame.sprite.Group()
-    buttons_list = pygame.sprite.Group()
-
-    gun = Gun((DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
-
-    all_sprites_list.add(gun)
 
     start_button = Button(
         SMALL_TEXT.render("Start", True, BLACK),
@@ -404,8 +397,6 @@ def game_menu():
         RED,
         exit_game,
     )
-    all_sprites_list.add(start_button, about_button, quit_button)
-    buttons_list.add(start_button, about_button, quit_button)
 
     text_surf_title, text_rect_title = text_objects(
         "Spinny Gun",
@@ -413,7 +404,6 @@ def game_menu():
         WHITE,
         ((DISPLAY_WIDTH * 0.5), (DISPLAY_HEIGHT * 0.2)),
     )
-
     text_surf_space, text_rect_space = text_objects(
         "Press Space To Shoot!",
         MEDIUM_TEXT,
@@ -421,6 +411,15 @@ def game_menu():
         ((DISPLAY_WIDTH * 0.5), (DISPLAY_HEIGHT * 0.32)),
     )
 
+    all_sprites_list = pygame.sprite.Group()
+    projectile_list = pygame.sprite.Group()
+    buttons_list = pygame.sprite.Group()
+
+    all_sprites_list.add(start_button, about_button, quit_button)
+    buttons_list.add(start_button, about_button, quit_button)
+
+    gun = Gun((DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
+    all_sprites_list.add(gun)
 
     while True:
         for event in pygame.event.get():
@@ -430,14 +429,20 @@ def game_menu():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     pygame.mixer.Sound.play(SHOOT_FX)
-                    projectile = Projectile(gun.rect.center, gun.angle, gun.image.get_height() * 0.5)
+                    projectile = Projectile(
+                        gun.rect.center,
+                        gun.angle,
+                        gun.image.get_height() * 0.5,
+                    )
                     all_sprites_list.add(projectile)
                     projectile_list.add(projectile)
 
         all_sprites_list.update()
 
         for projectile in projectile_list:
-            hit_button_list = pygame.sprite.spritecollide(projectile, buttons_list, False)
+            hit_button_list = pygame.sprite.spritecollide(
+                projectile, buttons_list, False
+            )
 
             for button in hit_button_list:
                 button.function()
@@ -501,19 +506,16 @@ def game_loop():
                     if player.ammo == 0:
                         player.reload_start_time = game_time
                     pygame.mixer.Sound.play(SHOOT_FX)
-                    projectile = Projectile(gun.rect.center, gun.angle, gun.image.get_height() * 0.5)
+                    projectile = Projectile(
+                        gun.rect.center,
+                        gun.angle,
+                        gun.image.get_height() * 0.5,
+                    )
                     all_sprites_list.add(projectile)
                     projectile_list.add(projectile)
                 if event.key == pygame.K_ESCAPE:
                     PAUSE = True
                     paused()
-
-
-        # Randomly spawn missiles at rate based on difficulty level
-        if random.randrange(150 // DIFFICULTY) == 0:
-            missile = Missile((random.randrange(DISPLAY_WIDTH), -600))
-            all_sprites_list.add(missile)
-            missile_list.add(missile)
 
         # Reload
         if (
@@ -522,8 +524,13 @@ def game_loop():
         ):
             player.reload()
 
+        # Randomly spawn missiles at rate based on difficulty level
+        if random.randrange(150 // DIFFICULTY) == 0:
+            missile = Missile((random.randrange(DISPLAY_WIDTH), -600))
+            all_sprites_list.add(missile)
+            missile_list.add(missile)
+
         all_sprites_list.update()
-        print(projectile_list)
 
         for projectile in projectile_list:
             if pygame.sprite.spritecollide(projectile, missile_list, True):
@@ -546,6 +553,7 @@ def game_loop():
         SCREEN.blit(BACKGROUND_1.image, BACKGROUND_1.rect)
         SCREEN.blit(scoreboard_surf, scoreboard_rect)
 
+        # Draw all sprites
         all_sprites_list.draw(SCREEN)
 
         # Move all background changes to the foreground
