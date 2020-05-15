@@ -430,7 +430,7 @@ def game_menu():
     )
 
     text_surf_title, text_rect_title = text_objects(
-        "Spinny Gun",
+        "RAstral Rampart",
         GIANT_TEXT,
         WHITE,
         ((DISPLAY_WIDTH * 0.5), (DISPLAY_HEIGHT * 0.2)),
