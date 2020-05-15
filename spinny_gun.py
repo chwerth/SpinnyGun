@@ -256,7 +256,9 @@ class Gun(pygame.sprite.Sprite):
     def __init__(self, pos):
         super(Gun, self).__init__()
 
-        self.original_image = pygame.image.load("assets/gun.png").convert_alpha()
+        self.original_image = pygame.image.load(
+            "assets/gun.png"
+        ).convert_alpha()
         self.image = self.original_image
         self.rect = self.image.get_rect(center=pos)
         self.turning_left = True
