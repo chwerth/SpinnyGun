@@ -568,7 +568,7 @@ def game_loop():
                 projectile.kill()
 
         for missile in missile_list:
-            if missile.rect[1] > DISPLAY_HEIGHT - missile.image.get_height():
+            if missile.rect.y > DISPLAY_HEIGHT - missile.image.get_height():
                 missile.kill()
                 player.update_health(-1)
                 if player.health <= 0:
