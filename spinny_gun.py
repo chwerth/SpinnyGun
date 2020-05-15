@@ -62,15 +62,6 @@ def text_objects(text, font, color, pos):
     return text_surface, text_rect
 
 
-def projectile_is_off_screen(projectile):
-    """Check to see if projectile is off screen"""
-
-    return (
-        projectile.rect.x > DISPLAY_WIDTH
-        or projectile.rect.x < 0
-        or projectile.rect.y > DISPLAY_HEIGHT
-        or projectile.rect.y < 0
-    )
 
 
 def time_to_reload(game_time, player):
@@ -214,7 +205,7 @@ class Player(object):
         self.score = 0
         self.max_ammo = 10
         self.ammo = self.max_ammo
-        self.time_to_reload = 3
+        self.reload_duration = 3
         self.reload_start_time = 0
 
     def update_health(self, health_change):
@@ -232,6 +223,14 @@ class Player(object):
     def pew(self):
         """Fire the gun"""
         self.ammo -= 1
+
+    def time_to_reload(self, game_time):
+        """Check if it's time to reload"""
+
+        return (
+            self.ammo == 0
+            and game_time - self.reload_start_time > self.reload_duration
+        )
 
 
 class Background(
@@ -304,6 +303,16 @@ class Projectile(pygame.sprite.Sprite):
         self.rect.x += self.x_vel
         self.rect.y += self.y_vel
 
+    def off_screen(self):
+        """Check to see if projectile is off screen"""
+
+        return (
+            self.rect.x > DISPLAY_WIDTH
+            or self.rect.x < 0
+            or self.rect.y > DISPLAY_HEIGHT
+            or self.rect.y < 0
+        )
+
     def kill(self):
         """Remove the projectile from the game"""
         pygame.sprite.Sprite.kill(self)
@@ -323,6 +332,10 @@ class Missile(pygame.sprite.Sprite):
     def update(self):
         """Updates y pos to move down"""
         self.rect[1] += self.speed
+
+    def off_screen(self):
+        """Check if missile is off screen"""
+        return self.rect.y > DISPLAY_HEIGHT - self.image.get_height()
 
     def kill(self):
         """Remove the projectile from the game"""
@@ -476,8 +489,8 @@ def game_menu():
             for button in hit_button_list:
                 button.function()
 
-            if projectile_is_off_screen(projectile):
-                pygame.sprite.Sprite.kill(projectile)
+            if projectile.off_screen():
+                projectile.kill()
 
         SCREEN.fill(WHITE)
         SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
@@ -547,7 +560,7 @@ def game_loop():
                     paused()
 
         # Reload
-        if time_to_reload(game_time, player):
+        if player.time_to_reload(game_time):
             player.reload()
 
         # Randomly spawn missiles at rate based on difficulty level
@@ -564,11 +577,11 @@ def game_loop():
                 projectile.kill()
                 player.update_score(1)
 
-            if projectile_is_off_screen(projectile):
+            if projectile.off_screen():
                 projectile.kill()
 
         for missile in missile_list:
-            if missile.rect.y > DISPLAY_HEIGHT - missile.image.get_height():
+            if missile.off_screen():
                 missile.kill()
                 player.update_health(-1)
                 if player.health <= 0:
