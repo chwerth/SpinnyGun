@@ -1,4 +1,4 @@
-"""This file currently contains all the Spinny Gun code"""
+"""This file currently contains all the RAstral Rampart code"""
 import random
 from math import cos, sin, radians
 import sys

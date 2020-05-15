@@ -15,5 +15,5 @@ setup(
             "include_files": ["README.md", "LICENSE", "CREDITS.txt", "assets"],
         }
     },
-    executables=[Executable("spinny_gun.py", base=base)],
+    executables=[Executable("main.py", base=base)],
 )
