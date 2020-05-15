@@ -73,6 +73,15 @@ def projectile_is_off_screen(projectile):
     )
 
 
+def time_to_reload(game_time, player):
+    """Check if it's time to reload"""
+
+    return (
+        player.ammo == 0
+        and game_time - player.reload_start_time > player.time_to_reload
+    )
+
+
 def game_over():
     """Game over screen function"""
 
@@ -254,6 +263,7 @@ class Gun(pygame.sprite.Sprite):
         self.angle = 0
 
     def update(self):
+        """Rotate the gun"""
         self.image = pygame.transform.rotate(self.original_image, self.angle)
         if self.angle >= 70:
             self.turning_left = False
@@ -265,6 +275,10 @@ class Gun(pygame.sprite.Sprite):
         else:
             self.angle -= 2
         self.rect = self.image.get_rect(center=self.rect.center)
+
+    def kill(self):
+        """Remove the gun from the game"""
+        pygame.sprite.Sprite.kill(self)
 
 
 class Projectile(pygame.sprite.Sprite):
@@ -284,8 +298,13 @@ class Projectile(pygame.sprite.Sprite):
         self.y_vel = -round(self.speed * cos(radians(angle)))
 
     def update(self):
+        """Update position of projectile"""
         self.rect.x += self.x_vel
         self.rect.y += self.y_vel
+
+    def kill(self):
+        """Remove the projectile from the game"""
+        pygame.sprite.Sprite.kill(self)
 
 
 class Missile(pygame.sprite.Sprite):
@@ -302,6 +321,10 @@ class Missile(pygame.sprite.Sprite):
     def update(self):
         """Updates y pos to move down"""
         self.rect[1] += self.speed
+
+    def kill(self):
+        """Remove the projectile from the game"""
+        pygame.sprite.Sprite.kill(self)
 
 
 class Button(pygame.sprite.Sprite):
@@ -326,6 +349,10 @@ class Button(pygame.sprite.Sprite):
     def hit(self):
         """What the button does when hit"""
         self.function()
+
+    def kill(self):
+        """Remove button from game"""
+        pygame.sprite.Sprite.kill(self)
 
 
 def about_page():
@@ -518,10 +545,7 @@ def game_loop():
                     paused()
 
         # Reload
-        if (
-            player.ammo == 0
-            and game_time - player.reload_start_time > player.time_to_reload
-        ):
+        if time_to_reload(game_time, player):
             player.reload()
 
         # Randomly spawn missiles at rate based on difficulty level
@@ -535,15 +559,15 @@ def game_loop():
         for projectile in projectile_list:
             if pygame.sprite.spritecollide(projectile, missile_list, True):
                 pygame.mixer.Sound.play(EXPLOSION_FX)
-                pygame.sprite.Sprite.kill(projectile)
+                projectile.kill()
                 player.update_score(1)
 
             if projectile_is_off_screen(projectile):
-                pygame.sprite.Sprite.kill(projectile)
+                projectile.kill()
 
         for missile in missile_list:
             if missile.rect[1] > DISPLAY_HEIGHT - missile.image.get_height():
-                pygame.sprite.Sprite.kill(missile)
+                missile.kill()
                 player.update_health(-1)
                 if player.health <= 0:
                     game_over()
