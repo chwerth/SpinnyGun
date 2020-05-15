@@ -62,15 +62,6 @@ def text_objects(text, font, color, pos):
     return text_surface, text_rect
 
 
-def time_to_reload(game_time, player):
-    """Check if it's time to reload"""
-
-    return (
-        player.ammo == 0
-        and game_time - player.reload_start_time > player.time_to_reload
-    )
-
-
 def game_over():
     """Game over screen function"""
 
