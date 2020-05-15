@@ -62,8 +62,6 @@ def text_objects(text, font, color, pos):
     return text_surface, text_rect
 
 
-
-
 def time_to_reload(game_time, player):
     """Check if it's time to reload"""
 
