@@ -27,13 +27,14 @@ pygame.mixer.pre_init(22100, -16, 2, 64)
 pygame.init()
 random.seed()
 SCREEN = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
-pygame.display.set_caption("Spinny Gun")
+pygame.display.set_caption("RAstral Rampart")
 ICON = pygame.image.load("assets/gun_icon.png").convert_alpha()
 pygame.display.set_icon(ICON)
 CLOCK = pygame.time.Clock()
 
 # Text
 GIANT_TEXT = pygame.font.Font("freesansbold.ttf", 115)
+BIG_TEXT = pygame.font.Font("freesansbold.ttf", 80)
 MEDIUM_TEXT = pygame.font.Font("freesansbold.ttf", 30)
 SMALL_TEXT = pygame.font.Font("freesansbold.ttf", 20)
 
@@ -360,18 +361,18 @@ class Button(pygame.sprite.Sprite):
 
 
 def about_page():
-    """The about page of Spinny Gun"""
+    """The about page of RAstral Rampart"""
 
     pygame.mixer.music.stop()
 
     credit_surf_1, credit_rect_1 = text_objects(
-        "Spinny Gun was created by Caleb Werth,",
+        "RAstral Rampart was created by Caleb Werth and",
         MEDIUM_TEXT,
         WHITE,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.375),
     )
     credit_surf_2, credit_rect_2 = text_objects(
-        "Russell Spry, and Aaron Werth",
+        "Russell Spry. Original idea by Aaron Werth.",
         MEDIUM_TEXT,
         WHITE,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.4375),
@@ -431,7 +432,7 @@ def game_menu():
 
     text_surf_title, text_rect_title = text_objects(
         "RAstral Rampart",
-        GIANT_TEXT,
+        BIG_TEXT,
         WHITE,
         ((DISPLAY_WIDTH * 0.5), (DISPLAY_HEIGHT * 0.2)),
     )
