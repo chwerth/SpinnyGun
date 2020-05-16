@@ -27,7 +27,7 @@ pygame.mixer.pre_init(22100, -16, 2, 64)
 pygame.init()
 random.seed()
 SCREEN = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
-pygame.display.set_caption("Spinny Gun")
+pygame.display.set_caption("RAstral Rampart")
 ICON = pygame.image.load("assets/gun_icon.png").convert_alpha()
 pygame.display.set_icon(ICON)
 CLOCK = pygame.time.Clock()
@@ -361,18 +361,18 @@ class Button(pygame.sprite.Sprite):
 
 
 def about_page():
-    """The about page of Spinny Gun"""
+    """The about page of RAstral Rampart"""
 
     pygame.mixer.music.stop()
 
     credit_surf_1, credit_rect_1 = text_objects(
-        "Spinny Gun was created by Caleb Werth,",
+        "RAstral Rampart was created by Caleb Werth and",
         MEDIUM_TEXT,
         WHITE,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.375),
     )
     credit_surf_2, credit_rect_2 = text_objects(
-        "Russell Spry, and Aaron Werth",
+        "Russell Spry. Original idea by Aaron Werth.",
         MEDIUM_TEXT,
         WHITE,
         (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.4375),
