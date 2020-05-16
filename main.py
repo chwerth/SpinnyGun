@@ -34,6 +34,7 @@ CLOCK = pygame.time.Clock()
 
 # Text
 GIANT_TEXT = pygame.font.Font("freesansbold.ttf", 115)
+BIG_TEXT = pygame.font.Font("freesansbold.ttf", 80)
 MEDIUM_TEXT = pygame.font.Font("freesansbold.ttf", 30)
 SMALL_TEXT = pygame.font.Font("freesansbold.ttf", 20)
 
@@ -431,7 +432,7 @@ def game_menu():
 
     text_surf_title, text_rect_title = text_objects(
         "RAstral Rampart",
-        GIANT_TEXT,
+        BIG_TEXT,
         WHITE,
         ((DISPLAY_WIDTH * 0.5), (DISPLAY_HEIGHT * 0.2)),
     )
