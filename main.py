@@ -266,8 +266,9 @@ class Gun(pygame.sprite.Sprite):
         else:
             self.angle -= 2
 
-        self.image, self.rect = rot_center(self.original_image, self.rect, self.angle)
-
+        self.image, self.rect = rot_center(
+            self.original_image, self.rect, self.angle
+        )
 
     def kill(self):
         """Remove the gun from the game"""
