@@ -19,8 +19,11 @@ LIGHT_YELLOW = (247, 241, 49)
 # Difficulty setting
 DIFFICULTY = 2
 
-# (Speed, Damage)
-MISSILE_STATS = [(3, -5), (4, -3), (6, -1)]
+MISSILE_STATS = [
+    {"speed": 3, "damage": -5},
+    {"speed": 4, "damage": -3},
+    {"speed": 6, "damage": -1},
+]
 
 # Pause
 PAUSE = False
@@ -324,7 +327,7 @@ class Missile(pygame.sprite.Sprite):
 
     def update(self):
         """Updates y pos to move down"""
-        self.rect[1] += self.stats[0]
+        self.rect.y += self.stats["speed"]
 
     def off_screen(self):
         """Check if missile is off screen"""
@@ -583,7 +586,7 @@ def game_loop():
         for missile in missile_list:
             if missile.off_screen():
                 missile.kill()
-                player.update_health(missile.stats[1])
+                player.update_health(missile.stats["damage"])
                 if player.health <= 0:
                     game_over()
 
