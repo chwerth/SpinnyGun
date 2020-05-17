@@ -1,6 +1,6 @@
 """This file currently contains all the RAstral Rampart code"""
 import random
-from math import cos, sin, radians, floor
+from math import cos, sin, radians
 import sys
 import pygame  # pylint: disable=import-error
 
