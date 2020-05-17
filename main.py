@@ -523,8 +523,6 @@ def game_loop():
 
     while True:
 
-        print(player.health)
-
         # Add last iteration's time to running game_time
         game_time += delta_t
 
