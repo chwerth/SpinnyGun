@@ -510,7 +510,9 @@ def game_loop():
     missile_list = pygame.sprite.Group()
     projectile_list = pygame.sprite.Group()
 
-    missiles_to_spawn = random.choices([1, 2, 3], weights=[1, 2, 3], k=(DIFFICULTY * 10))
+    missiles_to_spawn = random.choices(
+        [1, 2, 3], weights=[1, 2, 3], k=(DIFFICULTY * 10)
+    )
 
     player = Player()
     gun = Gun((DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
@@ -560,14 +562,14 @@ def game_loop():
         if player.time_to_reload(game_time):
             player.reload()
 
-
         if random.randrange(150 // DIFFICULTY) == 0:
             if missiles_to_spawn:
                 missile_type = missiles_to_spawn.pop(0)
-                new_missile = Missile((random.randrange(DISPLAY_WIDTH), -600), missile_type)
+                new_missile = Missile(
+                    (random.randrange(DISPLAY_WIDTH), -600), missile_type
+                )
                 all_sprites_list.add(new_missile)
                 missile_list.add(new_missile)
-
 
         all_sprites_list.update()
 
