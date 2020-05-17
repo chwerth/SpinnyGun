@@ -19,12 +19,6 @@ LIGHT_YELLOW = (247, 241, 49)
 # Difficulty setting
 DIFFICULTY = 2
 
-MISSILE_STATS = [
-    {"speed": 3, "damage": -5},
-    {"speed": 4, "damage": -3},
-    {"speed": 6, "damage": -1},
-]
-
 # Pause
 PAUSE = False
 
@@ -317,13 +311,19 @@ class Projectile(pygame.sprite.Sprite):
 class Missile(pygame.sprite.Sprite):
     """These missiles rain from the sky to attack the player"""
 
+    missile_stats = [
+        {"speed": 3, "damage": -5},
+        {"speed": 4, "damage": -3},
+        {"speed": 6, "damage": -1},
+    ]
+
     def __init__(self, pos, missile_type):
         super(Missile, self).__init__()
         self.image = pygame.image.load(
             f"assets/missiles/missile-{missile_type}_fly-0.png"
         ).convert_alpha()
         self.rect = self.image.get_rect(center=pos)
-        self.stats = MISSILE_STATS[missile_type - 1]
+        self.stats = self.missile_stats[missile_type - 1]
 
     def update(self):
         """Updates y pos to move down"""
