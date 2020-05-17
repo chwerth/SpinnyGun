@@ -255,7 +255,7 @@ class Gun(pygame.sprite.Sprite):
 
     def update(self):
         """Rotate the gun"""
-        self.image = pygame.transform.rotate(self.original_image, self.angle)
+
         if self.angle >= 70:
             self.turning_left = False
         elif self.angle <= -70:
@@ -265,7 +265,9 @@ class Gun(pygame.sprite.Sprite):
             self.angle += 2
         else:
             self.angle -= 2
-        self.rect = self.image.get_rect(center=self.rect.center)
+
+        self.image, self.rect = rot_center(self.original_image, self.rect, self.angle)
+
 
     def kill(self):
         """Remove the gun from the game"""
