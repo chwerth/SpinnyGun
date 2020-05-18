@@ -17,7 +17,7 @@ RED = (255, 0, 0)
 LIGHT_YELLOW = (247, 241, 49)
 
 # Difficulty setting
-DIFFICULTY = 1
+DIFFICULTY = 2
 
 # Pause
 PAUSE = False
@@ -191,7 +191,7 @@ class Player(object):
     def __init__(self):
         # Currently we only keep track of the player's health
         # Will add more attributes as needed
-        self.health = 3
+        self.health = 10
         self.score = 0
         self.max_ammo = 10
         self.ammo = self.max_ammo
@@ -255,7 +255,7 @@ class Gun(pygame.sprite.Sprite):
 
     def update(self):
         """Rotate the gun"""
-        self.image = pygame.transform.rotate(self.original_image, self.angle)
+
         if self.angle >= 70:
             self.turning_left = False
         elif self.angle <= -70:
@@ -265,7 +265,10 @@ class Gun(pygame.sprite.Sprite):
             self.angle += 2
         else:
             self.angle -= 2
-        self.rect = self.image.get_rect(center=self.rect.center)
+
+        self.image, self.rect = rot_center(
+            self.original_image, self.rect, self.angle
+        )
 
     def kill(self):
         """Remove the gun from the game"""
@@ -311,17 +314,23 @@ class Projectile(pygame.sprite.Sprite):
 class Missile(pygame.sprite.Sprite):
     """These missiles rain from the sky to attack the player"""
 
-    def __init__(self, pos):
+    missile_stats = [
+        {"speed": 3, "damage": -5},
+        {"speed": 4, "damage": -3},
+        {"speed": 6, "damage": -1},
+    ]
+
+    def __init__(self, pos, missile_type):
         super(Missile, self).__init__()
         self.image = pygame.image.load(
-            "assets/missiles/missile-1_fly-0.png"
+            f"assets/missiles/missile-{missile_type}_fly-0.png"
         ).convert_alpha()
         self.rect = self.image.get_rect(center=pos)
-        self.speed = 4
+        self.stats = self.missile_stats[missile_type - 1]
 
     def update(self):
         """Updates y pos to move down"""
-        self.rect[1] += self.speed
+        self.rect.y += self.stats["speed"]
 
     def off_screen(self):
         """Check if missile is off screen"""
@@ -507,6 +516,10 @@ def game_loop():
     missile_list = pygame.sprite.Group()
     projectile_list = pygame.sprite.Group()
 
+    missiles_to_spawn = random.choices(
+        [1, 2, 3], weights=[1, 2, 3], k=(DIFFICULTY * 10)
+    )
+
     player = Player()
     gun = Gun((DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
     all_sprites_list.add(gun)
@@ -553,11 +566,14 @@ def game_loop():
         if player.time_to_reload(game_time):
             player.reload()
 
-        # Randomly spawn missiles at rate based on difficulty level
         if random.randrange(150 // DIFFICULTY) == 0:
-            missile = Missile((random.randrange(DISPLAY_WIDTH), -600))
-            all_sprites_list.add(missile)
-            missile_list.add(missile)
+            if missiles_to_spawn:
+                missile_type = missiles_to_spawn.pop(0)
+                new_missile = Missile(
+                    (random.randrange(DISPLAY_WIDTH), -600), missile_type
+                )
+                all_sprites_list.add(new_missile)
+                missile_list.add(new_missile)
 
         all_sprites_list.update()
 
@@ -573,7 +589,7 @@ def game_loop():
         for missile in missile_list:
             if missile.off_screen():
                 missile.kill()
-                player.update_health(-1)
+                player.update_health(missile.stats["damage"])
                 if player.health <= 0:
                     game_over()
 
