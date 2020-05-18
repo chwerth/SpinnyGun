@@ -322,20 +322,29 @@ class Missile(pygame.sprite.Sprite):
 
     def __init__(self, pos, missile_type):
         super(Missile, self).__init__()
-        self.image = pygame.image.load(
-            f"assets/missiles/missile-{missile_type}_fly-0.png"
-        ).convert_alpha()
+        self.images = []
+        i = 0
+        while (i<10):
+            self.images.append(pygame.image.load(f"assets/missiles/missile-{missile_type}_fly-{i}.png").convert_alpha())
+            i += 1
+        self.index = 0
+        self.image = self.images[self.index]
+
         self.rect = self.image.get_rect(center=pos)
         self.stats = self.missile_stats[missile_type - 1]
 
     def update(self):
         """Updates y pos to move down"""
+        self.index += 1
+        if self.index >= len(self.images):
+            self.index = 0
         self.rect.y += self.stats["speed"]
+        self.image = self.images[self.index]
 
     def off_screen(self):
         """Check if missile is off screen"""
         return self.rect.y > DISPLAY_HEIGHT - self.image.get_height()
-
+    
     def kill(self):
         """Remove the projectile from the game"""
         pygame.sprite.Sprite.kill(self)
