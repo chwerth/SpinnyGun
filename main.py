@@ -324,13 +324,12 @@ class Missile(pygame.sprite.Sprite):
         super(Missile, self).__init__()
         self.images = []
         i = 0
-        while i < 10:
+        for i in range(10):
             self.images.append(
                 pygame.image.load(
                     f"assets/missiles/missile-{missile_type}_fly-{i}.png"
                 ).convert_alpha()
             )
-            i += 1
         self.index = 0
         self.image = self.images[self.index]
 
