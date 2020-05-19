@@ -2,7 +2,7 @@
 
 import pygame
 from math import cos, sin, radians
-import global_constants as G
+import global_variables as G
 
 
 class Missile(pygame.sprite.Sprite):

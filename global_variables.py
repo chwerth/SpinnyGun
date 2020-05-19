@@ -1,3 +1,4 @@
+"""Global constants and state variables"""
 import pygame
 
 # Init

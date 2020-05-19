@@ -1,5 +1,7 @@
+"""Game over screen"""
+
 import pygame
-import global_constants as G
+import global_variables as G
 from functions import exit_game, text_objects
 import game_loop as game
 import game_menu as menu

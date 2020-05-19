@@ -1,5 +1,7 @@
+"""Main menu"""
+
 import pygame
-import global_constants as G
+import global_variables as G
 from functions import exit_game, text_objects
 from sprites import Projectile, Gun, Button
 import game_loop as game

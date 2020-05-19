@@ -1,3 +1,8 @@
+"""
+Creates exe or installer using cx_Freeze
+Note: can only freeze for target OS on that OS.
+"""
+
 import sys
 from cx_Freeze import setup, Executable
 
