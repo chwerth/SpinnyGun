@@ -14,7 +14,6 @@ class Missile(pygame.sprite.Sprite):
     def __init__(self, display_height, pos, missile_type):
         super(Missile, self).__init__()
         self.images = []
-        i = 0
         for i in range(10):
             self.images.append(
                 pygame.image.load(
