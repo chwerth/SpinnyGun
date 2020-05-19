@@ -3,6 +3,7 @@ import global_variables as G
 import game_loop as game
 from functions import text_objects
 
+
 def new_round():
     pygame.mixer.music.stop()
 
