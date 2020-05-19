@@ -1,6 +1,6 @@
 """This module contains any helper functions"""
-import pygame
 import sys
+import pygame
 
 
 def exit_game():
