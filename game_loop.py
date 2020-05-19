@@ -8,6 +8,7 @@ from functions import exit_game, text_objects
 from paused import paused
 from game_over import game_over
 
+
 class Player(object):
     """Class for holding player information"""
 

@@ -4,6 +4,7 @@ from functions import exit_game, text_objects
 from sprites import Projectile, Gun, Button
 import game_loop as game
 
+
 def about_page():
     """The about page of RAstral Rampart"""
 
@@ -135,5 +136,3 @@ def game_menu():
 
         pygame.display.update()
         G.CLOCK.tick(60)
-
-

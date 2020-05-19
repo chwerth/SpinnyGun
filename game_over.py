@@ -4,6 +4,7 @@ from functions import exit_game, text_objects
 import game_loop as game
 import game_menu as menu
 
+
 def game_over():
     """Game over screen function"""
 
