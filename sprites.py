@@ -1,5 +1,6 @@
 import pygame
 from math import cos, sin, radians
+from global_constants import DISPLAY_WIDTH, DISPLAY_HEIGHT
 
 
 class Missile(pygame.sprite.Sprite):
@@ -11,7 +12,7 @@ class Missile(pygame.sprite.Sprite):
         {"speed": 6, "damage": -1},
     ]
 
-    def __init__(self, display_height, pos, missile_type):
+    def __init__(self, pos, missile_type):
         super(Missile, self).__init__()
         self.images = []
         for i in range(10):
@@ -22,7 +23,6 @@ class Missile(pygame.sprite.Sprite):
             )
         self.index = 0
         self.image = self.images[self.index]
-        self.display_height = display_height
         self.rect = self.image.get_rect(center=pos)
         self.stats = self.missile_stats[missile_type - 1]
 
@@ -36,7 +36,7 @@ class Missile(pygame.sprite.Sprite):
 
     def off_screen(self):
         """Check if missile is off screen"""
-        return self.rect.y > self.display_height - self.image.get_height()
+        return self.rect.y > DISPLAY_HEIGHT - self.image.get_height()
 
     def kill(self):
         """Remove the projectile from the game"""
@@ -74,7 +74,7 @@ class Button(pygame.sprite.Sprite):
 class Projectile(pygame.sprite.Sprite):
     """This is what the rotating gun fires"""
 
-    def __init__(self, pos, angle, display_dimensions, initial_offset=0):
+    def __init__(self, pos, angle, initial_offset=0):
         super(Projectile, self).__init__()
         self.image = pygame.image.load("assets/projectile.png").convert_alpha()
         self.rect = self.image.get_rect(
@@ -86,7 +86,6 @@ class Projectile(pygame.sprite.Sprite):
         self.speed = 5
         self.x_vel = -round(self.speed * sin(radians(angle)))
         self.y_vel = -round(self.speed * cos(radians(angle)))
-        self.display_dimensions = display_dimensions
 
     def update(self):
         """Update position of projectile"""
@@ -97,9 +96,9 @@ class Projectile(pygame.sprite.Sprite):
         """Check to see if projectile is off screen"""
 
         return (
-            self.rect.x > self.display_dimensions[0]
+            self.rect.x > DISPLAY_WIDTH
             or self.rect.x < 0
-            or self.rect.y > self.display_dimensions[1]
+            or self.rect.y > DISPLAY_HEIGHT
             or self.rect.y < 0
         )
 

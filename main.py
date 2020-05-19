@@ -2,19 +2,8 @@
 import random
 import sys
 from sprites import Missile, Projectile, Gun, Button
+from global_constants import *
 import pygame  # pylint: disable=import-error
-
-# Screen width and height
-DISPLAY_WIDTH = 800
-DISPLAY_HEIGHT = 800
-
-# Colors
-BLACK = (0, 0, 0)
-BLUE = (23, 212, 252)
-WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
-RED = (255, 0, 0)
-LIGHT_YELLOW = (247, 241, 49)
 
 # Difficulty setting
 DIFFICULTY = 2
@@ -22,25 +11,8 @@ DIFFICULTY = 2
 # Pause
 PAUSE = False
 
-# Initializing
-pygame.mixer.pre_init(22100, -16, 2, 64)
-pygame.init()
+# Seeding randomness
 random.seed()
-SCREEN = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
-pygame.display.set_caption("RAstral Rampart")
-ICON = pygame.image.load("assets/gun_icon.png").convert_alpha()
-pygame.display.set_icon(ICON)
-CLOCK = pygame.time.Clock()
-
-# Text
-GIANT_TEXT = pygame.font.Font("freesansbold.ttf", 115)
-BIG_TEXT = pygame.font.Font("freesansbold.ttf", 80)
-MEDIUM_TEXT = pygame.font.Font("freesansbold.ttf", 30)
-SMALL_TEXT = pygame.font.Font("freesansbold.ttf", 20)
-
-# Sound Effects
-SHOOT_FX = pygame.mixer.Sound("assets/audio/laser.wav")
-EXPLOSION_FX = pygame.mixer.Sound("assets/audio/explosion.wav")
 
 
 def exit_game():
@@ -336,8 +308,7 @@ def game_menu():
                     projectile = Projectile(
                         gun.rect.center,
                         gun.angle,
-                        (DISPLAY_WIDTH, DISPLAY_HEIGHT),
-                        gun.image.get_height() * 0.5,
+                        gun.image.get_height() * 0.5
                     )
                     all_sprites_list.add(projectile)
                     projectile_list.add(projectile)
@@ -418,8 +389,7 @@ def game_loop():
                     projectile = Projectile(
                         gun.rect.center,
                         gun.angle,
-                        (DISPLAY_WIDTH, DISPLAY_HEIGHT),
-                        gun.image.get_height() * 0.5,
+                        gun.image.get_height() * 0.5
                     )
                     all_sprites_list.add(projectile)
                     projectile_list.add(projectile)
@@ -435,9 +405,8 @@ def game_loop():
             if missiles_to_spawn:
                 missile_type = missiles_to_spawn.pop(0)
                 new_missile = Missile(
-                    DISPLAY_HEIGHT,
                     (random.randrange(DISPLAY_WIDTH), -600),
-                    missile_type,
+                    missile_type
                 )
                 all_sprites_list.add(new_missile)
                 missile_list.add(new_missile)
