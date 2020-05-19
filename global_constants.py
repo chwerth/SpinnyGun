@@ -41,6 +41,7 @@ PAUSE = False
 # Difficulty setting
 DIFFICULTY = 2
 
+
 class Background(
     pygame.sprite.Sprite
 ):  # pylint: disable=too-few-public-methods
@@ -51,6 +52,7 @@ class Background(
         self.image = pygame.image.load(image_file).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
+
 
 BACKGROUND_1 = Background("assets/space/space-1.png", [0, 0])
 BACKGROUND_2 = Background("assets/space/space-2.png", [0, 0])

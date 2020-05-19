@@ -8,9 +8,6 @@ from functions import exit_game, text_objects
 import pygame  # pylint: disable=import-error
 
 
-
-
-
 def game_over():
     """Game over screen function"""
 
@@ -67,8 +64,6 @@ def game_over():
         G.CLOCK.tick(15)
 
 
-
-
 class Player(object):
     """Class for holding player information"""
 
@@ -105,8 +100,6 @@ class Player(object):
             self.ammo == 0
             and game_time - self.reload_start_time > self.reload_duration
         )
-
-
 
 
 def about_page():

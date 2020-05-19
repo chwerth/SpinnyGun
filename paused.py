@@ -2,6 +2,7 @@ import pygame
 import global_constants as G
 from functions import exit_game, text_objects
 
+
 def unpause():
     """
     Uses global variable
