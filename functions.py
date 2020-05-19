@@ -2,6 +2,7 @@
 import pygame
 import sys
 
+
 def exit_game():
     """Exits the game"""
     pygame.quit()
