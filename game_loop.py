@@ -2,7 +2,7 @@
 
 import random
 import pygame
-import global_constants as G
+import global_variables as G
 from sprites import Missile, Projectile, Gun
 from functions import exit_game, text_objects
 from paused import paused
