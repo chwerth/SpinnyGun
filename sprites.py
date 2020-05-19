@@ -1,3 +1,5 @@
+"""Contains all our sprites"""
+
 import pygame
 from math import cos, sin, radians
 import global_constants as G

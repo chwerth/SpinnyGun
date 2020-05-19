@@ -1,3 +1,4 @@
+"""Contains pause screen and unpause screen"""
 import pygame
 import global_constants as G
 from functions import exit_game, text_objects
