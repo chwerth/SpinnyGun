@@ -3,10 +3,11 @@
 import random
 import pygame
 import global_variables as G
-from sprites import Missile, Projectile, Gun
+import sprites
 from functions import exit_game, text_objects
-from paused import paused
-from game_over import game_over
+import paused
+import game_over
+import new_round
 
 
 class Player(object):
@@ -66,7 +67,7 @@ def game_loop():
     )
 
     player = Player()
-    gun = Gun((G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.875))
+    gun = sprites.Gun((G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.875))
     all_sprites_list.add(gun)
 
     delta_t = 0
@@ -96,7 +97,7 @@ def game_loop():
                     if player.ammo == 0:
                         player.reload_start_time = game_time
                     pygame.mixer.Sound.play(G.SHOOT_FX)
-                    projectile = Projectile(
+                    projectile = sprites.Projectile(
                         gun.rect.center,
                         gun.angle,
                         gun.image.get_height() * 0.5,
@@ -105,7 +106,7 @@ def game_loop():
                     projectile_list.add(projectile)
                 if event.key == pygame.K_ESCAPE:
                     G.PAUSE = True
-                    paused()
+                    paused.paused()
 
         # Reload
         if player.time_to_reload(game_time):
@@ -114,7 +115,7 @@ def game_loop():
         if random.randrange(150 // G.DIFFICULTY) == 0:
             if missiles_to_spawn:
                 missile_type = missiles_to_spawn.pop(0)
-                new_missile = Missile(
+                new_missile = sprites.Missile(
                     (random.randrange(G.DISPLAY_WIDTH), -600), missile_type
                 )
                 all_sprites_list.add(new_missile)
@@ -136,7 +137,7 @@ def game_loop():
                 missile.kill()
                 player.update_health(missile.stats["damage"])
                 if player.health <= 0:
-                    game_over()
+                    game_over.game_over()
 
         # Paint the background G.WHITE
         G.SCREEN.fill(G.WHITE)
@@ -151,3 +152,7 @@ def game_loop():
 
         # Store time since last tick in seconds
         delta_t = G.CLOCK.tick(60) / 1000
+
+        if not missiles_to_spawn and not missile_list:
+            G.DIFFICULTY += 1
+            new_round.new_round()

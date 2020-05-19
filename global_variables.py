@@ -40,7 +40,7 @@ CLOCK = pygame.time.Clock()
 PAUSE = False
 
 # Difficulty setting
-DIFFICULTY = 2
+DIFFICULTY = 1
 
 
 class Background(
