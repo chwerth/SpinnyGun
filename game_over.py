@@ -3,7 +3,7 @@
 import pygame
 import global_variables as G
 from functions import exit_game, text_objects
-import game_loop as game
+import new_round
 import game_menu as menu
 
 
@@ -54,7 +54,8 @@ def game_over():
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_p:
-                    game.game_loop()
+                    G.DIFFICULTY = 1
+                    new_round.new_round()
                 if event.key == pygame.K_m:
                     menu.game_menu()
                 if event.key == pygame.K_q:

@@ -3,8 +3,8 @@
 import pygame
 import global_variables as G
 from functions import exit_game, text_objects
-from sprites import Projectile, Gun, Button
-import game_loop as game
+import sprites
+import new_round
 
 
 def about_page():
@@ -58,19 +58,19 @@ def game_menu():
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1)
 
-    start_button = Button(
+    start_button = sprites.Button(
         G.SMALL_TEXT.render("Start", True, G.BLACK),
         ((G.DISPLAY_WIDTH * 0.16), (G.DISPLAY_HEIGHT * 0.65), 100, 50),
         G.GREEN,
-        game.game_loop,
+        new_round.new_round,
     )
-    about_button = Button(
+    about_button = sprites.Button(
         G.SMALL_TEXT.render("About", True, G.BLACK),
         ((G.DISPLAY_WIDTH * 0.43), (G.DISPLAY_HEIGHT * 0.5), 100, 50),
         G.LIGHT_YELLOW,
         about_page,
     )
-    quit_button = Button(
+    quit_button = sprites.Button(
         G.SMALL_TEXT.render("Quit", True, G.BLACK),
         ((G.DISPLAY_WIDTH * 0.70), (G.DISPLAY_HEIGHT * 0.65), 100, 50),
         G.RED,
@@ -97,8 +97,10 @@ def game_menu():
     all_sprites_list.add(start_button, about_button, quit_button)
     buttons_list.add(start_button, about_button, quit_button)
 
-    gun = Gun((G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.875))
+    gun = sprites.Gun((G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.875))
     all_sprites_list.add(gun)
+
+    G.DIFFICULTY = 1
 
     while True:
         for event in pygame.event.get():
@@ -108,7 +110,7 @@ def game_menu():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     pygame.mixer.Sound.play(G.SHOOT_FX)
-                    projectile = Projectile(
+                    projectile = sprites.Projectile(
                         gun.rect.center,
                         gun.angle,
                         gun.image.get_height() * 0.5,
