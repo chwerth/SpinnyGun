@@ -1,6 +1,6 @@
 import pygame
 from math import cos, sin, radians
-from global_constants import DISPLAY_WIDTH, DISPLAY_HEIGHT
+import global_constants as G
 
 
 class Missile(pygame.sprite.Sprite):
@@ -36,7 +36,7 @@ class Missile(pygame.sprite.Sprite):
 
     def off_screen(self):
         """Check if missile is off screen"""
-        return self.rect.y > DISPLAY_HEIGHT - self.image.get_height()
+        return self.rect.y > G.DISPLAY_HEIGHT - self.image.get_height()
 
     def kill(self):
         """Remove the projectile from the game"""
@@ -96,9 +96,9 @@ class Projectile(pygame.sprite.Sprite):
         """Check to see if projectile is off screen"""
 
         return (
-            self.rect.x > DISPLAY_WIDTH
+            self.rect.x > G.DISPLAY_WIDTH
             or self.rect.x < 0
-            or self.rect.y > DISPLAY_HEIGHT
+            or self.rect.y > G.DISPLAY_HEIGHT
             or self.rect.y < 0
         )
 

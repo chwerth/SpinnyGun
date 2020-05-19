@@ -34,3 +34,23 @@ pygame.display.set_icon(ICON)
 
 # Clock
 CLOCK = pygame.time.Clock()
+
+# Pause
+PAUSE = False
+
+# Difficulty setting
+DIFFICULTY = 2
+
+class Background(
+    pygame.sprite.Sprite
+):  # pylint: disable=too-few-public-methods
+    """Class for the background for convenience"""
+
+    def __init__(self, image_file, location):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(image_file).convert_alpha()
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location
+
+BACKGROUND_1 = Background("assets/space/space-1.png", [0, 0])
+BACKGROUND_2 = Background("assets/space/space-2.png", [0, 0])

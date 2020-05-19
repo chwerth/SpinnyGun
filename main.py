@@ -2,30 +2,13 @@
 import random
 import sys
 from sprites import Missile, Projectile, Gun, Button
-from global_constants import *
+import global_constants as G
+from paused import paused, unpause
+from functions import exit_game, text_objects
 import pygame  # pylint: disable=import-error
 
-# Difficulty setting
-DIFFICULTY = 2
-
-# Pause
-PAUSE = False
-
-# Seeding randomness
-random.seed()
 
 
-def exit_game():
-    """Exits the game"""
-    pygame.quit()
-    sys.exit()
-
-
-def text_objects(text, font, color, pos):
-    """Return text surface and rect"""
-    text_surface = font.render(text, True, color)
-    text_rect = text_surface.get_rect(center=pos)
-    return text_surface, text_rect
 
 
 def game_over():
@@ -35,37 +18,37 @@ def game_over():
 
     game_over_surf_1, game_over_rect_1 = text_objects(
         "GAME OVER",
-        GIANT_TEXT,
-        RED,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.35),
+        G.GIANT_TEXT,
+        G.RED,
+        (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.35),
     )
     game_over_surf_2, game_over_rect_2 = text_objects(
         "Press 'p' to play again",
-        MEDIUM_TEXT,
-        WHITE,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.55),
+        G.MEDIUM_TEXT,
+        G.WHITE,
+        (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.55),
     )
 
     game_over_surf_3, game_over_rect_3 = text_objects(
         "Press 'm' to return to menu",
-        MEDIUM_TEXT,
-        WHITE,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.65),
+        G.MEDIUM_TEXT,
+        G.WHITE,
+        (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.65),
     )
 
     game_over_surf_4, game_over_rect_4 = text_objects(
         "Press 'q' to Quit",
-        MEDIUM_TEXT,
-        WHITE,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.75),
+        G.MEDIUM_TEXT,
+        G.WHITE,
+        (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.75),
     )
 
-    SCREEN.fill(WHITE)
-    SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
-    SCREEN.blit(game_over_surf_1, game_over_rect_1)
-    SCREEN.blit(game_over_surf_2, game_over_rect_2)
-    SCREEN.blit(game_over_surf_3, game_over_rect_3)
-    SCREEN.blit(game_over_surf_4, game_over_rect_4)
+    G.SCREEN.fill(G.WHITE)
+    G.SCREEN.blit(G.BACKGROUND_2.image, G.BACKGROUND_2.rect)
+    G.SCREEN.blit(game_over_surf_1, game_over_rect_1)
+    G.SCREEN.blit(game_over_surf_2, game_over_rect_2)
+    G.SCREEN.blit(game_over_surf_3, game_over_rect_3)
+    G.SCREEN.blit(game_over_surf_4, game_over_rect_4)
     pygame.display.update()
 
     while True:
@@ -81,73 +64,9 @@ def game_over():
                 if event.key == pygame.K_q:
                     exit_game()
 
-        CLOCK.tick(15)
+        G.CLOCK.tick(15)
 
 
-def unpause():
-    """
-    Uses global variable
-    to unpause
-    """
-    global PAUSE  # pylint: disable=global-statement
-    pygame.mixer.music.unpause()
-    PAUSE = False
-
-
-def paused():
-    """Pause screen function"""
-
-    pygame.mixer.music.pause()
-
-    pause_surf_1, pause_rect_1 = text_objects(
-        "PAUSED",
-        GIANT_TEXT,
-        LIGHT_YELLOW,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.35),
-    )
-
-    pause_instructions_surf_1, pause_instructions_rect_1 = text_objects(
-        "Press 'ESC' to resume",
-        MEDIUM_TEXT,
-        WHITE,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.55),
-    )
-
-    pause_instructions_surf_2, pause_instructions_rect_2 = text_objects(
-        "Press 'm' to return to menu",
-        MEDIUM_TEXT,
-        WHITE,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.65),
-    )
-
-    pause_instructions_surf_3, pause_instructions_rect_3 = text_objects(
-        "Press 'q' to quit",
-        MEDIUM_TEXT,
-        WHITE,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.75),
-    )
-
-    SCREEN.fill(WHITE)
-    SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
-    SCREEN.blit(pause_surf_1, pause_rect_1)
-    SCREEN.blit(pause_instructions_surf_1, pause_instructions_rect_1)
-    SCREEN.blit(pause_instructions_surf_2, pause_instructions_rect_2)
-    SCREEN.blit(pause_instructions_surf_3, pause_instructions_rect_3)
-    pygame.display.update()
-
-    while PAUSE:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit_game()
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_ESCAPE:
-                    unpause()
-                if event.key == pygame.K_m:
-                    game_menu()
-                if event.key == pygame.K_q:
-                    exit_game()
-
-        CLOCK.tick(15)
 
 
 class Player(object):
@@ -188,20 +107,6 @@ class Player(object):
         )
 
 
-class Background(
-    pygame.sprite.Sprite
-):  # pylint: disable=too-few-public-methods
-    """Class for the background for convenience"""
-
-    def __init__(self, image_file, location):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(image_file).convert_alpha()
-        self.rect = self.image.get_rect()
-        self.rect.left, self.rect.top = location
-
-
-BACKGROUND_1 = Background("assets/space/space-1.png", [0, 0])
-BACKGROUND_2 = Background("assets/space/space-2.png", [0, 0])
 
 
 def about_page():
@@ -211,28 +116,28 @@ def about_page():
 
     credit_surf_1, credit_rect_1 = text_objects(
         "RAstral Rampart was created by Caleb Werth and",
-        MEDIUM_TEXT,
-        WHITE,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.375),
+        G.MEDIUM_TEXT,
+        G.WHITE,
+        (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.375),
     )
     credit_surf_2, credit_rect_2 = text_objects(
         "Russell Spry. Original idea by Aaron Werth.",
-        MEDIUM_TEXT,
-        WHITE,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.4375),
+        G.MEDIUM_TEXT,
+        G.WHITE,
+        (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.4375),
     )
     instructions_surf, instructions_rect = text_objects(
         "Press space to return to menu",
-        MEDIUM_TEXT,
-        WHITE,
-        (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.65),
+        G.MEDIUM_TEXT,
+        G.WHITE,
+        (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.65),
     )
 
-    SCREEN.fill(WHITE)
-    SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
-    SCREEN.blit(credit_surf_1, credit_rect_1)
-    SCREEN.blit(credit_surf_2, credit_rect_2)
-    SCREEN.blit(instructions_surf, instructions_rect)
+    G.SCREEN.fill(G.WHITE)
+    G.SCREEN.blit(G.BACKGROUND_2.image, G.BACKGROUND_2.rect)
+    G.SCREEN.blit(credit_surf_1, credit_rect_1)
+    G.SCREEN.blit(credit_surf_2, credit_rect_2)
+    G.SCREEN.blit(instructions_surf, instructions_rect)
 
     while True:
         for event in pygame.event.get():
@@ -244,7 +149,7 @@ def about_page():
                     game_menu()
 
         pygame.display.update()
-        CLOCK.tick(15)
+        G.CLOCK.tick(15)
 
 
 def game_menu():
@@ -256,35 +161,35 @@ def game_menu():
     pygame.mixer.music.play(-1)
 
     start_button = Button(
-        SMALL_TEXT.render("Start", True, BLACK),
-        ((DISPLAY_WIDTH * 0.16), (DISPLAY_HEIGHT * 0.65), 100, 50),
-        GREEN,
+        G.SMALL_TEXT.render("Start", True, G.BLACK),
+        ((G.DISPLAY_WIDTH * 0.16), (G.DISPLAY_HEIGHT * 0.65), 100, 50),
+        G.GREEN,
         game_loop,
     )
     about_button = Button(
-        SMALL_TEXT.render("About", True, BLACK),
-        ((DISPLAY_WIDTH * 0.43), (DISPLAY_HEIGHT * 0.5), 100, 50),
-        LIGHT_YELLOW,
+        G.SMALL_TEXT.render("About", True, G.BLACK),
+        ((G.DISPLAY_WIDTH * 0.43), (G.DISPLAY_HEIGHT * 0.5), 100, 50),
+        G.LIGHT_YELLOW,
         about_page,
     )
     quit_button = Button(
-        SMALL_TEXT.render("Quit", True, BLACK),
-        ((DISPLAY_WIDTH * 0.70), (DISPLAY_HEIGHT * 0.65), 100, 50),
-        RED,
+        G.SMALL_TEXT.render("Quit", True, G.BLACK),
+        ((G.DISPLAY_WIDTH * 0.70), (G.DISPLAY_HEIGHT * 0.65), 100, 50),
+        G.RED,
         exit_game,
     )
 
     text_surf_title, text_rect_title = text_objects(
         "RAstral Rampart",
-        BIG_TEXT,
-        WHITE,
-        ((DISPLAY_WIDTH * 0.5), (DISPLAY_HEIGHT * 0.2)),
+        G.BIG_TEXT,
+        G.WHITE,
+        ((G.DISPLAY_WIDTH * 0.5), (G.DISPLAY_HEIGHT * 0.2)),
     )
     text_surf_space, text_rect_space = text_objects(
         "Press Space To Shoot!",
-        MEDIUM_TEXT,
-        WHITE,
-        ((DISPLAY_WIDTH * 0.5), (DISPLAY_HEIGHT * 0.32)),
+        G.MEDIUM_TEXT,
+        G.WHITE,
+        ((G.DISPLAY_WIDTH * 0.5), (G.DISPLAY_HEIGHT * 0.32)),
     )
 
     all_sprites_list = pygame.sprite.Group()
@@ -294,7 +199,7 @@ def game_menu():
     all_sprites_list.add(start_button, about_button, quit_button)
     buttons_list.add(start_button, about_button, quit_button)
 
-    gun = Gun((DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
+    gun = Gun((G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.875))
     all_sprites_list.add(gun)
 
     while True:
@@ -304,7 +209,7 @@ def game_menu():
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
-                    pygame.mixer.Sound.play(SHOOT_FX)
+                    pygame.mixer.Sound.play(G.SHOOT_FX)
                     projectile = Projectile(
                         gun.rect.center,
                         gun.angle,
@@ -326,20 +231,19 @@ def game_menu():
             if projectile.off_screen():
                 projectile.kill()
 
-        SCREEN.fill(WHITE)
-        SCREEN.blit(BACKGROUND_2.image, BACKGROUND_2.rect)
-        SCREEN.blit(text_surf_title, text_rect_title)
-        SCREEN.blit(text_surf_space, text_rect_space)
+        G.SCREEN.fill(G.WHITE)
+        G.SCREEN.blit(G.BACKGROUND_2.image, G.BACKGROUND_2.rect)
+        G.SCREEN.blit(text_surf_title, text_rect_title)
+        G.SCREEN.blit(text_surf_space, text_rect_space)
 
-        all_sprites_list.draw(SCREEN)
+        all_sprites_list.draw(G.SCREEN)
 
         pygame.display.update()
-        CLOCK.tick(60)
+        G.CLOCK.tick(60)
 
 
 def game_loop():
     """The main game loop"""
-    global PAUSE  # pylint: disable=global-statement
 
     # This is for the in-game background music
     pygame.mixer.music.stop()
@@ -351,12 +255,13 @@ def game_loop():
     missile_list = pygame.sprite.Group()
     projectile_list = pygame.sprite.Group()
 
+    random.seed()
     missiles_to_spawn = random.choices(
-        [1, 2, 3], weights=[1, 2, 3], k=(DIFFICULTY * 10)
+        [1, 2, 3], weights=[1, 2, 3], k=(G.DIFFICULTY * 10)
     )
 
     player = Player()
-    gun = Gun((DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.875))
+    gun = Gun((G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.875))
     all_sprites_list.add(gun)
 
     delta_t = 0
@@ -370,9 +275,9 @@ def game_loop():
         # Creates scoreboard
         scoreboard_surf, scoreboard_rect = text_objects(
             "Score: " + str(player.score),
-            SMALL_TEXT,
-            WHITE,
-            ((DISPLAY_WIDTH * 0.058), (DISPLAY_HEIGHT * 0.025)),
+            G.SMALL_TEXT,
+            G.WHITE,
+            ((G.DISPLAY_WIDTH * 0.058), (G.DISPLAY_HEIGHT * 0.025)),
         )
 
         for event in pygame.event.get():
@@ -385,7 +290,7 @@ def game_loop():
                     player.pew()
                     if player.ammo == 0:
                         player.reload_start_time = game_time
-                    pygame.mixer.Sound.play(SHOOT_FX)
+                    pygame.mixer.Sound.play(G.SHOOT_FX)
                     projectile = Projectile(
                         gun.rect.center,
                         gun.angle,
@@ -394,18 +299,18 @@ def game_loop():
                     all_sprites_list.add(projectile)
                     projectile_list.add(projectile)
                 if event.key == pygame.K_ESCAPE:
-                    PAUSE = True
+                    G.PAUSE = True
                     paused()
 
         # Reload
         if player.time_to_reload(game_time):
             player.reload()
 
-        if random.randrange(150 // DIFFICULTY) == 0:
+        if random.randrange(150 // G.DIFFICULTY) == 0:
             if missiles_to_spawn:
                 missile_type = missiles_to_spawn.pop(0)
                 new_missile = Missile(
-                    (random.randrange(DISPLAY_WIDTH), -600), missile_type
+                    (random.randrange(G.DISPLAY_WIDTH), -600), missile_type
                 )
                 all_sprites_list.add(new_missile)
                 missile_list.add(new_missile)
@@ -414,7 +319,7 @@ def game_loop():
 
         for projectile in projectile_list:
             if pygame.sprite.spritecollide(projectile, missile_list, True):
-                pygame.mixer.Sound.play(EXPLOSION_FX)
+                pygame.mixer.Sound.play(G.EXPLOSION_FX)
                 projectile.kill()
                 player.update_score(1)
 
@@ -428,19 +333,19 @@ def game_loop():
                 if player.health <= 0:
                     game_over()
 
-        # Paint the background WHITE
-        SCREEN.fill(WHITE)
-        SCREEN.blit(BACKGROUND_1.image, BACKGROUND_1.rect)
-        SCREEN.blit(scoreboard_surf, scoreboard_rect)
+        # Paint the background G.WHITE
+        G.SCREEN.fill(G.WHITE)
+        G.SCREEN.blit(G.BACKGROUND_1.image, G.BACKGROUND_1.rect)
+        G.SCREEN.blit(scoreboard_surf, scoreboard_rect)
 
         # Draw all sprites
-        all_sprites_list.draw(SCREEN)
+        all_sprites_list.draw(G.SCREEN)
 
         # Move all background changes to the foreground
         pygame.display.update()
 
         # Store time since last tick in seconds
-        delta_t = CLOCK.tick(60) / 1000
+        delta_t = G.CLOCK.tick(60) / 1000
 
 
 if __name__ == "__main__":
