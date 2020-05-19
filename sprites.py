@@ -1,6 +1,7 @@
 import pygame
 from math import cos, sin, radians
 
+
 class Missile(pygame.sprite.Sprite):
     """These missiles rain from the sky to attack the player"""
 
@@ -42,6 +43,7 @@ class Missile(pygame.sprite.Sprite):
         """Remove the projectile from the game"""
         pygame.sprite.Sprite.kill(self)
 
+
 class Button(pygame.sprite.Sprite):
     """Generic button with text"""
 
@@ -79,7 +81,7 @@ class Projectile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(
             center=(
                 pos[0] - round(initial_offset * sin(radians(angle))),
-                pos[1] - round(initial_offset * cos(radians(angle)))
+                pos[1] - round(initial_offset * cos(radians(angle))),
             )
         )
         self.speed = 5

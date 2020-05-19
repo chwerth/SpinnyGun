@@ -337,7 +337,7 @@ def game_menu():
                         gun.rect.center,
                         gun.angle,
                         (DISPLAY_WIDTH, DISPLAY_HEIGHT),
-                        gun.image.get_height() * 0.5
+                        gun.image.get_height() * 0.5,
                     )
                     all_sprites_list.add(projectile)
                     projectile_list.add(projectile)
@@ -419,7 +419,7 @@ def game_loop():
                         gun.rect.center,
                         gun.angle,
                         (DISPLAY_WIDTH, DISPLAY_HEIGHT),
-                        gun.image.get_height() * 0.5
+                        gun.image.get_height() * 0.5,
                     )
                     all_sprites_list.add(projectile)
                     projectile_list.add(projectile)
@@ -435,7 +435,9 @@ def game_loop():
             if missiles_to_spawn:
                 missile_type = missiles_to_spawn.pop(0)
                 new_missile = Missile(
-                    DISPLAY_HEIGHT, (random.randrange(DISPLAY_WIDTH), -600), missile_type
+                    DISPLAY_HEIGHT,
+                    (random.randrange(DISPLAY_WIDTH), -600),
+                    missile_type,
                 )
                 all_sprites_list.add(new_missile)
                 missile_list.add(new_missile)
