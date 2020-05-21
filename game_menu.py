@@ -31,7 +31,9 @@ def about_page():
         (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.7),
     )
 
-    pygame_powered = pygame.image.load("assets/pygame_powered.gif").convert_alpha()
+    pygame_powered = pygame.image.load(
+        "assets/pygame_powered.gif"
+    ).convert_alpha()
     pygame_powered_rect = pygame_powered.get_rect(
         center=(G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.57)
     )
