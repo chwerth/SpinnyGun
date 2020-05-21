@@ -16,13 +16,13 @@ def about_page():
         "RAstral Rampart was created by Caleb Werth and",
         G.MEDIUM_TEXT,
         G.WHITE,
-        (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.375),
+        (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.35),
     )
     credit_surf_2, credit_rect_2 = text_objects(
         "Russell Spry. Original idea by Aaron Werth.",
         G.MEDIUM_TEXT,
         G.WHITE,
-        (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.4375),
+        (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.40),
     )
     instructions_surf, instructions_rect = text_objects(
         "Press space to return to menu",
@@ -35,7 +35,7 @@ def about_page():
         "assets/pygame_powered.gif"
     ).convert_alpha()
     pygame_powered_rect = pygame_powered.get_rect(
-        center=(G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.57)
+        center=(G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.52)
     )
 
     G.SCREEN.fill(G.WHITE)
