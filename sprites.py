@@ -17,6 +17,7 @@ class Missile(pygame.sprite.Sprite):
     def __init__(self, pos, missile_type):
         super(Missile, self).__init__()
         self.images = []
+        self.missile_type = missile_type
         for i in range(10):
             self.images.append(
                 pygame.image.load(
@@ -26,23 +27,52 @@ class Missile(pygame.sprite.Sprite):
         self.index = 0
         self.image = self.images[self.index]
         self.rect = self.image.get_rect(center=pos)
+        self.last_update = pygame.time.get_ticks()
+        self.frame_rate = 30
         self.stats = self.missile_stats[missile_type - 1]
 
     def update(self):
-        """Updates y pos to move down"""
-        self.index += 1
-        if self.index >= len(self.images):
-            self.index = 0
         self.rect.y += self.stats["speed"]
-        self.image = self.images[self.index]
+        now = pygame.time.get_ticks()
+        if now - self.last_update > self.frame_rate:
+            self.last_update = now
+            self.index += 1
+            if self.index == len(self.images):
+                self.index = 0
+            self.image = self.images[self.index]
 
     def off_screen(self):
         """Check if missile is off screen"""
-        return self.rect.y > G.DISPLAY_HEIGHT - self.image.get_height()
+        return self.rect.y > G.DISPLAY_HEIGHT - (self.image.get_height() * 0.8)
 
-    def kill(self):
-        """Remove the projectile from the game"""
-        pygame.sprite.Sprite.kill(self)
+
+class Missile_Explosion(pygame.sprite.Sprite):
+    """A missile explosion"""
+
+    def __init__(self, pos, missile_type):
+        super(Missile_Explosion, self).__init__()
+        self.images = []
+        for i in range(9):
+            self.images.append(
+                pygame.image.load(
+                    f"assets/missiles/missile-{missile_type}_exp-{i}.png"
+                ).convert_alpha()
+            )
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = self.image.get_rect(center=pos)
+        self.last_update = pygame.time.get_ticks()
+        self.frame_rate = 45
+
+    def update(self):
+        now = pygame.time.get_ticks()
+        if now - self.last_update > self.frame_rate:
+            self.last_update = now
+            self.index += 1
+            if self.index == len(self.images):
+                self.kill()
+            else:
+                self.image = self.images[self.index]
 
 
 class Button(pygame.sprite.Sprite):
@@ -52,12 +82,10 @@ class Button(pygame.sprite.Sprite):
         super(Button, self).__init__()
         self.rect = pygame.Rect(rect)
         self.image = pygame.Surface(self.rect.size)
-
         button_rect = button_text.get_rect()
         button_rect.center = (
             pygame.Vector2(self.rect.center) - self.rect.topleft
         )
-
         pygame.draw.rect(
             self.image, color, self.image.get_rect(), border_radius=12
         )
@@ -67,10 +95,6 @@ class Button(pygame.sprite.Sprite):
     def hit(self):
         """What the button does when hit"""
         self.function()
-
-    def kill(self):
-        """Remove button from game"""
-        pygame.sprite.Sprite.kill(self)
 
 
 class Projectile(pygame.sprite.Sprite):
@@ -104,10 +128,6 @@ class Projectile(pygame.sprite.Sprite):
             or self.rect.y < 0
         )
 
-    def kill(self):
-        """Remove the projectile from the game"""
-        pygame.sprite.Sprite.kill(self)
-
 
 class Gun(pygame.sprite.Sprite):
     """The rotating gun the player fires"""
@@ -138,7 +158,3 @@ class Gun(pygame.sprite.Sprite):
 
         self.image = pygame.transform.rotate(self.original_image, self.angle)
         self.rect = self.image.get_rect(center=self.rect.center)
-
-    def kill(self):
-        """Remove the gun from the game"""
-        pygame.sprite.Sprite.kill(self)

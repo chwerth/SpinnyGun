@@ -124,7 +124,15 @@ def game_loop():
         all_sprites_list.update()
 
         for projectile in projectile_list:
-            if pygame.sprite.spritecollide(projectile, missile_list, True):
+            hit_missile_list = pygame.sprite.spritecollide(
+                projectile, missile_list, True
+            )
+            for hit_missile in hit_missile_list:
+                all_sprites_list.add(
+                    sprites.Missile_Explosion(
+                        hit_missile.rect.center, hit_missile.missile_type
+                    )
+                )
                 pygame.mixer.Sound.play(G.EXPLOSION_FX)
                 projectile.kill()
                 player.update_score(1)
@@ -135,6 +143,12 @@ def game_loop():
         for missile in missile_list:
             if missile.off_screen():
                 missile.kill()
+                all_sprites_list.add(
+                    sprites.Missile_Explosion(
+                        missile.rect.center, missile.missile_type
+                    )
+                )
+                pygame.mixer.Sound.play(G.EXPLOSION_FX)
                 player.update_health(missile.stats["damage"])
                 if player.health <= 0:
                     game_over.game_over()
