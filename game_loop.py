@@ -49,15 +49,19 @@ class Player(object):
 
 
 class Hud(object):
-
     def __init__(self, health, score, ammo):
         self.health = health
         self.score = score
-        self.image = pygame.image.load('assets/gun_icon.png').convert_alpha()
+        self.image = pygame.image.load("assets/gun_icon.png").convert_alpha()
 
     def draw_health(self, health):
         for i in range(health):
-            img_rect = self.image.get_rect(center=(G.DISPLAY_WIDTH - (30 * (i + 1)), G.DISPLAY_HEIGHT * 0.97))
+            img_rect = self.image.get_rect(
+                center=(
+                    G.DISPLAY_WIDTH - (30 * (i + 1)),
+                    G.DISPLAY_HEIGHT * 0.97,
+                )
+            )
             G.SCREEN.blit(self.image, img_rect)
 
     def draw_score(self, score):
@@ -70,7 +74,7 @@ class Hud(object):
         G.SCREEN.blit(scoreboard_surf, scoreboard_rect)
 
     def draw_ammo(self, ammo):
-        if (ammo == 0): 
+        if ammo == 0:
             ammo_status = "Reloading"
         else:
             ammo_status = str(ammo)
@@ -90,6 +94,7 @@ class Hud(object):
             ((G.DISPLAY_WIDTH * 0.5), (G.DISPLAY_HEIGHT * 0.05)),
         )
         G.SCREEN.blit(control_surf, control_rect)
+
 
 def game_loop():
     """The main game loop"""
@@ -124,8 +129,6 @@ def game_loop():
         game_time += delta_t
 
         # Creates scoreboard
-       
-
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
