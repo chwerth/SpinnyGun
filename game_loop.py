@@ -49,8 +49,6 @@ class Player(object):
         )
 
 
-
-
 def game_loop():
     """The main game loop"""
 

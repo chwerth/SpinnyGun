@@ -2,6 +2,7 @@ import pygame
 import global_variables as G
 from functions import text_objects
 
+
 class Hud(object):
     def __init__(self, health, score, ammo):
         self.health = health
