@@ -48,6 +48,20 @@ class Player(object):
         )
 
 
+class Hud(object):
+
+    def __init__(self, health, score):
+        self.health = health
+        self.score = score
+        self.image = pygame.image.load('assets/gun_icon.png').convert_alpha()
+
+    def draw_health(self, health):
+        for i in range(health):
+            img_rect = image.get_rect()
+            img_rect.x = G.DISPLAY_WIDTH + 30 * i
+            img_rect.y = 5
+            G.SCREEN.blit(image, img_rect)
+
 def game_loop():
     """The main game loop"""
 
@@ -70,6 +84,8 @@ def game_loop():
     gun = sprites.Gun((G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.875))
     all_sprites_list.add(gun)
 
+    hud = Hud(player.health, player.score)
+
     delta_t = 0
     game_time = 0
 
@@ -85,6 +101,8 @@ def game_loop():
             G.WHITE,
             ((G.DISPLAY_WIDTH * 0.058), (G.DISPLAY_HEIGHT * 0.025)),
         )
+
+        hud.draw_health(player.health)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -124,7 +142,15 @@ def game_loop():
         all_sprites_list.update()
 
         for projectile in projectile_list:
-            if pygame.sprite.spritecollide(projectile, missile_list, True):
+            hit_missile_list = pygame.sprite.spritecollide(
+                projectile, missile_list, True
+            )
+            for hit_missile in hit_missile_list:
+                all_sprites_list.add(
+                    sprites.Missile_Explosion(
+                        hit_missile.rect.center, hit_missile.missile_type
+                    )
+                )
                 pygame.mixer.Sound.play(G.EXPLOSION_FX)
                 projectile.kill()
                 player.update_score(1)
@@ -135,6 +161,12 @@ def game_loop():
         for missile in missile_list:
             if missile.off_screen():
                 missile.kill()
+                all_sprites_list.add(
+                    sprites.Missile_Explosion(
+                        missile.rect.center, missile.missile_type
+                    )
+                )
+                pygame.mixer.Sound.play(G.EXPLOSION_FX)
                 player.update_health(missile.stats["damage"])
                 if player.health <= 0:
                     game_over.game_over()
