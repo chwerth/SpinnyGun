@@ -50,7 +50,7 @@ class Player(object):
 
 class Hud(object):
 
-    def __init__(self, health, score):
+    def __init__(self, health, score, ammo):
         self.health = health
         self.score = score
         self.image = pygame.image.load('assets/gun_icon.png').convert_alpha()
@@ -59,6 +59,28 @@ class Hud(object):
         for i in range(health):
             img_rect = self.image.get_rect(center=(G.DISPLAY_WIDTH - (30 * (i + 1)), G.DISPLAY_HEIGHT * 0.97))
             G.SCREEN.blit(self.image, img_rect)
+
+    def draw_score(self, score):
+        scoreboard_surf, scoreboard_rect = text_objects(
+            "Score: " + str(score),
+            G.SMALL_TEXT,
+            G.WHITE,
+            ((G.DISPLAY_WIDTH * 0.058), (G.DISPLAY_HEIGHT * 0.025)),
+        )
+        G.SCREEN.blit(scoreboard_surf, scoreboard_rect)
+
+    def draw_ammo(self, ammo):
+        if (ammo == 0): 
+            ammo_status = "Reloading"
+        else:
+            ammo_status = str(ammo)
+        ammo_surf, ammo_rect = text_objects(
+            "Ammo: " + ammo_status,
+            G.SMALL_TEXT,
+            G.WHITE,
+            ((G.DISPLAY_WIDTH * 0.87), (G.DISPLAY_HEIGHT * 0.93)),
+        )
+        G.SCREEN.blit(ammo_surf, ammo_rect)
 
 def game_loop():
     """The main game loop"""
@@ -82,7 +104,7 @@ def game_loop():
     gun = sprites.Gun((G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.875))
     all_sprites_list.add(gun)
 
-    hud = Hud(player.health, player.score)
+    hud = Hud(player.health, player.score, player.ammo)
 
     delta_t = 0
     game_time = 0
@@ -93,12 +115,7 @@ def game_loop():
         game_time += delta_t
 
         # Creates scoreboard
-        scoreboard_surf, scoreboard_rect = text_objects(
-            "Score: " + str(player.score),
-            G.SMALL_TEXT,
-            G.WHITE,
-            ((G.DISPLAY_WIDTH * 0.058), (G.DISPLAY_HEIGHT * 0.025)),
-        )
+       
 
 
         for event in pygame.event.get():
@@ -171,8 +188,10 @@ def game_loop():
         # Paint the background G.WHITE
         G.SCREEN.fill(G.WHITE)
         G.SCREEN.blit(G.BACKGROUND_1.image, G.BACKGROUND_1.rect)
-        G.SCREEN.blit(scoreboard_surf, scoreboard_rect)
+        score = hud.draw_score(player.score)
+        hud.draw_score(player.score)
         hud.draw_health(player.health)
+        hud.draw_ammo(player.ammo)
 
         # Draw all sprites
         all_sprites_list.draw(G.SCREEN)
