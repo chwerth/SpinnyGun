@@ -82,6 +82,15 @@ class Hud(object):
         )
         G.SCREEN.blit(ammo_surf, ammo_rect)
 
+    def draw_controls(self):
+        control_surf, control_rect = text_objects(
+            "Press 'SPACE' to Fire!",
+            G.SMALL_TEXT,
+            G.WHITE,
+            ((G.DISPLAY_WIDTH * 0.5), (G.DISPLAY_HEIGHT * 0.05)),
+        )
+        G.SCREEN.blit(control_surf, control_rect)
+
 def game_loop():
     """The main game loop"""
 
@@ -192,6 +201,7 @@ def game_loop():
         hud.draw_score(player.score)
         hud.draw_health(player.health)
         hud.draw_ammo(player.ammo)
+        hud.draw_controls()
 
         # Draw all sprites
         all_sprites_list.draw(G.SCREEN)
