@@ -57,10 +57,8 @@ class Hud(object):
 
     def draw_health(self, health):
         for i in range(health):
-            img_rect = image.get_rect()
-            img_rect.x = G.DISPLAY_WIDTH + 30 * i
-            img_rect.y = 5
-            G.SCREEN.blit(image, img_rect)
+            img_rect = self.image.get_rect(center=(G.DISPLAY_WIDTH - (30 * (i + 1)), G.DISPLAY_HEIGHT * 0.97))
+            G.SCREEN.blit(self.image, img_rect)
 
 def game_loop():
     """The main game loop"""
@@ -102,7 +100,6 @@ def game_loop():
             ((G.DISPLAY_WIDTH * 0.058), (G.DISPLAY_HEIGHT * 0.025)),
         )
 
-        hud.draw_health(player.health)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -175,6 +172,7 @@ def game_loop():
         G.SCREEN.fill(G.WHITE)
         G.SCREEN.blit(G.BACKGROUND_1.image, G.BACKGROUND_1.rect)
         G.SCREEN.blit(scoreboard_surf, scoreboard_rect)
+        hud.draw_health(player.health)
 
         # Draw all sprites
         all_sprites_list.draw(G.SCREEN)
