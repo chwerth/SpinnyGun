@@ -87,7 +87,7 @@ class Hud(object):
         G.SCREEN.blit(ammo_surf, ammo_rect)
 
     def draw_controls(self):
-        control_surf, control_rect = text_objects(
+        control_surf, control_rect = text_objects(  
             "Press 'SPACE' to Fire!",
             G.SMALL_TEXT,
             G.WHITE,
