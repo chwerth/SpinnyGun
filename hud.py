@@ -46,7 +46,16 @@ class Hud(object):
             "Press 'SPACE' to Fire!",
             G.SMALL_TEXT,
             G.WHITE,
-            ((G.DISPLAY_WIDTH * 0.5), (G.DISPLAY_HEIGHT * 0.05)),
+            ((G.DISPLAY_WIDTH * 0.15), (G.DISPLAY_HEIGHT * 0.97)),
+        )
+        G.SCREEN.blit(control_surf, control_rect)
+
+    def draw_controls2(self):
+        control_surf, control_rect = text_objects(
+            "Press 'ESC' to Pause!",
+            G.SMALL_TEXT,
+            G.WHITE,
+            ((G.DISPLAY_WIDTH * 0.15), (G.DISPLAY_HEIGHT * 0.94)),
         )
         G.SCREEN.blit(control_surf, control_rect)
 
@@ -54,4 +63,5 @@ class Hud(object):
         self.draw_score(score)
         self.draw_ammo(ammo)
         self.draw_controls()
+        self.draw_controls2()
         self.draw_health(health)

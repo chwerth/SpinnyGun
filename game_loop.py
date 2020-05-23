@@ -153,7 +153,6 @@ def game_loop():
         # Paint the background G.WHITE
         G.SCREEN.fill(G.WHITE)
         G.SCREEN.blit(G.BACKGROUND_1.image, G.BACKGROUND_1.rect)
-        score = hud.draw_score(player.score)
         hud.draw_hud(player.score, player.ammo, player.health)
 
         # Draw all sprites
