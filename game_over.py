@@ -17,13 +17,16 @@ def game_over():
     player_name = random.choice(NAMES)
     final_score = G.SCORE * G.DIFFICULTY
     score_entry = {"player": player_name, "score": final_score}
+    G.SCORE = 0
 
     if os.path.isfile("scores.dat"):
         score_file = shelve.open("scores.dat", writeback=True)
         score_file["scores"].append(score_entry)
+        score_file.close()
     else:
         score_file = shelve.open("scores.dat")
         score_file["scores"] = [score_entry]
+        score_file.close()
 
     pygame.mixer.music.pause()
 
