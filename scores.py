@@ -44,7 +44,7 @@ def scores_page():
         y_pos = 0.28
         for i, record in enumerate(sorted_records[0:10]):
             record_surf, record_rect = text_objects(
-                f"{i + 1})  Name: {record['player']}, Score: {record['score']}",
+                f"{i+1})  Name: {record['player']}, Score: {record['score']}",
                 G.SMALL_TEXT,
                 G.GOLD,
                 (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * y_pos),
