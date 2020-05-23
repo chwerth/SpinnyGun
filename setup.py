@@ -18,7 +18,12 @@ setup(
     options={
         "build_exe": {
             "packages": ["pygame"],
-            "include_files": ["README.md", "LICENSE", "requirements.txt", "assets"],
+            "include_files": [
+                "README.md",
+                "LICENSE",
+                "requirements.txt",
+                "assets",
+            ],
         }
     },
     executables=[Executable("main.py", base=base)],
