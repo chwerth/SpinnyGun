@@ -18,11 +18,11 @@ RED = (255, 0, 0)
 LIGHT_YELLOW = (247, 241, 49)
 
 # Text
-GIANT_TEXT = pygame.font.Font("freesansbold.ttf", 115)
-BIG_TEXT = pygame.font.Font("freesansbold.ttf", 80)
-MEDIUM_TEXT = pygame.font.Font("freesansbold.ttf", 30)
-SMALL_TEXT = pygame.font.Font("freesansbold.ttf", 20)
-TINY_TEXT = pygame.font.Font("freesansbold.ttf", 14)
+GIANT_TEXT = pygame.font.SysFont("freesans", 115, bold=True)
+BIG_TEXT = pygame.font.SysFont("freesans", 80, bold=True)
+MEDIUM_TEXT = pygame.font.SysFont("freesans", 30, bold=True)
+SMALL_TEXT = pygame.font.SysFont("freesans", 20, bold=True)
+TINY_TEXT = pygame.font.SysFont("freesans", 14, bold=True)
 
 # Sound Effects
 SHOOT_FX = pygame.mixer.Sound("assets/audio/laser.wav")
