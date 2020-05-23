@@ -5,6 +5,7 @@ import os
 import game_menu
 from functions import text_objects, exit_game
 
+
 def scores_page():
     pygame.mixer.music.stop()
 
@@ -37,20 +38,20 @@ def scores_page():
         G.SCREEN.blit(no_scores_surf, no_scores_rect)
     else:
         score_file = shelve.open("scores.dat")
-        sorted_records = sorted(score_file['scores'], key=lambda k: k['score'], reverse=True)
+        sorted_records = sorted(
+            score_file["scores"], key=lambda k: k["score"], reverse=True
+        )
         y_pos = 0.28
         for i, record in enumerate(sorted_records[0:10]):
             record_surf, record_rect = text_objects(
                 f"{i + 1})  Name: {record['player']}, Score: {record['score']}",
                 G.SMALL_TEXT,
                 G.GOLD,
-                (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * y_pos)
+                (G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * y_pos),
             )
             G.SCREEN.blit(record_surf, record_rect)
             y_pos += 0.06
         score_file.close()
-
-
 
     while True:
         for event in pygame.event.get():

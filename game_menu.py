@@ -109,7 +109,9 @@ def game_menu():
     projectile_list = pygame.sprite.Group()
     buttons_list = pygame.sprite.Group()
 
-    all_sprites_list.add(start_button, about_button, quit_button, scores_button)
+    all_sprites_list.add(
+        start_button, about_button, quit_button, scores_button
+    )
     buttons_list.add(start_button, about_button, quit_button, scores_button)
 
     gun = sprites.Gun((G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.875))
