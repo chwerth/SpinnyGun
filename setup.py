@@ -14,6 +14,7 @@ setup(
     name="RAstral Rampart",
     version="1.0.0",
     description="test",
+    author="Caleb Werth & Russell Spry",
     options={
         "build_exe": {
             "packages": ["pygame"],
