@@ -10,7 +10,7 @@ Gameplay                   |  Menu
 :-------------------------:|:-------------------------:
 ![](assets/gameplay.png)   |  ![](assets/rastral.png)
 
-## Creators
+## Developers
 
 - Written by: [Caleb Werth](https://github.com/chwerth/) and [Russell Spry](https://github.com/Rw552)
 - Idea by: Aaron Werth
