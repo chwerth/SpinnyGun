@@ -11,12 +11,12 @@ if sys.platform == "win32":
     base = "Win32GUI"
 
 setup(
-    name="Spinny Gun",
+    name="RAstral Rampart",
     version="1.0.0",
     description="test",
     options={
         "build_exe": {
-            "packages": ["pygame", "dbm"],
+            "packages": ["pygame"],
             "include_files": ["README.md", "LICENSE", "CREDITS.txt", "assets"],
         }
     },
