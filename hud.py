@@ -44,18 +44,18 @@ class Hud(object):
     def draw_controls(self):
         control_surf, control_rect = text_objects(
             "Press 'SPACE' to Fire!",
-            G.SMALL_TEXT,
+            G.TINY_TEXT,
             G.WHITE,
-            ((G.DISPLAY_WIDTH * 0.15), (G.DISPLAY_HEIGHT * 0.97)),
+            ((G.DISPLAY_WIDTH * 0.11), (G.DISPLAY_HEIGHT * 0.97)),
         )
         G.SCREEN.blit(control_surf, control_rect)
 
     def draw_controls2(self):
         control_surf, control_rect = text_objects(
             "Press 'ESC' to Pause!",
-            G.SMALL_TEXT,
+            G.TINY_TEXT,
             G.WHITE,
-            ((G.DISPLAY_WIDTH * 0.15), (G.DISPLAY_HEIGHT * 0.94)),
+            ((G.DISPLAY_WIDTH * 0.109), (G.DISPLAY_HEIGHT * 0.94)),
         )
         G.SCREEN.blit(control_surf, control_rect)
 

@@ -28,10 +28,6 @@ class Player(object):
         """Adds health_change to health attribute"""
         self.health += health_change
 
-    def update_score(self, score_change):
-        """Adds score_change to score attribute"""
-        self.score += score_change
-
     def reload(self):
         """Fills up the players ammo again"""
         self.ammo = self.max_ammo
@@ -80,8 +76,6 @@ def game_loop():
 
         # Add last iteration's time to running game_time
         game_time += delta_t
-
-        # Creates scoreboard
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -132,7 +126,7 @@ def game_loop():
                 )
                 pygame.mixer.Sound.play(G.EXPLOSION_FX)
                 projectile.kill()
-                player.update_score(1)
+                G.SCORE += hit_missile.stats["points"]
 
             if projectile.off_screen():
                 projectile.kill()
@@ -153,7 +147,7 @@ def game_loop():
         # Paint the background G.WHITE
         G.SCREEN.fill(G.WHITE)
         G.SCREEN.blit(G.BACKGROUND_1.image, G.BACKGROUND_1.rect)
-        hud.draw_hud(player.score, player.ammo, player.health)
+        hud.draw_hud(G.SCORE, player.ammo, player.health)
 
         # Draw all sprites
         all_sprites_list.draw(G.SCREEN)
