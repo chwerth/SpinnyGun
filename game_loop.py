@@ -8,6 +8,7 @@ from functions import exit_game, text_objects
 import paused
 import game_over
 import new_round
+from hud import Hud
 
 
 class Player(object):
@@ -70,6 +71,8 @@ def game_loop():
     gun = sprites.Gun((G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.875))
     all_sprites_list.add(gun)
 
+    hud = Hud(player.health, player.score, player.ammo)
+
     delta_t = 0
     game_time = 0
 
@@ -79,12 +82,6 @@ def game_loop():
         game_time += delta_t
 
         # Creates scoreboard
-        scoreboard_surf, scoreboard_rect = text_objects(
-            "Score: " + str(player.score),
-            G.SMALL_TEXT,
-            G.WHITE,
-            ((G.DISPLAY_WIDTH * 0.058), (G.DISPLAY_HEIGHT * 0.025)),
-        )
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -156,7 +153,7 @@ def game_loop():
         # Paint the background G.WHITE
         G.SCREEN.fill(G.WHITE)
         G.SCREEN.blit(G.BACKGROUND_1.image, G.BACKGROUND_1.rect)
-        G.SCREEN.blit(scoreboard_surf, scoreboard_rect)
+        hud.draw_hud(player.score, player.ammo, player.health)
 
         # Draw all sprites
         all_sprites_list.draw(G.SCREEN)
