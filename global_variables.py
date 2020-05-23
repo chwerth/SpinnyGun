@@ -22,6 +22,7 @@ GIANT_TEXT = pygame.font.Font("freesansbold.ttf", 115)
 BIG_TEXT = pygame.font.Font("freesansbold.ttf", 80)
 MEDIUM_TEXT = pygame.font.Font("freesansbold.ttf", 30)
 SMALL_TEXT = pygame.font.Font("freesansbold.ttf", 20)
+TINY_TEXT = pygame.font.Font("freesansbold.ttf", 14)
 
 # Sound Effects
 SHOOT_FX = pygame.mixer.Sound("assets/audio/laser.wav")
@@ -41,6 +42,8 @@ PAUSE = False
 
 # Difficulty setting
 DIFFICULTY = 1
+
+SCORE = 0
 
 
 class Background(

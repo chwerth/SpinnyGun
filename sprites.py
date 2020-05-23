@@ -9,9 +9,9 @@ class Missile(pygame.sprite.Sprite):
     """These missiles rain from the sky to attack the player"""
 
     missile_stats = [
-        {"speed": 3, "damage": -5},
-        {"speed": 4, "damage": -3},
-        {"speed": 6, "damage": -1},
+        {"speed": 3, "damage": -5, "points": 3},
+        {"speed": 4, "damage": -3, "points": 2},
+        {"speed": 6, "damage": -1, "points": 1},
     ]
 
     def __init__(self, pos, missile_type):
