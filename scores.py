@@ -1,5 +1,5 @@
 import pygame
-import shelve
+import json
 import global_variables as G
 import os
 import game_menu
@@ -28,7 +28,7 @@ def scores_page():
     G.SCREEN.blit(page_title_surf, page_title_rect)
     G.SCREEN.blit(instructions_surf, instructions_rect)
 
-    if not os.path.isfile("scores.dat"):
+    if not os.path.isfile("scores.json"):
         no_scores_surf, no_scores_rect = text_objects(
             "No Scores Found",
             G.BIG_TEXT,
@@ -37,9 +37,10 @@ def scores_page():
         )
         G.SCREEN.blit(no_scores_surf, no_scores_rect)
     else:
-        score_file = shelve.open("scores.dat")
+        with open('scores.json') as scores_file:
+            score_data = json.load(scores_file)
         sorted_records = sorted(
-            score_file["scores"], key=lambda k: k["score"], reverse=True
+            score_data["scores"], key=lambda k: k["score"], reverse=True
         )
         y_pos = 0.28
         for i, record in enumerate(sorted_records[0:10]):
@@ -51,7 +52,6 @@ def scores_page():
             )
             G.SCREEN.blit(record_surf, record_rect)
             y_pos += 0.06
-        score_file.close()
 
     while True:
         for event in pygame.event.get():
