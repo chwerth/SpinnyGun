@@ -6,7 +6,7 @@ from functions import exit_game, text_objects
 import new_round
 import game_menu as menu
 from names import NAMES
-import shelve
+import json
 import os
 import random
 
@@ -19,14 +19,21 @@ def game_over():
     score_entry = {"player": player_name, "score": final_score}
     G.SCORE = 0
 
-    if os.path.isfile("scores.dat"):
-        score_file = shelve.open("scores.dat", writeback=True)
-        score_file["scores"].append(score_entry)
-        score_file.close()
+    if os.path.isfile("scores.json"):
+        with open('scores.json', 'r') as scores_file:
+            score_data = json.load(scores_file)
+            score_data['scores'].append(score_entry)
+
+        with open('scores.json', 'w') as scores_file:
+            json.dump(score_data, scores_file)
+
+
     else:
-        score_file = shelve.open("scores.dat")
-        score_file["scores"] = [score_entry]
-        score_file.close()
+        score_data = {}
+        score_data['scores'] = []
+        score_data['scores'].append(score_entry)
+        with open('scores.json', 'w') as scores_file:
+            json.dump(score_data, scores_file)
 
     pygame.mixer.music.pause()
 
