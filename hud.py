@@ -8,6 +8,7 @@ class Hud(object):
         self.health = health
         self.score = score
         self.image = pygame.image.load("assets/gun_icon.png").convert_alpha()
+        self.ammo_text = G.SMALL_TEXT
 
     def draw_health(self, health):
         for i in range(health):
@@ -31,11 +32,13 @@ class Hud(object):
     def draw_ammo(self, ammo):
         if ammo == 0:
             ammo_status = "Reloading"
+            self.ammo_text = G.SMALL_ITALIC_TEXT
         else:
             ammo_status = str(ammo)
+            self.ammo_text = G.SMALL_TEXT
         ammo_surf, ammo_rect = text_objects(
             "Ammo: " + ammo_status,
-            G.SMALL_TEXT,
+            self.ammo_text,
             G.WHITE,
             ((G.DISPLAY_WIDTH * 0.87), (G.DISPLAY_HEIGHT * 0.93)),
         )

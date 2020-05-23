@@ -16,7 +16,7 @@ setup(
     description="test",
     options={
         "build_exe": {
-            "packages": ["pygame"],
+            "packages": ["pygame", "dbm"],
             "include_files": ["README.md", "LICENSE", "CREDITS.txt", "assets"],
         }
     },
