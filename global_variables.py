@@ -22,6 +22,7 @@ GIANT_TEXT = pygame.font.SysFont("freesans", 115, bold=True)
 BIG_TEXT = pygame.font.SysFont("freesans", 80, bold=True)
 MEDIUM_TEXT = pygame.font.SysFont("freesans", 30, bold=True)
 SMALL_TEXT = pygame.font.SysFont("freesans", 20, bold=True)
+SMALL_ITALIC_TEXT = pygame.font.SysFont("freesans", 20, italic=True)
 TINY_TEXT = pygame.font.SysFont("freesans", 14, bold=True)
 
 # Sound Effects
