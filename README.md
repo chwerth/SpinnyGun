@@ -9,3 +9,8 @@ If a missile explodes at the bottom of the screen, the player loses health.
 Gameplay                   |  Menu
 :-------------------------:|:-------------------------:
 ![](assets/gameplay.png)   |  ![](assets/rastral.png)
+
+## Creators
+
+- Written by: [Caleb Werth](https://github.com/chwerth/) and [Russell Spry](https://github.com/Rw552)
+- Idea by: Aaron Werth
