@@ -16,6 +16,7 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 LIGHT_YELLOW = (247, 241, 49)
+GOLD = (255, 215, 0)
 
 # Text
 GIANT_TEXT = pygame.font.Font("freesansbold.ttf", 115)

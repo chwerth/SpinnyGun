@@ -21,9 +21,11 @@ def game_over():
     if os.path.isfile("scores.dat"):
         score_file = shelve.open("scores.dat", writeback=True)
         score_file["scores"].append(score_entry)
+        score_file.close()
     else:
         score_file = shelve.open("scores.dat")
         score_file["scores"] = [score_entry]
+        score_file.close()
 
     pygame.mixer.music.pause()
 

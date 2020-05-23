@@ -5,6 +5,7 @@ import global_variables as G
 from functions import exit_game, text_objects
 import sprites
 import new_round
+import scores
 
 
 def about_page():
@@ -74,9 +75,15 @@ def game_menu():
     )
     about_button = sprites.Button(
         G.SMALL_TEXT.render("About", True, G.BLACK),
-        ((G.DISPLAY_WIDTH * 0.43), (G.DISPLAY_HEIGHT * 0.5), 100, 50),
+        ((G.DISPLAY_WIDTH * 0.33), (G.DISPLAY_HEIGHT * 0.5), 100, 50),
         G.LIGHT_YELLOW,
         about_page,
+    )
+    scores_button = sprites.Button(
+        G.SMALL_TEXT.render("Scores", True, G.BLACK),
+        ((G.DISPLAY_WIDTH * 0.53), (G.DISPLAY_HEIGHT * 0.5), 100, 50),
+        G.GOLD,
+        scores.scores_page,
     )
     quit_button = sprites.Button(
         G.SMALL_TEXT.render("Quit", True, G.BLACK),
@@ -102,13 +109,14 @@ def game_menu():
     projectile_list = pygame.sprite.Group()
     buttons_list = pygame.sprite.Group()
 
-    all_sprites_list.add(start_button, about_button, quit_button)
-    buttons_list.add(start_button, about_button, quit_button)
+    all_sprites_list.add(start_button, about_button, quit_button, scores_button)
+    buttons_list.add(start_button, about_button, quit_button, scores_button)
 
     gun = sprites.Gun((G.DISPLAY_WIDTH * 0.5, G.DISPLAY_HEIGHT * 0.875))
     all_sprites_list.add(gun)
 
     G.DIFFICULTY = 1
+    G.SCORE = 0
 
     while True:
         for event in pygame.event.get():
