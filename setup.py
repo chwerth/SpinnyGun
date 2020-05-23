@@ -12,7 +12,7 @@ if sys.platform == "win32":
 
 setup(
     name="RAstral Rampart",
-    version="1.0.0",
+    version="1.0.1",
     description="test",
     author="Caleb Werth & Russell Spry",
     options={
@@ -26,5 +26,12 @@ setup(
             ],
         }
     },
-    executables=[Executable("main.py", base=base)],
+    executables=[
+        Executable(
+            "main.py",
+            shortcutName="RAstral Rampart",
+            shortcutDir="DesktopFolder",
+            base=base,
+        )
+    ],
 )
