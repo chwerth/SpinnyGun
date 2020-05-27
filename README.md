@@ -10,6 +10,21 @@ Gameplay                   |  Menu
 :-------------------------:|:-------------------------:
 ![](assets/gameplay.png)   |  ![](assets/rastral.png)
 
+## Installation
+
+### Windows
+
+We have attached an MSI file to the Alpha release, which can be found under the [releases tab](https://github.com/chwerth/RAstral_Rampart/releases).
+
+### Running from source code
+
+Required:
+- Python 3.8+
+- Pygame - [2.0.0.dev8](https://github.com/pygame/pygame/releases/tag/2.0.0.dev8)
+
+Use Python 3.8 to execute main.py and the game will run.
+
+
 ## Developers
 
 - Written by: [Caleb Werth](https://github.com/chwerth/) and [Russell Spry](https://github.com/Rw552)
