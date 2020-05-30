@@ -12,7 +12,7 @@ if sys.platform == "win32":
 
 setup(
     name="RAstral Rampart",
-    version="2.0.0",
+    version="2.1.0",
     description="test",
     author="Caleb Werth & Russell Spry",
     options={
