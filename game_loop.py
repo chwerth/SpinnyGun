@@ -15,9 +15,9 @@ class Player(object):
     """Class for holding player information"""
 
     def __init__(self):
-        self.max_health = 10 + G.PERMANENT_POWER_UPS.count("higher_max_health")
+        self.max_health = 10 + G.PERMANENT_POWER_UPS["higher_max_health"]
         self.health = self.max_health
-        self.max_ammo = 10 + G.PERMANENT_POWER_UPS.count("higher_max_ammo")
+        self.max_ammo = 10 + G.PERMANENT_POWER_UPS["higher_max_ammo"]
         self.ammo = self.max_ammo
         self.score = 0
         self.reload_duration = 2.5
@@ -154,7 +154,7 @@ def game_loop():
             for hit_power_up in hit_power_up_list:
                 pygame.mixer.Sound.play(random.choice(G.POWER_UP_FX_LIST))
                 if not hit_power_up.power_up["temporary"]:
-                    G.PERMANENT_POWER_UPS.append(hit_power_up.power_up["type"])
+                    G.PERMANENT_POWER_UPS[hit_power_up.power_up["type"]] += 1
                 if hit_power_up.power_up["type"] == "higher_max_health":
                     player.update_health(1)
                 if hit_power_up.power_up["type"] == "higher_max_ammo":

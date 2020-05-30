@@ -51,7 +51,7 @@ DIFFICULTY = 1
 
 SCORE = 0
 
-PERMANENT_POWER_UPS = []
+PERMANENT_POWER_UPS = {"higher_max_health": 0, "higher_max_ammo": 0}
 
 class Background(
     pygame.sprite.Sprite
