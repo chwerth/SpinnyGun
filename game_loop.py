@@ -22,6 +22,9 @@ class Player(object):
         self.score = 0
         self.reload_duration = 2.5
         self.reload_start_time = 0
+        self.piercing_rounds = False
+        self.piercing_rounds_start_time = 0
+        self.piercing_rounds_duration = 10
 
     def update_health(self, health_change):
         """Adds health_change to health attribute"""
@@ -43,6 +46,10 @@ class Player(object):
             and game_time - self.reload_start_time > self.reload_duration
         )
 
+    def time_to_piercing_rounds_expire(self, game_time):
+        """Check if it's time to let piercing rounds expire"""
+
+        return  game_time - self.piercing_rounds_start_time > self.piercing_rounds_duration
 
 def game_loop():
     """The main game loop"""
@@ -65,8 +72,8 @@ def game_loop():
 
     power_ups_to_spawn = random.choices(
         sprites.Power_Up.power_up_list,
-        weights=[1, 1, 0, 0],
-        k=random.randrange(1, 6),
+        weights=[1, 1, 1, 0],
+        k=random.randrange(2, 7),
     )
 
     player = Player()
@@ -109,6 +116,9 @@ def game_loop():
         if player.time_to_reload(game_time):
             player.reload()
 
+        if player.time_to_piercing_rounds_expire(game_time):
+            player.piercing_rounds = False
+
         if (
             random.randrange(700 // (5 + G.DIFFICULTY)) == 0
             and missiles_to_spawn
@@ -124,8 +134,8 @@ def game_loop():
             power_up = power_ups_to_spawn.pop(0)
             new_power_up_sprite = sprites.Power_Up(
                 (
-                    random.randrange(100, G.DISPLAY_WIDTH - 100),
-                    random.randrange(100, G.DISPLAY_HEIGHT - 300),
+                    random.randrange(G.DISPLAY_WIDTH * 0.125, G.DISPLAY_WIDTH * 0.875),
+                    random.randrange(G.DISPLAY_WIDTH * 0.125, G.DISPLAY_HEIGHT * 0.625),
                 ),
                 power_up,
             )
@@ -145,7 +155,8 @@ def game_loop():
                     )
                 )
                 pygame.mixer.Sound.play(G.EXPLOSION_FX)
-                projectile.kill()
+                if not player.piercing_rounds:
+                    projectile.kill()
                 G.SCORE += hit_missile.stats["points"]
 
             hit_power_up_list = pygame.sprite.spritecollide(
@@ -161,6 +172,9 @@ def game_loop():
                     if player.ammo >= 1:
                         player.update_ammo(1)
                     player.max_ammo += 1
+                elif hit_power_up.power_up["type"] == "piercing_rounds":
+                    player.piercing_rounds = True
+                    player.piercing_rounds_start_time = game_time
 
             if projectile.off_screen():
                 projectile.kill()

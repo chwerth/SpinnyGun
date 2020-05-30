@@ -119,6 +119,8 @@ def game_menu():
 
     G.DIFFICULTY = 1
     G.SCORE = 0
+    G.PERMANENT_POWER_UPS["higher_max_health"] = 0
+    G.PERMANENT_POWER_UPS["higher_max_ammo"] = 0
 
     while True:
         for event in pygame.event.get():
