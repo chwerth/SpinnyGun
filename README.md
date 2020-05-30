@@ -6,6 +6,8 @@ The player can hit the space bar to fire the gun, destroying incoming missiles!
 
 If a missile explodes at the bottom of the screen, the player loses health.
 
+There are also power-ups that the player can shoot!
+
 Gameplay                   |  Menu
 :-------------------------:|:-------------------------:
 ![](assets/gameplay.png)   |  ![](assets/rastral.png)
@@ -14,7 +16,7 @@ Gameplay                   |  Menu
 
 ### Windows
 
-We have attached an MSI file to the Alpha release, which can be found under the [releases tab](https://github.com/chwerth/RAstral_Rampart/releases).
+An MSI file can be found under the [releases tab](https://github.com/chwerth/RAstral_Rampart/releases).
 
 ### Running from source code
 
