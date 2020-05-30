@@ -47,6 +47,7 @@ DIFFICULTY = 1
 
 SCORE = 0
 
+PERMANENT_POWER_UPS = []
 
 class Background(
     pygame.sprite.Sprite

@@ -4,7 +4,7 @@ import random
 import pygame
 import global_variables as G
 import sprites
-from functions import exit_game, text_objects
+from functions import exit_game, text_objects, fib
 import paused
 import game_over
 import new_round
@@ -17,24 +17,25 @@ class Player(object):
     def __init__(self):
         # Currently we only keep track of the player's health
         # Will add more attributes as needed
-        self.health = 10
-        self.score = 0
-        self.max_ammo = 10
+        self.max_health = 10 + G.PERMANENT_POWER_UPS.count("higher_max_health")
+        self.health = self.max_health
+        self.max_ammo = 10 + G.PERMANENT_POWER_UPS.count("higher_max_ammo")
         self.ammo = self.max_ammo
-        self.reload_duration = 3
+        self.score = 0
+        self.reload_duration = 2.5
         self.reload_start_time = 0
 
     def update_health(self, health_change):
         """Adds health_change to health attribute"""
         self.health += health_change
 
+    def update_ammo(self, ammo_change):
+        """Update ammo"""
+        self.ammo += ammo_change
+
     def reload(self):
         """Fills up the players ammo again"""
         self.ammo = self.max_ammo
-
-    def pew(self):
-        """Fire the gun"""
-        self.ammo -= 1
 
     def time_to_reload(self, game_time):
         """Check if it's time to reload"""
@@ -57,10 +58,15 @@ def game_loop():
     all_sprites_list = pygame.sprite.Group()
     missile_list = pygame.sprite.Group()
     projectile_list = pygame.sprite.Group()
+    power_up_list = pygame.sprite.Group()
 
     random.seed()
     missiles_to_spawn = random.choices(
-        [1, 2, 3], weights=[1, 2, 3], k=(G.DIFFICULTY * 10)
+        [1, 2, 3], weights=[1, 2, 3], k=(fib(G.DIFFICULTY + 5))
+    )
+
+    power_ups_to_spawn = random.choices(
+        sprites.Power_Up.power_up_list, weights=[1, 1, 0, 0], k=random.randrange(1, 6)
     )
 
     player = Player()
@@ -84,7 +90,7 @@ def game_loop():
             # Fire a projectile if the player presses and releases space
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE and player.ammo > 0:
-                    player.pew()
+                    player.update_ammo(-1)
                     if player.ammo == 0:
                         player.reload_start_time = game_time
                     pygame.mixer.Sound.play(G.SHOOT_FX)
@@ -103,14 +109,22 @@ def game_loop():
         if player.time_to_reload(game_time):
             player.reload()
 
-        if random.randrange(150 // G.DIFFICULTY) == 0:
-            if missiles_to_spawn:
-                missile_type = missiles_to_spawn.pop(0)
-                new_missile = sprites.Missile(
-                    (random.randrange(G.DISPLAY_WIDTH), -600), missile_type
+        if random.randrange(750 // (5 + G.DIFFICULTY)) == 0 and missiles_to_spawn:
+            missile_type = missiles_to_spawn.pop(0)
+            new_missile = sprites.Missile(
+                (random.randrange(G.DISPLAY_WIDTH), -600), missile_type
+            )
+            all_sprites_list.add(new_missile)
+            missile_list.add(new_missile)
+
+        if random.randrange(500) == 0 and power_ups_to_spawn:
+            power_up = power_ups_to_spawn.pop(0)
+            new_power_up_sprite = sprites.Power_Up(
+                (random.randrange(100, G.DISPLAY_WIDTH - 100), random.randrange(100, G.DISPLAY_HEIGHT - 300)),
+                power_up
                 )
-                all_sprites_list.add(new_missile)
-                missile_list.add(new_missile)
+            all_sprites_list.add(new_power_up_sprite)
+            power_up_list.add(new_power_up_sprite)
 
         all_sprites_list.update()
 
@@ -127,6 +141,18 @@ def game_loop():
                 pygame.mixer.Sound.play(G.EXPLOSION_FX)
                 projectile.kill()
                 G.SCORE += hit_missile.stats["points"]
+
+            hit_power_up_list = pygame.sprite.spritecollide(
+                   projectile, power_up_list, True
+                )
+            for hit_power_up in hit_power_up_list:
+                if not hit_power_up.power_up["temporary"]:
+                    G.PERMANENT_POWER_UPS.append(hit_power_up.power_up["type"])
+                if hit_power_up.power_up["type"] == "higher_max_health":
+                    player.update_health(1)
+                if hit_power_up.power_up["type"] == "higher_max_ammo":
+                    player.update_ammo(1)
+                    player.max_ammo += 1
 
             if projectile.off_screen():
                 projectile.kill()

@@ -158,3 +158,58 @@ class Gun(pygame.sprite.Sprite):
 
         self.image = pygame.transform.rotate(self.original_image, self.angle)
         self.rect = self.image.get_rect(center=self.rect.center)
+
+
+class Power_Up(pygame.sprite.Sprite):
+    """Power ups!"""
+
+    power_up_list = [
+        {
+            "type": "higher_max_health",
+            "color": "Red",
+            "temporary": False,
+        },
+        {
+            "type": "higher_max_ammo",
+            "color": "Blue",
+            "temporary": False,
+        },
+        {
+            "type": "piercing_rounds",
+            "color": "Yellow",
+            "temporary": True,
+        },
+        {
+            "type": "fan_of_projectiles",
+            "color": "Green",
+            "temporary": True,
+        },
+    ]
+
+    def __init__(self, pos, power_up_type):
+        super(Power_Up, self).__init__()
+
+        self.power_up = power_up_type
+
+        self.images = []
+        for i in range(6):
+            self.images.append(
+                pygame.image.load(
+                    f"assets/power-ups/{self.power_up['color']}/frame_{i+1}.png"
+                ).convert_alpha()
+            )
+
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = self.image.get_rect(center=pos)
+        self.last_update = pygame.time.get_ticks()
+        self.frame_rate = 30
+
+    def update(self):
+        now = pygame.time.get_ticks()
+        if now - self.last_update > self.frame_rate:
+            self.last_update = now
+            self.index += 1
+            if self.index == len(self.images):
+                self.index = 0
+            self.image = self.images[self.index]
