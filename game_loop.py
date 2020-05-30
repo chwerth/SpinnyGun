@@ -49,7 +49,11 @@ class Player(object):
     def time_to_piercing_rounds_expire(self, game_time):
         """Check if it's time to let piercing rounds expire"""
 
-        return  game_time - self.piercing_rounds_start_time > self.piercing_rounds_duration
+        return (
+            game_time - self.piercing_rounds_start_time
+            > self.piercing_rounds_duration
+        )
+
 
 def game_loop():
     """The main game loop"""
@@ -134,8 +138,12 @@ def game_loop():
             power_up = power_ups_to_spawn.pop(0)
             new_power_up_sprite = sprites.Power_Up(
                 (
-                    random.randrange(G.DISPLAY_WIDTH * 0.125, G.DISPLAY_WIDTH * 0.875),
-                    random.randrange(G.DISPLAY_WIDTH * 0.125, G.DISPLAY_HEIGHT * 0.625),
+                    random.randrange(
+                        G.DISPLAY_WIDTH * 0.125, G.DISPLAY_WIDTH * 0.875
+                    ),
+                    random.randrange(
+                        G.DISPLAY_WIDTH * 0.125, G.DISPLAY_HEIGHT * 0.625
+                    ),
                 ),
                 power_up,
             )
