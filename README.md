@@ -16,7 +16,7 @@ Gameplay                   |  Menu
 
 ### Windows
 
-We have attached an MSI file to the Alpha release, which can be found under the [releases tab](https://github.com/chwerth/RAstral_Rampart/releases).
+An MSI file can be found under the [releases tab](https://github.com/chwerth/RAstral_Rampart/releases).
 
 ### Running from source code
 
