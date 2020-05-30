@@ -176,10 +176,10 @@ class Power_Up(pygame.sprite.Sprite):
         self.power_up = power_up_type
 
         self.images = []
-        for i in range(6):
+        for i in range(1, 7):
             self.images.append(
                 pygame.image.load(
-                    f"assets/power-ups/{self.power_up['color']}/frame_{i+1}.png"
+                    f"assets/power-ups/{self.power_up['color']}/frame_{i}.png"
                 ).convert_alpha()
             )
 
