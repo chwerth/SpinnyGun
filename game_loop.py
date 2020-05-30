@@ -157,7 +157,7 @@ def game_loop():
                     G.PERMANENT_POWER_UPS[hit_power_up.power_up["type"]] += 1
                 if hit_power_up.power_up["type"] == "higher_max_health":
                     player.update_health(1)
-                if hit_power_up.power_up["type"] == "higher_max_ammo":
+                elif hit_power_up.power_up["type"] == "higher_max_ammo":
                     player.update_ammo(1)
                     player.max_ammo += 1
 
