@@ -6,6 +6,8 @@ The player can hit the space bar to fire the gun, destroying incoming missiles!
 
 If a missile explodes at the bottom of the screen, the player loses health.
 
+There are also power-ups that the player can shoot!
+
 Gameplay                   |  Menu
 :-------------------------:|:-------------------------:
 ![](assets/gameplay.png)   |  ![](assets/rastral.png)
