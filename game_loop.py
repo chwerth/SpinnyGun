@@ -64,7 +64,9 @@ def game_loop():
     )
 
     power_ups_to_spawn = random.choices(
-        sprites.Power_Up.power_up_list, weights=[1, 1, 0, 0], k=random.randrange(1, 6)
+        sprites.Power_Up.power_up_list,
+        weights=[1, 1, 0, 0],
+        k=random.randrange(1, 6),
     )
 
     player = Player()
@@ -107,7 +109,10 @@ def game_loop():
         if player.time_to_reload(game_time):
             player.reload()
 
-        if random.randrange(750 // (5 + G.DIFFICULTY)) == 0 and missiles_to_spawn:
+        if (
+            random.randrange(750 // (5 + G.DIFFICULTY)) == 0
+            and missiles_to_spawn
+        ):
             missile_type = missiles_to_spawn.pop(0)
             new_missile = sprites.Missile(
                 (random.randrange(G.DISPLAY_WIDTH), -600), missile_type
@@ -118,9 +123,12 @@ def game_loop():
         if random.randrange(500) == 0 and power_ups_to_spawn:
             power_up = power_ups_to_spawn.pop(0)
             new_power_up_sprite = sprites.Power_Up(
-                (random.randrange(100, G.DISPLAY_WIDTH - 100), random.randrange(100, G.DISPLAY_HEIGHT - 300)),
-                power_up
-                )
+                (
+                    random.randrange(100, G.DISPLAY_WIDTH - 100),
+                    random.randrange(100, G.DISPLAY_HEIGHT - 300),
+                ),
+                power_up,
+            )
             all_sprites_list.add(new_power_up_sprite)
             power_up_list.add(new_power_up_sprite)
 
@@ -141,8 +149,8 @@ def game_loop():
                 G.SCORE += hit_missile.stats["points"]
 
             hit_power_up_list = pygame.sprite.spritecollide(
-                   projectile, power_up_list, True
-                )
+                projectile, power_up_list, True
+            )
             for hit_power_up in hit_power_up_list:
                 pygame.mixer.Sound.play(random.choice(G.POWER_UP_FX_LIST))
                 if not hit_power_up.power_up["temporary"]:

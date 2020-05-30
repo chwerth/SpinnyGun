@@ -164,26 +164,10 @@ class Power_Up(pygame.sprite.Sprite):
     """Power ups!"""
 
     power_up_list = [
-        {
-            "type": "higher_max_health",
-            "color": "Red",
-            "temporary": False,
-        },
-        {
-            "type": "higher_max_ammo",
-            "color": "Blue",
-            "temporary": False,
-        },
-        {
-            "type": "piercing_rounds",
-            "color": "Yellow",
-            "temporary": True,
-        },
-        {
-            "type": "fan_of_projectiles",
-            "color": "Green",
-            "temporary": True,
-        },
+        {"type": "higher_max_health", "color": "Red", "temporary": False},
+        {"type": "higher_max_ammo", "color": "Blue", "temporary": False},
+        {"type": "piercing_rounds", "color": "Yellow", "temporary": True},
+        {"type": "fan_of_projectiles", "color": "Green", "temporary": True},
     ]
 
     def __init__(self, pos, power_up_type):
