@@ -158,7 +158,8 @@ def game_loop():
                 if hit_power_up.power_up["type"] == "higher_max_health":
                     player.update_health(1)
                 elif hit_power_up.power_up["type"] == "higher_max_ammo":
-                    player.update_ammo(1)
+                    if player.ammo >= 1:
+                        player.update_ammo(1)
                     player.max_ammo += 1
 
             if projectile.off_screen():
