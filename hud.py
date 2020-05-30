@@ -25,7 +25,7 @@ class Hud(object):
             "Score: " + str(score),
             G.SMALL_TEXT,
             G.WHITE,
-            ((G.DISPLAY_WIDTH * 0.058), (G.DISPLAY_HEIGHT * 0.025)),
+            ((G.DISPLAY_WIDTH * 0.065), (G.DISPLAY_HEIGHT * 0.025)),
         )
         G.SCREEN.blit(scoreboard_surf, scoreboard_rect)
 

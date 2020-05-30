@@ -14,3 +14,10 @@ def text_objects(text, font, color, pos):
     text_surface = font.render(text, True, color)
     text_rect = text_surface.get_rect(center=pos)
     return text_surface, text_rect
+
+
+def fib(index):
+    """recursive fibonacci sequence function"""
+    if index <= 1:
+        return index
+    return fib(index - 1) + fib(index - 2)

@@ -8,3 +8,6 @@ Projectile image - https://opengameart.org/content/tx-bullet-0
 
 Backgrounds - Florian R. A. Angermeier (fraang) - licensed under the Creative Commons Attribution - ShareAlike 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/.
+
+Power-up sound effects 1 and 2: https://freesound.org/people/Eschwabe3/sounds/460131/ - https://freesound.org/people/Eschwabe3/sounds/460132/
+Power-up sound effect 3: https://freesound.org/people/kianda/sounds/328120/
