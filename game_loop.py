@@ -110,7 +110,7 @@ def game_loop():
             player.reload()
 
         if (
-            random.randrange(750 // (5 + G.DIFFICULTY)) == 0
+            random.randrange(700 // (5 + G.DIFFICULTY)) == 0
             and missiles_to_spawn
         ):
             missile_type = missiles_to_spawn.pop(0)
