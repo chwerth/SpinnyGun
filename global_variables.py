@@ -29,6 +29,10 @@ TINY_TEXT = pygame.font.SysFont("freesans", 14, bold=True)
 # Sound Effects
 SHOOT_FX = pygame.mixer.Sound("assets/audio/laser.wav")
 EXPLOSION_FX = pygame.mixer.Sound("assets/audio/explosion.wav")
+POWER_UP_1_FX = pygame.mixer.Sound("assets/audio/power_up_1.wav")
+POWER_UP_2_FX = pygame.mixer.Sound("assets/audio/power_up_2.wav")
+POWER_UP_3_FX = pygame.mixer.Sound("assets/audio/power_up_3.wav")
+POWER_UP_FX_LIST = [POWER_UP_1_FX, POWER_UP_2_FX, POWER_UP_3_FX]
 
 # Display
 SCREEN = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))

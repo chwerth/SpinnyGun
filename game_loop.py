@@ -15,8 +15,6 @@ class Player(object):
     """Class for holding player information"""
 
     def __init__(self):
-        # Currently we only keep track of the player's health
-        # Will add more attributes as needed
         self.max_health = 10 + G.PERMANENT_POWER_UPS.count("higher_max_health")
         self.health = self.max_health
         self.max_ammo = 10 + G.PERMANENT_POWER_UPS.count("higher_max_ammo")
@@ -146,6 +144,7 @@ def game_loop():
                    projectile, power_up_list, True
                 )
             for hit_power_up in hit_power_up_list:
+                pygame.mixer.Sound.play(random.choice(G.POWER_UP_FX_LIST))
                 if not hit_power_up.power_up["temporary"]:
                     G.PERMANENT_POWER_UPS.append(hit_power_up.power_up["type"])
                 if hit_power_up.power_up["type"] == "higher_max_health":
