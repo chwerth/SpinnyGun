@@ -66,8 +66,6 @@ class Player(object):
         )
 
 
-
-
 def game_loop():
     """The main game loop"""
 
@@ -159,7 +157,13 @@ def game_loop():
         ):
             missile_type = missiles_to_spawn.pop(0)
             new_missile = sprites.Missile(
-                (random.randrange(0.1 * G.DISPLAY_WIDTH, 0.9 * G.DISPLAY_WIDTH), -600), missile_type
+                (
+                    random.randrange(
+                        0.1 * G.DISPLAY_WIDTH, 0.9 * G.DISPLAY_WIDTH
+                    ),
+                    -600,
+                ),
+                missile_type,
             )
             all_sprites_list.add(new_missile)
             missile_list.add(new_missile)
