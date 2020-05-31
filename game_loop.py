@@ -25,6 +25,9 @@ class Player(object):
         self.piercing_rounds = False
         self.piercing_rounds_start_time = 0
         self.piercing_rounds_duration = 10
+        self.fan_of_projectiles = False
+        self.fan_of_projectiles_start_time = 0
+        self.fan_of_projectiles_duration = 10
 
     def update_health(self, health_change):
         """Adds health_change to health attribute"""
@@ -54,6 +57,16 @@ class Player(object):
             > self.piercing_rounds_duration
         )
 
+    def time_to_fan_expire(self, game_time):
+        """Check if it's time to let fan of projectiles expire"""
+
+        return (
+            game_time - self.fan_of_projectiles_start_time
+            > self.fan_of_projectiles_duration
+        )
+
+
+
 
 def game_loop():
     """The main game loop"""
@@ -76,7 +89,7 @@ def game_loop():
 
     power_ups_to_spawn = random.choices(
         sprites.Power_Up.power_up_list,
-        weights=[1, 1, 1, 0],
+        weights=[1, 1, 1, 1],
         k=random.randrange(2, 7),
     )
 
@@ -112,6 +125,20 @@ def game_loop():
                     )
                     all_sprites_list.add(projectile)
                     projectile_list.add(projectile)
+                    if player.fan_of_projectiles:
+                        left_projectile = sprites.Projectile(
+                            gun.rect.center,
+                            gun.angle + 10,
+                            gun.image.get_height() * 0.5,
+                        )
+                        right_projectile = sprites.Projectile(
+                            gun.rect.center,
+                            gun.angle - 10,
+                            gun.image.get_height() * 0.5,
+                        )
+                        all_sprites_list.add(left_projectile, right_projectile)
+                        projectile_list.add(left_projectile, right_projectile)
+
                 if event.key == pygame.K_ESCAPE:
                     G.PAUSE = True
                     paused.paused()
@@ -122,6 +149,9 @@ def game_loop():
 
         if player.time_to_piercing_rounds_expire(game_time):
             player.piercing_rounds = False
+
+        if player.time_to_fan_expire(game_time):
+            player.fan_of_projectiles = False
 
         if (
             random.randrange(700 // (5 + G.DIFFICULTY)) == 0
@@ -183,6 +213,9 @@ def game_loop():
                 elif hit_power_up.power_up["type"] == "piercing_rounds":
                     player.piercing_rounds = True
                     player.piercing_rounds_start_time = game_time
+                elif hit_power_up.power_up["type"] == "fan_of_projectiles":
+                    player.fan_of_projectiles = True
+                    player.fan_of_projectiles_start_time = game_time
 
             if projectile.off_screen():
                 projectile.kill()
