@@ -128,12 +128,12 @@ def game_loop():
                     if player.fan_of_projectiles:
                         left_projectile = sprites.Projectile(
                             gun.rect.center,
-                            gun.angle + 10,
+                            gun.angle + 15,
                             gun.image.get_height() * 0.5,
                         )
                         right_projectile = sprites.Projectile(
                             gun.rect.center,
-                            gun.angle - 10,
+                            gun.angle - 15,
                             gun.image.get_height() * 0.5,
                         )
                         all_sprites_list.add(left_projectile, right_projectile)
@@ -159,7 +159,7 @@ def game_loop():
         ):
             missile_type = missiles_to_spawn.pop(0)
             new_missile = sprites.Missile(
-                (random.randrange(G.DISPLAY_WIDTH), -600), missile_type
+                (random.randrange(0.1 * G.DISPLAY_WIDTH, 0.9 * G.DISPLAY_WIDTH), -600), missile_type
             )
             all_sprites_list.add(new_missile)
             missile_list.add(new_missile)
