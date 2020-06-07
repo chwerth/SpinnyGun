@@ -94,6 +94,8 @@ def game_over():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_p:
                     G.DIFFICULTY = 1
+                    G.PERMANENT_POWER_UPS["higher_max_health"] = 0
+                    G.PERMANENT_POWER_UPS["higher_max_ammo"] = 0
                     new_round.new_round()
                 if event.key == pygame.K_m:
                     menu.game_menu()
